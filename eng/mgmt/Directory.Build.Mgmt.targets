@@ -5,4 +5,27 @@
   <Target Name="initt">
     <Message Text="Init target called" />
   </Target>
+
+	<PropertyGroup>
+		<ApiCompatExcludeAttributeList>$(MSBuildThisFileDirectory)ApiListing.exclude-attributes.txt</ApiCompatExcludeAttributeList>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(ApiCompatVersion)' != ''">
+		<PackageDownload Include="$(PackageId)" Version="[$(ApiCompatVersion)]" />
+		<PackageReference Include="Microsoft.DotNet.ApiCompat" PrivateAssets="all" />
+	</ItemGroup>
+
+	<Target Name="_ResolveResolvedMatchingContract" BeforeTargets="ValidateApiCompatForSrc" Condition="'$(ApiCompatVersion)' != ''">
+		<ItemGroup>
+			<_ReferencePathDirectories Include="@(ReferencePath -> '%(RootDir)%(Directory)')"  />
+			<ResolvedMatchingContract Include="$(NuGetPackageRoot)\$(PackageId.ToLower())\$(ApiCompatVersion)\lib\$(TargetFramework)\$(TargetFileName)">
+				<DependencyPaths>@(_ReferencePathDirectories->Distinct(), ',')</DependencyPaths>
+			</ResolvedMatchingContract>
+		</ItemGroup>
+	</Target>
+
+	<Target Name="ApiCompatFinishedMessage" AfterTargets="ValidateApiCompatForSrc" Condition="'$(ApiCompatVersion)' != ''">
+		<Message Text="Ran ApiCompat against %(ResolvedMatchingContract.Identity) using assemblies from $(IntermediateOutputPath)" Importance="High" />
+	</Target>
+
+	<Import Project="$(CentralPackageVersionPackagePath)\Sdk.targets" />
 </Project>
