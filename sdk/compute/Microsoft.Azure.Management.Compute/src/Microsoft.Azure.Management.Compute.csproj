@@ -10,6 +10,7 @@
       Development of this library has shifted focus to the Azure Unified SDK. The future development will be focused on "Azure.ResourceManager.Compute" (https://www.nuget.org/packages/Azure.ResourceManager.Compute/). Please see the package changelog for more information.
     </Description>
     <Version>41.0.0.0</Version>
+		<ApiCompatVersion>39.0.0</ApiCompatVersion>
     <AssemblyName>Microsoft.Azure.Management.Compute</AssemblyName>
     <PackageTags>management;virtual machine;compute;</PackageTags>
     <PackageReleaseNotes>
