@@ -11,6 +11,7 @@ using Azure.Data.Tables.Models;
 using Azure.Data.Tables.Sas;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using static Azure.Data.Tables.Tests.TableClientLiveTests;
 
 namespace Azure.Data.Tables.Tests
 {
@@ -25,7 +26,7 @@ namespace Azure.Data.Tables.Tests
     {
         public TableClientLiveTests(bool isAsync, TableEndpointType endpointType) : base(
             isAsync,
-            endpointType/* To record tests, add this argument,RecordedTestMode.Record*/)
+            endpointType, RecordedTestMode.Live /* To record tests, add this argument,RecordedTestMode.Record*/)
         { }
 
         [RecordedTest]
@@ -280,7 +281,8 @@ namespace Azure.Data.Tables.Tests
         /// <summary>
         /// Validates the functionality of the TableClient.
         /// </summary>
-        [RecordedTest]
+        // [RecordedTest]
+        [Test]
         public async Task ValidateSasCredentialsWithRowKeyAndPartitionKeyRanges()
         {
             List<TableEntity> entitiesToCreate = CreateTableEntities(PartitionKeyValue, 2);
@@ -1238,10 +1240,57 @@ namespace Azure.Data.Tables.Tests
             Assert.That(policies.Value[0].AccessPolicy.StartsOn, Is.EqualTo(policyToCreate[0].AccessPolicy.StartsOn));
         }
 
+        internal struct MyTableStruct : ITableEntity
+        {
+            public string PartitionKey { get; set; }
+            public string RowKey { get; set; }
+            public DateTimeOffset? Timestamp { get; set; }
+            public ETag ETag { get; set; }
+        }
+
+        // <summary>
+        /// Creates a list of structs that inherits from table entities.
+        /// </summary>
+        /// <param name="partitionKeyValue">The partition key to create for the entity.</param>
+        /// <param name="count">The number of entities to create</param>
+        internal static List<MyTableStruct> CreateStructTableEntities(string partitionKeyValue, int count)
+        {
+            var entities = new List<MyTableStruct>();
+
+            MyTableStruct entity1 = new MyTableStruct
+            {
+                PartitionKey = "somePartitionFromStruct",
+                RowKey = "01"
+            };
+
+            entities.Add(entity1);
+            return entities;
+        }
+
         /// <summary>
         /// Validates the functionality of the TableClient.
         /// </summary>
-        [RecordedTest]
+        [Test]
+        public async Task GetEntityReturnsSingleEntity_WithSTRUCTS()
+        {
+            MyTableStruct entityResults;
+            List<MyTableStruct> entitiesToCreate = CreateStructTableEntities(PartitionKeyValue, 1);
+
+            // Upsert the new entities.
+
+            await UpsertTestEntities(entitiesToCreate, TableUpdateMode.Replace).ConfigureAwait(false);
+
+            // Get the single entity by PartitionKey and RowKey.
+
+            entityResults = (await client.GetEntityAsync<MyTableStruct>("somePartitionFromStruct", "01").ConfigureAwait(false)).Value;
+
+            Assert.That(entityResults, Is.Not.Null, "The entity should not be null.");
+        }
+
+        /// <summary>
+        /// Validates the functionality of the TableClient.
+        /// </summary>
+        [Test]
         public async Task GetEntityReturnsSingleEntity()
         {
             TableEntity entityResults;
@@ -1273,6 +1322,7 @@ namespace Azure.Data.Tables.Tests
         public async Task GetEntityIfExistsContainsValueWhenExists()
         {
             TableEntity entityResults;
+            // HERE, CreateTableEntities with struct
             List<TableEntity> entitiesToCreate = CreateTableEntities(PartitionKeyValue, 1);
 
             // Upsert the new entities.
