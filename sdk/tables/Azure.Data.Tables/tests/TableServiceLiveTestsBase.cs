@@ -366,7 +366,7 @@ namespace Azure.Data.Tables.Tests
             }
         }
 
-        protected async Task UpsertTestEntities<T>(List<T> entitiesToCreate, TableUpdateMode updateMode) where T : class, ITableEntity
+        protected async Task UpsertTestEntities<T>(List<T> entitiesToCreate, TableUpdateMode updateMode) where T : ITableEntity
         {
             foreach (var entity in entitiesToCreate)
             {
