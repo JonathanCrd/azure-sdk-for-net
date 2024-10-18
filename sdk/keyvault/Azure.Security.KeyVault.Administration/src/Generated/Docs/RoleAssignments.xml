@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="DeleteAsync(Uri,string,CancellationToken)">
+      <example>
+This sample shows how to call DeleteAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response<RoleAssignment> response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+]]></code>
+This sample shows how to call DeleteAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response<RoleAssignment> response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+]]></code></example>
+    </member>
+    <member name="Delete(Uri,string,CancellationToken)">
+      <example>
+This sample shows how to call Delete.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response<RoleAssignment> response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+]]></code>
+This sample shows how to call Delete with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response<RoleAssignment> response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+]]></code></example>
+    </member>
+    <member name="DeleteAsync(Uri,string,RequestContext)">
+      <example>
+This sample shows how to call DeleteAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call DeleteAsync with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("id").ToString());
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("scope").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("roleDefinitionId").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("principalId").ToString());
+]]></code></example>
+    </member>
+    <member name="Delete(Uri,string,RequestContext)">
+      <example>
+This sample shows how to call Delete and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call Delete with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("id").ToString());
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("scope").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("roleDefinitionId").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("principalId").ToString());
+]]></code></example>
+    </member>
+    <member name="CreateAsync(Uri,string,RoleAssignmentCreateParameters,CancellationToken)">
+      <example>
+This sample shows how to call CreateAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters(new RoleAssignmentProperties("<roleDefinitionId>", "<principalId>"));
+Response<RoleAssignment> response = await client.CreateAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
+]]></code>
+This sample shows how to call CreateAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters(new RoleAssignmentProperties("<roleDefinitionId>", "<principalId>"));
+Response<RoleAssignment> response = await client.CreateAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
+]]></code></example>
+    </member>
+    <member name="Create(Uri,string,RoleAssignmentCreateParameters,CancellationToken)">
+      <example>
+This sample shows how to call Create.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters(new RoleAssignmentProperties("<roleDefinitionId>", "<principalId>"));
+Response<RoleAssignment> response = client.Create(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
+]]></code>
+This sample shows how to call Create with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters(new RoleAssignmentProperties("<roleDefinitionId>", "<principalId>"));
+Response<RoleAssignment> response = client.Create(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
+]]></code></example>
+    </member>
+    <member name="CreateAsync(Uri,string,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call CreateAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+using RequestContent content = RequestContent.Create(new
+{
+    properties = new
+    {
+        roleDefinitionId = "<roleDefinitionId>",
+        principalId = "<principalId>",
+    },
+});
+Response response = await client.CreateAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call CreateAsync with all parameters and request content and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+using RequestContent content = RequestContent.Create(new
+{
+    properties = new
+    {
+        roleDefinitionId = "<roleDefinitionId>",
+        principalId = "<principalId>",
+    },
+});
+Response response = await client.CreateAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("id").ToString());
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("scope").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("roleDefinitionId").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("principalId").ToString());
+]]></code></example>
+    </member>
+    <member name="Create(Uri,string,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call Create and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+using RequestContent content = RequestContent.Create(new
+{
+    properties = new
+    {
+        roleDefinitionId = "<roleDefinitionId>",
+        principalId = "<principalId>",
+    },
+});
+Response response = client.Create(new Uri("http://localhost:3000"), "<roleAssignmentName>", content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call Create with all parameters and request content and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+using RequestContent content = RequestContent.Create(new
+{
+    properties = new
+    {
+        roleDefinitionId = "<roleDefinitionId>",
+        principalId = "<principalId>",
+    },
+});
+Response response = client.Create(new Uri("http://localhost:3000"), "<roleAssignmentName>", content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("id").ToString());
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("scope").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("roleDefinitionId").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("principalId").ToString());
+]]></code></example>
+    </member>
+    <member name="GetRoleAssignmentAsync(Uri,string,CancellationToken)">
+      <example>
+This sample shows how to call GetRoleAssignmentAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response<RoleAssignment> response = await client.GetRoleAssignmentAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+]]></code>
+This sample shows how to call GetRoleAssignmentAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response<RoleAssignment> response = await client.GetRoleAssignmentAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+]]></code></example>
+    </member>
+    <member name="GetRoleAssignment(Uri,string,CancellationToken)">
+      <example>
+This sample shows how to call GetRoleAssignment.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response<RoleAssignment> response = client.GetRoleAssignment(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+]]></code>
+This sample shows how to call GetRoleAssignment with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response<RoleAssignment> response = client.GetRoleAssignment(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+]]></code></example>
+    </member>
+    <member name="GetRoleAssignmentAsync(Uri,string,RequestContext)">
+      <example>
+This sample shows how to call GetRoleAssignmentAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response response = await client.GetRoleAssignmentAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call GetRoleAssignmentAsync with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response response = await client.GetRoleAssignmentAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("id").ToString());
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("scope").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("roleDefinitionId").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("principalId").ToString());
+]]></code></example>
+    </member>
+    <member name="GetRoleAssignment(Uri,string,RequestContext)">
+      <example>
+This sample shows how to call GetRoleAssignment and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response response = client.GetRoleAssignment(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call GetRoleAssignment with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+Response response = client.GetRoleAssignment(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("id").ToString());
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("scope").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("roleDefinitionId").ToString());
+Console.WriteLine(result.GetProperty("properties").GetProperty("principalId").ToString());
+]]></code></example>
+    </member>
+    <member name="GetForScopesAsync(Uri,string,CancellationToken)">
+      <example>
+This sample shows how to call GetForScopesAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+await foreach (RoleAssignment item in client.GetForScopesAsync(new Uri("http://localhost:3000")))
+{
+}
+]]></code>
+This sample shows how to call GetForScopesAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+await foreach (RoleAssignment item in client.GetForScopesAsync(new Uri("http://localhost:3000"), filter: "<$filter>"))
+{
+}
+]]></code></example>
+    </member>
+    <member name="GetForScopes(Uri,string,CancellationToken)">
+      <example>
+This sample shows how to call GetForScopes.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+foreach (RoleAssignment item in client.GetForScopes(new Uri("http://localhost:3000")))
+{
+}
+]]></code>
+This sample shows how to call GetForScopes with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+foreach (RoleAssignment item in client.GetForScopes(new Uri("http://localhost:3000"), filter: "<$filter>"))
+{
+}
+]]></code></example>
+    </member>
+    <member name="GetForScopesAsync(Uri,string,RequestContext)">
+      <example>
+This sample shows how to call GetForScopesAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+await foreach (BinaryData item in client.GetForScopesAsync(new Uri("http://localhost:3000"), null, null))
+{
+    JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
+    Console.WriteLine(result.ToString());
+}
+]]></code>
+This sample shows how to call GetForScopesAsync with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+await foreach (BinaryData item in client.GetForScopesAsync(new Uri("http://localhost:3000"), "<$filter>", null))
+{
+    JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
+    Console.WriteLine(result.GetProperty("id").ToString());
+    Console.WriteLine(result.GetProperty("name").ToString());
+    Console.WriteLine(result.GetProperty("type").ToString());
+    Console.WriteLine(result.GetProperty("properties").GetProperty("scope").ToString());
+    Console.WriteLine(result.GetProperty("properties").GetProperty("roleDefinitionId").ToString());
+    Console.WriteLine(result.GetProperty("properties").GetProperty("principalId").ToString());
+}
+]]></code></example>
+    </member>
+    <member name="GetForScopes(Uri,string,RequestContext)">
+      <example>
+This sample shows how to call GetForScopes and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+foreach (BinaryData item in client.GetForScopes(new Uri("http://localhost:3000"), null, null))
+{
+    JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
+    Console.WriteLine(result.ToString());
+}
+]]></code>
+This sample shows how to call GetForScopes with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+
+foreach (BinaryData item in client.GetForScopes(new Uri("http://localhost:3000"), "<$filter>", null))
+{
+    JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
+    Console.WriteLine(result.GetProperty("id").ToString());
+    Console.WriteLine(result.GetProperty("name").ToString());
+    Console.WriteLine(result.GetProperty("type").ToString());
+    Console.WriteLine(result.GetProperty("properties").GetProperty("scope").ToString());
+    Console.WriteLine(result.GetProperty("properties").GetProperty("roleDefinitionId").ToString());
+    Console.WriteLine(result.GetProperty("properties").GetProperty("principalId").ToString());
+}
+]]></code></example>
+    </member>
+  </members>
+</doc>

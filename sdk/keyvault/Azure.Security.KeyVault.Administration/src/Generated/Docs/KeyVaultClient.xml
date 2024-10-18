@@ -1,0 +1,1067 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="FullBackupStatusAsync(string,CancellationToken)">
+      <example>
+This sample shows how to call FullBackupStatusAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<FullBackupOperation> response = await client.FullBackupStatusAsync("<jobId>");
+]]></code>
+This sample shows how to call FullBackupStatusAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<FullBackupOperation> response = await client.FullBackupStatusAsync("<jobId>");
+]]></code></example>
+    </member>
+    <member name="FullBackupStatus(string,CancellationToken)">
+      <example>
+This sample shows how to call FullBackupStatus.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<FullBackupOperation> response = client.FullBackupStatus("<jobId>");
+]]></code>
+This sample shows how to call FullBackupStatus with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<FullBackupOperation> response = client.FullBackupStatus("<jobId>");
+]]></code></example>
+    </member>
+    <member name="FullBackupStatusAsync(string,RequestContext)">
+      <example>
+This sample shows how to call FullBackupStatusAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = await client.FullBackupStatusAsync("<jobId>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call FullBackupStatusAsync with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = await client.FullBackupStatusAsync("<jobId>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("status").ToString());
+Console.WriteLine(result.GetProperty("statusDetails").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
+Console.WriteLine(result.GetProperty("startTime").ToString());
+Console.WriteLine(result.GetProperty("endTime").ToString());
+Console.WriteLine(result.GetProperty("jobId").ToString());
+Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
+]]></code></example>
+    </member>
+    <member name="FullBackupStatus(string,RequestContext)">
+      <example>
+This sample shows how to call FullBackupStatus and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = client.FullBackupStatus("<jobId>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call FullBackupStatus with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = client.FullBackupStatus("<jobId>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("status").ToString());
+Console.WriteLine(result.GetProperty("statusDetails").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
+Console.WriteLine(result.GetProperty("startTime").ToString());
+Console.WriteLine(result.GetProperty("endTime").ToString());
+Console.WriteLine(result.GetProperty("jobId").ToString());
+Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
+]]></code></example>
+    </member>
+    <member name="PreFullBackupAsync(PreBackupOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call PreFullBackupAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<FullBackupOperation> response = await client.PreFullBackupAsync();
+]]></code>
+This sample shows how to call PreFullBackupAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+PreBackupOperationParameters preBackupOperationParameters = new PreBackupOperationParameters
+{
+    StorageResourceUri = "<storageResourceUri>",
+    Token = "<token>",
+    UseManagedIdentity = true,
+};
+Response<FullBackupOperation> response = await client.PreFullBackupAsync(preBackupOperationParameters: preBackupOperationParameters);
+]]></code></example>
+    </member>
+    <member name="PreFullBackup(PreBackupOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call PreFullBackup.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<FullBackupOperation> response = client.PreFullBackup();
+]]></code>
+This sample shows how to call PreFullBackup with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+PreBackupOperationParameters preBackupOperationParameters = new PreBackupOperationParameters
+{
+    StorageResourceUri = "<storageResourceUri>",
+    Token = "<token>",
+    UseManagedIdentity = true,
+};
+Response<FullBackupOperation> response = client.PreFullBackup(preBackupOperationParameters: preBackupOperationParameters);
+]]></code></example>
+    </member>
+    <member name="PreFullBackupAsync(RequestContent,RequestContext)">
+      <example>
+This sample shows how to call PreFullBackupAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = null;
+Response response = await client.PreFullBackupAsync(content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call PreFullBackupAsync with all request content and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    storageResourceUri = "<storageResourceUri>",
+    token = "<token>",
+    useManagedIdentity = true,
+});
+Response response = await client.PreFullBackupAsync(content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("status").ToString());
+Console.WriteLine(result.GetProperty("statusDetails").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
+Console.WriteLine(result.GetProperty("startTime").ToString());
+Console.WriteLine(result.GetProperty("endTime").ToString());
+Console.WriteLine(result.GetProperty("jobId").ToString());
+Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
+]]></code></example>
+    </member>
+    <member name="PreFullBackup(RequestContent,RequestContext)">
+      <example>
+This sample shows how to call PreFullBackup and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = null;
+Response response = client.PreFullBackup(content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call PreFullBackup with all request content and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    storageResourceUri = "<storageResourceUri>",
+    token = "<token>",
+    useManagedIdentity = true,
+});
+Response response = client.PreFullBackup(content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("status").ToString());
+Console.WriteLine(result.GetProperty("statusDetails").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
+Console.WriteLine(result.GetProperty("startTime").ToString());
+Console.WriteLine(result.GetProperty("endTime").ToString());
+Console.WriteLine(result.GetProperty("jobId").ToString());
+Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
+]]></code></example>
+    </member>
+    <member name="RestoreStatusAsync(string,CancellationToken)">
+      <example>
+This sample shows how to call RestoreStatusAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<RestoreOperation> response = await client.RestoreStatusAsync("<jobId>");
+]]></code>
+This sample shows how to call RestoreStatusAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<RestoreOperation> response = await client.RestoreStatusAsync("<jobId>");
+]]></code></example>
+    </member>
+    <member name="RestoreStatus(string,CancellationToken)">
+      <example>
+This sample shows how to call RestoreStatus.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<RestoreOperation> response = client.RestoreStatus("<jobId>");
+]]></code>
+This sample shows how to call RestoreStatus with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<RestoreOperation> response = client.RestoreStatus("<jobId>");
+]]></code></example>
+    </member>
+    <member name="RestoreStatusAsync(string,RequestContext)">
+      <example>
+This sample shows how to call RestoreStatusAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = await client.RestoreStatusAsync("<jobId>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call RestoreStatusAsync with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = await client.RestoreStatusAsync("<jobId>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("status").ToString());
+Console.WriteLine(result.GetProperty("statusDetails").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
+Console.WriteLine(result.GetProperty("jobId").ToString());
+Console.WriteLine(result.GetProperty("startTime").ToString());
+Console.WriteLine(result.GetProperty("endTime").ToString());
+]]></code></example>
+    </member>
+    <member name="RestoreStatus(string,RequestContext)">
+      <example>
+This sample shows how to call RestoreStatus and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = client.RestoreStatus("<jobId>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call RestoreStatus with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = client.RestoreStatus("<jobId>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("status").ToString());
+Console.WriteLine(result.GetProperty("statusDetails").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
+Console.WriteLine(result.GetProperty("jobId").ToString());
+Console.WriteLine(result.GetProperty("startTime").ToString());
+Console.WriteLine(result.GetProperty("endTime").ToString());
+]]></code></example>
+    </member>
+    <member name="PreFullRestoreOperationAsync(PreRestoreOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call PreFullRestoreOperationAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters();
+Response<RestoreOperation> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
+]]></code>
+This sample shows how to call PreFullRestoreOperationAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters
+{
+    SasTokenParameters = new SASTokenParameter("<storageResourceUri>")
+    {
+        Token = "<token>",
+        UseManagedIdentity = true,
+    },
+    FolderToRestore = "<folderToRestore>",
+};
+Response<RestoreOperation> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
+]]></code></example>
+    </member>
+    <member name="PreFullRestoreOperation(PreRestoreOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call PreFullRestoreOperation.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters();
+Response<RestoreOperation> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
+]]></code>
+This sample shows how to call PreFullRestoreOperation with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters
+{
+    SasTokenParameters = new SASTokenParameter("<storageResourceUri>")
+    {
+        Token = "<token>",
+        UseManagedIdentity = true,
+    },
+    FolderToRestore = "<folderToRestore>",
+};
+Response<RestoreOperation> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
+]]></code></example>
+    </member>
+    <member name="PreFullRestoreOperationAsync(RequestContent,RequestContext)">
+      <example>
+This sample shows how to call PreFullRestoreOperationAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new object());
+Response response = await client.PreFullRestoreOperationAsync(content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call PreFullRestoreOperationAsync with all request content and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "<storageResourceUri>",
+        token = "<token>",
+        useManagedIdentity = true,
+    },
+    folderToRestore = "<folderToRestore>",
+});
+Response response = await client.PreFullRestoreOperationAsync(content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("status").ToString());
+Console.WriteLine(result.GetProperty("statusDetails").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
+Console.WriteLine(result.GetProperty("jobId").ToString());
+Console.WriteLine(result.GetProperty("startTime").ToString());
+Console.WriteLine(result.GetProperty("endTime").ToString());
+]]></code></example>
+    </member>
+    <member name="PreFullRestoreOperation(RequestContent,RequestContext)">
+      <example>
+This sample shows how to call PreFullRestoreOperation and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new object());
+Response response = client.PreFullRestoreOperation(content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call PreFullRestoreOperation with all request content and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "<storageResourceUri>",
+        token = "<token>",
+        useManagedIdentity = true,
+    },
+    folderToRestore = "<folderToRestore>",
+});
+Response response = client.PreFullRestoreOperation(content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("status").ToString());
+Console.WriteLine(result.GetProperty("statusDetails").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
+Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
+Console.WriteLine(result.GetProperty("jobId").ToString());
+Console.WriteLine(result.GetProperty("startTime").ToString());
+Console.WriteLine(result.GetProperty("endTime").ToString());
+]]></code></example>
+    </member>
+    <member name="UpdateSettingAsync(string,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call UpdateSettingAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    value = "<value>",
+});
+Response response = await client.UpdateSettingAsync("<settingName>", content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("value").ToString());
+]]></code>
+This sample shows how to call UpdateSettingAsync with all parameters and request content and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    value = "<value>",
+});
+Response response = await client.UpdateSettingAsync("<settingName>", content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("value").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+]]></code></example>
+    </member>
+    <member name="UpdateSetting(string,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call UpdateSetting and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    value = "<value>",
+});
+Response response = client.UpdateSetting("<settingName>", content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("value").ToString());
+]]></code>
+This sample shows how to call UpdateSetting with all parameters and request content and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    value = "<value>",
+});
+Response response = client.UpdateSetting("<settingName>", content);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("value").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+]]></code></example>
+    </member>
+    <member name="GetSettingAsync(string,CancellationToken)">
+      <example>
+This sample shows how to call GetSettingAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<Setting> response = await client.GetSettingAsync("<settingName>");
+]]></code>
+This sample shows how to call GetSettingAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<Setting> response = await client.GetSettingAsync("<settingName>");
+]]></code></example>
+    </member>
+    <member name="GetSetting(string,CancellationToken)">
+      <example>
+This sample shows how to call GetSetting.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<Setting> response = client.GetSetting("<settingName>");
+]]></code>
+This sample shows how to call GetSetting with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<Setting> response = client.GetSetting("<settingName>");
+]]></code></example>
+    </member>
+    <member name="GetSettingAsync(string,RequestContext)">
+      <example>
+This sample shows how to call GetSettingAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = await client.GetSettingAsync("<settingName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("value").ToString());
+]]></code>
+This sample shows how to call GetSettingAsync with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = await client.GetSettingAsync("<settingName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("value").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+]]></code></example>
+    </member>
+    <member name="GetSetting(string,RequestContext)">
+      <example>
+This sample shows how to call GetSetting and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = client.GetSetting("<settingName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("value").ToString());
+]]></code>
+This sample shows how to call GetSetting with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = client.GetSetting("<settingName>", null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("value").ToString());
+Console.WriteLine(result.GetProperty("type").ToString());
+]]></code></example>
+    </member>
+    <member name="GetSettingsAsync(CancellationToken)">
+      <example>
+This sample shows how to call GetSettingsAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<SettingsListResult> response = await client.GetSettingsAsync();
+]]></code>
+This sample shows how to call GetSettingsAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<SettingsListResult> response = await client.GetSettingsAsync();
+]]></code></example>
+    </member>
+    <member name="GetSettings(CancellationToken)">
+      <example>
+This sample shows how to call GetSettings.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<SettingsListResult> response = client.GetSettings();
+]]></code>
+This sample shows how to call GetSettings with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response<SettingsListResult> response = client.GetSettings();
+]]></code></example>
+    </member>
+    <member name="GetSettingsAsync(RequestContext)">
+      <example>
+This sample shows how to call GetSettingsAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = await client.GetSettingsAsync(null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call GetSettingsAsync with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = await client.GetSettingsAsync(null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("settings")[0].GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("settings")[0].GetProperty("value").ToString());
+Console.WriteLine(result.GetProperty("settings")[0].GetProperty("type").ToString());
+]]></code></example>
+    </member>
+    <member name="GetSettings(RequestContext)">
+      <example>
+This sample shows how to call GetSettings and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = client.GetSettings(null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.ToString());
+]]></code>
+This sample shows how to call GetSettings with all parameters and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Response response = client.GetSettings(null);
+
+JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+Console.WriteLine(result.GetProperty("settings")[0].GetProperty("name").ToString());
+Console.WriteLine(result.GetProperty("settings")[0].GetProperty("value").ToString());
+Console.WriteLine(result.GetProperty("settings")[0].GetProperty("type").ToString());
+]]></code></example>
+    </member>
+    <member name="FullBackupAsync(WaitUntil,SASTokenParameter,CancellationToken)">
+      <example>
+This sample shows how to call FullBackupAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Operation operation = await client.FullBackupAsync(WaitUntil.Completed);
+]]></code>
+This sample shows how to call FullBackupAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+SASTokenParameter azureStorageBlobContainerUri = new SASTokenParameter("<storageResourceUri>")
+{
+    Token = "<token>",
+    UseManagedIdentity = true,
+};
+Operation operation = await client.FullBackupAsync(WaitUntil.Completed, azureStorageBlobContainerUri: azureStorageBlobContainerUri);
+]]></code></example>
+    </member>
+    <member name="FullBackup(WaitUntil,SASTokenParameter,CancellationToken)">
+      <example>
+This sample shows how to call FullBackup.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Operation operation = client.FullBackup(WaitUntil.Completed);
+]]></code>
+This sample shows how to call FullBackup with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+SASTokenParameter azureStorageBlobContainerUri = new SASTokenParameter("<storageResourceUri>")
+{
+    Token = "<token>",
+    UseManagedIdentity = true,
+};
+Operation operation = client.FullBackup(WaitUntil.Completed, azureStorageBlobContainerUri: azureStorageBlobContainerUri);
+]]></code></example>
+    </member>
+    <member name="FullBackupAsync(WaitUntil,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call FullBackupAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = null;
+Operation operation = await client.FullBackupAsync(WaitUntil.Completed, content);
+]]></code>
+This sample shows how to call FullBackupAsync with all parameters and request content.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    storageResourceUri = "<storageResourceUri>",
+    token = "<token>",
+    useManagedIdentity = true,
+});
+Operation operation = await client.FullBackupAsync(WaitUntil.Completed, content);
+]]></code></example>
+    </member>
+    <member name="FullBackup(WaitUntil,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call FullBackup.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = null;
+Operation operation = client.FullBackup(WaitUntil.Completed, content);
+]]></code>
+This sample shows how to call FullBackup with all parameters and request content.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    storageResourceUri = "<storageResourceUri>",
+    token = "<token>",
+    useManagedIdentity = true,
+});
+Operation operation = client.FullBackup(WaitUntil.Completed, content);
+]]></code></example>
+    </member>
+    <member name="FullRestoreOperationAsync(WaitUntil,RestoreOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call FullRestoreOperationAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>"), "<folderToRestore>");
+Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, restoreBlobDetails);
+]]></code>
+This sample shows how to call FullRestoreOperationAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
+{
+    Token = "<token>",
+    UseManagedIdentity = true,
+}, "<folderToRestore>");
+Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, restoreBlobDetails);
+]]></code></example>
+    </member>
+    <member name="FullRestoreOperation(WaitUntil,RestoreOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call FullRestoreOperation.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>"), "<folderToRestore>");
+Operation operation = client.FullRestoreOperation(WaitUntil.Completed, restoreBlobDetails);
+]]></code>
+This sample shows how to call FullRestoreOperation with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
+{
+    Token = "<token>",
+    UseManagedIdentity = true,
+}, "<folderToRestore>");
+Operation operation = client.FullRestoreOperation(WaitUntil.Completed, restoreBlobDetails);
+]]></code></example>
+    </member>
+    <member name="FullRestoreOperationAsync(WaitUntil,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call FullRestoreOperationAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "<storageResourceUri>",
+    },
+    folderToRestore = "<folderToRestore>",
+});
+Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, content);
+]]></code>
+This sample shows how to call FullRestoreOperationAsync with all parameters and request content.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "<storageResourceUri>",
+        token = "<token>",
+        useManagedIdentity = true,
+    },
+    folderToRestore = "<folderToRestore>",
+});
+Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, content);
+]]></code></example>
+    </member>
+    <member name="FullRestoreOperation(WaitUntil,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call FullRestoreOperation.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "<storageResourceUri>",
+    },
+    folderToRestore = "<folderToRestore>",
+});
+Operation operation = client.FullRestoreOperation(WaitUntil.Completed, content);
+]]></code>
+This sample shows how to call FullRestoreOperation with all parameters and request content.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "<storageResourceUri>",
+        token = "<token>",
+        useManagedIdentity = true,
+    },
+    folderToRestore = "<folderToRestore>",
+});
+Operation operation = client.FullRestoreOperation(WaitUntil.Completed, content);
+]]></code></example>
+    </member>
+    <member name="SelectiveKeyRestoreOperationAsync(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call SelectiveKeyRestoreOperationAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>");
+]]></code>
+This sample shows how to call SelectiveKeyRestoreOperationAsync with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+SelectiveKeyRestoreOperationParameters restoreBlobDetails = new SelectiveKeyRestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
+{
+    Token = "<token>",
+    UseManagedIdentity = true,
+}, "<folder>");
+Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", restoreBlobDetails: restoreBlobDetails);
+]]></code></example>
+    </member>
+    <member name="SelectiveKeyRestoreOperation(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call SelectiveKeyRestoreOperation.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>");
+]]></code>
+This sample shows how to call SelectiveKeyRestoreOperation with all parameters.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+SelectiveKeyRestoreOperationParameters restoreBlobDetails = new SelectiveKeyRestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
+{
+    Token = "<token>",
+    UseManagedIdentity = true,
+}, "<folder>");
+Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", restoreBlobDetails: restoreBlobDetails);
+]]></code></example>
+    </member>
+    <member name="SelectiveKeyRestoreOperationAsync(WaitUntil,string,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call SelectiveKeyRestoreOperationAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = null;
+Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", content);
+]]></code>
+This sample shows how to call SelectiveKeyRestoreOperationAsync with all parameters and request content.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "<storageResourceUri>",
+        token = "<token>",
+        useManagedIdentity = true,
+    },
+    folder = "<folder>",
+});
+Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", content);
+]]></code></example>
+    </member>
+    <member name="SelectiveKeyRestoreOperation(WaitUntil,string,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call SelectiveKeyRestoreOperation.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = null;
+Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", content);
+]]></code>
+This sample shows how to call SelectiveKeyRestoreOperation with all parameters and request content.
+<code><![CDATA[
+Uri endpoint = new Uri("<https://my-service.azure.com>");
+TokenCredential credential = new DefaultAzureCredential();
+KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "<storageResourceUri>",
+        token = "<token>",
+        useManagedIdentity = true,
+    },
+    folder = "<folder>",
+});
+Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", content);
+]]></code></example>
+    </member>
+  </members>
+</doc>
