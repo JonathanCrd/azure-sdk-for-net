@@ -80,14 +80,14 @@ namespace Azure.Security.KeyVault.Administration.Models
                 serializedAdditionalRawData: null);
         }
 
-        /// <summary> Initializes a new instance of <see cref="Models.Setting"/>. </summary>
+        /// <summary> Initializes a new instance of <see cref="Administration.KeyVaultSetting"/>. </summary>
         /// <param name="name"> The account setting to be updated. </param>
-        /// <param name="value"> The value of the pool setting. </param>
-        /// <param name="type"> The type specifier of the value. </param>
-        /// <returns> A new <see cref="Models.Setting"/> instance for mocking. </returns>
-        public static Setting Setting(string name = null, string value = null, SettingTypeEnum? type = null)
+        /// <param name="content"> The value of the pool setting. </param>
+        /// <param name="settingType"> The type specifier of the value. </param>
+        /// <returns> A new <see cref="Administration.KeyVaultSetting"/> instance for mocking. </returns>
+        public static KeyVaultSetting KeyVaultSetting(string name = null, string content = null, KeyVaultSettingType? settingType = null)
         {
-            return new Setting(name, value, type, serializedAdditionalRawData: null);
+            return new KeyVaultSetting(name, content, settingType, serializedAdditionalRawData: null);
         }
 
         /// <summary> Initializes a new instance of <see cref="Models.SettingsListResult"/>. </summary>
@@ -96,9 +96,9 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// value.
         /// </param>
         /// <returns> A new <see cref="Models.SettingsListResult"/> instance for mocking. </returns>
-        public static SettingsListResult SettingsListResult(IEnumerable<Setting> settings = null)
+        public static SettingsListResult SettingsListResult(IEnumerable<KeyVaultSetting> settings = null)
         {
-            settings ??= new List<Setting>();
+            settings ??= new List<KeyVaultSetting>();
 
             return new SettingsListResult(settings?.ToList(), serializedAdditionalRawData: null);
         }

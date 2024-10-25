@@ -653,7 +653,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             KeyVaultClient client = new KeyVaultClient(endpoint, credential);
 
-            Response<Setting> response = client.GetSetting("<settingName>");
+            Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
         }
 
         [Test]
@@ -664,7 +664,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             KeyVaultClient client = new KeyVaultClient(endpoint, credential);
 
-            Response<Setting> response = await client.GetSettingAsync("<settingName>");
+            Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
         }
 
         [Test]
@@ -707,7 +707,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             KeyVaultClient client = new KeyVaultClient(endpoint, credential);
 
-            Response<Setting> response = client.GetSetting("<settingName>");
+            Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
         }
 
         [Test]
@@ -718,7 +718,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             KeyVaultClient client = new KeyVaultClient(endpoint, credential);
 
-            Response<Setting> response = await client.GetSettingAsync("<settingName>");
+            Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
         }
 
         [Test]

@@ -74,7 +74,7 @@ namespace Azure.Security.KeyVault.Administration.Models
             {
                 return null;
             }
-            IReadOnlyList<Setting> settings = default;
+            IReadOnlyList<KeyVaultSetting> settings = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
             foreach (var property in element.EnumerateObject())
@@ -85,10 +85,10 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    List<Setting> array = new List<Setting>();
+                    List<KeyVaultSetting> array = new List<KeyVaultSetting>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Setting.DeserializeSetting(item, options));
+                        array.Add(KeyVaultSetting.DeserializeKeyVaultSetting(item, options));
                     }
                     settings = array;
                     continue;
@@ -99,7 +99,7 @@ namespace Azure.Security.KeyVault.Administration.Models
                 }
             }
             serializedAdditionalRawData = rawDataDictionary;
-            return new SettingsListResult(settings ?? new ChangeTrackingList<Setting>(), serializedAdditionalRawData);
+            return new SettingsListResult(settings ?? new ChangeTrackingList<KeyVaultSetting>(), serializedAdditionalRawData);
         }
 
         BinaryData IPersistableModel<SettingsListResult>.Write(ModelReaderWriterOptions options)

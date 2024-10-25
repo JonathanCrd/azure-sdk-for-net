@@ -553,7 +553,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 KeyVaultClient client = new KeyVaultClient(endpoint, credential);
 
-Response<Setting> response = await client.GetSettingAsync("<settingName>");
+Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
 ]]></code>
 This sample shows how to call GetSettingAsync with all parameters.
 <code><![CDATA[
@@ -561,7 +561,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 KeyVaultClient client = new KeyVaultClient(endpoint, credential);
 
-Response<Setting> response = await client.GetSettingAsync("<settingName>");
+Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
 ]]></code></example>
     </member>
     <member name="GetSetting(string,CancellationToken)">
@@ -572,7 +572,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 KeyVaultClient client = new KeyVaultClient(endpoint, credential);
 
-Response<Setting> response = client.GetSetting("<settingName>");
+Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
 ]]></code>
 This sample shows how to call GetSetting with all parameters.
 <code><![CDATA[
@@ -580,7 +580,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 KeyVaultClient client = new KeyVaultClient(endpoint, credential);
 
-Response<Setting> response = client.GetSetting("<settingName>");
+Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
 ]]></code></example>
     </member>
     <member name="GetSettingAsync(string,RequestContext)">

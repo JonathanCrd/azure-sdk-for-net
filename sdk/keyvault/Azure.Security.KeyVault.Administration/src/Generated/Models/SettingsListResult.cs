@@ -48,7 +48,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <summary> Initializes a new instance of <see cref="SettingsListResult"/>. </summary>
         internal SettingsListResult()
         {
-            Settings = new ChangeTrackingList<Setting>();
+            Settings = new ChangeTrackingList<KeyVaultSetting>();
         }
 
         /// <summary> Initializes a new instance of <see cref="SettingsListResult"/>. </summary>
@@ -57,7 +57,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// value.
         /// </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal SettingsListResult(IReadOnlyList<Setting> settings, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal SettingsListResult(IReadOnlyList<KeyVaultSetting> settings, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
             Settings = settings;
             _serializedAdditionalRawData = serializedAdditionalRawData;
@@ -67,6 +67,6 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// A response message containing a list of account settings with their associated
         /// value.
         /// </summary>
-        public IReadOnlyList<Setting> Settings { get; }
+        public IReadOnlyList<KeyVaultSetting> Settings { get; }
     }
 }

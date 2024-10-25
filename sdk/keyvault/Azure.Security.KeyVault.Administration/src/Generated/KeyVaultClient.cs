@@ -15,10 +15,7 @@ using Azure.Security.KeyVault.Administration.Models;
 namespace Azure.Security.KeyVault.Administration
 {
     // Data plane generated client.
-    /// <summary>
-    /// The key vault client performs cryptographic key operations and vault operations
-    /// against the Key Vault service.
-    /// </summary>
+    /// <summary> The KeyVault service client. </summary>
     public partial class KeyVaultClient
     {
         private static readonly string[] AuthorizationScopes = new string[] { "https://vault.azure.net/.default" };
@@ -585,13 +582,13 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentException"> <paramref name="settingName"/> is an empty string, and was expected to be non-empty. </exception>
         /// <remarks> Retrieves the setting object of a specified setting name. </remarks>
         /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSettingAsync(string,CancellationToken)']/*" />
-        public virtual async Task<Response<Setting>> GetSettingAsync(string settingName, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<KeyVaultSetting>> GetSettingAsync(string settingName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(settingName, nameof(settingName));
 
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = await GetSettingAsync(settingName, context).ConfigureAwait(false);
-            return Response.FromValue(Setting.FromResponse(response), response);
+            return Response.FromValue(KeyVaultSetting.FromResponse(response), response);
         }
 
         /// <summary> Get specified account setting object. </summary>
@@ -601,13 +598,13 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentException"> <paramref name="settingName"/> is an empty string, and was expected to be non-empty. </exception>
         /// <remarks> Retrieves the setting object of a specified setting name. </remarks>
         /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSetting(string,CancellationToken)']/*" />
-        public virtual Response<Setting> GetSetting(string settingName, CancellationToken cancellationToken = default)
+        public virtual Response<KeyVaultSetting> GetSetting(string settingName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(settingName, nameof(settingName));
 
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = GetSetting(settingName, context);
-            return Response.FromValue(Setting.FromResponse(response), response);
+            return Response.FromValue(KeyVaultSetting.FromResponse(response), response);
         }
 
         /// <summary>
