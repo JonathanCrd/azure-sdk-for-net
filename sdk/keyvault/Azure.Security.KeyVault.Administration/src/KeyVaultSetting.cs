@@ -12,9 +12,9 @@ namespace Azure.Security.KeyVault.Administration
     /// </summary>
     [CodeGenModel("KeyVaultSetting")]
     [CodeGenSuppress(nameof(KeyVaultSetting), typeof(string), typeof(string))]
-    [CodeGenSuppress(nameof(KeyVaultSetting), typeof(string), typeof(string), typeof(KeyVaultSettingType?), typeof(IDictionary<string, BinaryData>))]
+    //[CodeGenSuppress(nameof(KeyVaultSetting), typeof(string), typeof(string), typeof(KeyVaultSettingType?), typeof(IDictionary<string, BinaryData>))]
     [CodeGenSuppress("Content")]
-    [CodeGenSuppress("_serializedAdditionalRawData")]
+    // [CodeGenSuppress("_serializedAdditionalRawData")]
     [CodeGenSuppress("SettingType")]
     [CodeGenSuppress(nameof(KeyVaultSetting))]
     public partial class KeyVaultSetting

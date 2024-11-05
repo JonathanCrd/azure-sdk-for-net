@@ -5,8 +5,8 @@ using Azure.Core;
 
 namespace Azure.Security.KeyVault.Administration
 {
-    [CodeGenModel("KeyVaultSettingType")]
-    public readonly partial struct KeyVaultSettingType
+    [CodeGenModel("GetSettingsResult")]
+    public partial class GetSettingsResult
     {
     }
 }
