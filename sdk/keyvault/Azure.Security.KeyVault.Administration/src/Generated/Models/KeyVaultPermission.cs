@@ -7,11 +7,12 @@
 
 using System;
 using System.Collections.Generic;
+using Azure.Security.KeyVault.Administration.Models;
 
-namespace Azure.Security.KeyVault.Administration.Models
+namespace Azure.Security.KeyVault.Administration
 {
     /// <summary> Role definition permissions. </summary>
-    public partial class Permission
+    public partial class KeyVaultPermission
     {
         /// <summary>
         /// Keeps track of any properties unknown to the library.
@@ -45,16 +46,16 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// </summary>
         private IDictionary<string, BinaryData> _serializedAdditionalRawData;
 
-        /// <summary> Initializes a new instance of <see cref="Permission"/>. </summary>
-        public Permission()
+        /// <summary> Initializes a new instance of <see cref="KeyVaultPermission"/>. </summary>
+        public KeyVaultPermission()
         {
             Actions = new ChangeTrackingList<string>();
             NotActions = new ChangeTrackingList<string>();
-            DataActions = new ChangeTrackingList<DataAction>();
-            NotDataActions = new ChangeTrackingList<DataAction>();
+            DataActions = new ChangeTrackingList<KeyVaultDataAction>();
+            NotDataActions = new ChangeTrackingList<KeyVaultDataAction>();
         }
 
-        /// <summary> Initializes a new instance of <see cref="Permission"/>. </summary>
+        /// <summary> Initializes a new instance of <see cref="KeyVaultPermission"/>. </summary>
         /// <param name="actions"> Action permissions that are granted. </param>
         /// <param name="notActions">
         /// Action permissions that are excluded but not denied. They may be granted by
@@ -66,7 +67,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// by other role definitions assigned to a principal.
         /// </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal Permission(IList<string> actions, IList<string> notActions, IList<DataAction> dataActions, IList<DataAction> notDataActions, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal KeyVaultPermission(IList<string> actions, IList<string> notActions, IList<KeyVaultDataAction> dataActions, IList<KeyVaultDataAction> notDataActions, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
             Actions = actions;
             NotActions = notActions;
@@ -83,11 +84,11 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// </summary>
         public IList<string> NotActions { get; }
         /// <summary> Data action permissions that are granted. </summary>
-        public IList<DataAction> DataActions { get; }
+        public IList<KeyVaultDataAction> DataActions { get; }
         /// <summary>
         /// Data action permissions that are excluded but not denied. They may be granted
         /// by other role definitions assigned to a principal.
         /// </summary>
-        public IList<DataAction> NotDataActions { get; }
+        public IList<KeyVaultDataAction> NotDataActions { get; }
     }
 }

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Azure.Security.KeyVault.Administration.Models
 {
     /// <summary> Restore operation. </summary>
-    public partial class RestoreOperation
+    internal partial class RestoreDetailsInternal
     {
         /// <summary>
         /// Keeps track of any properties unknown to the library.
@@ -45,12 +45,12 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// </summary>
         private IDictionary<string, BinaryData> _serializedAdditionalRawData;
 
-        /// <summary> Initializes a new instance of <see cref="RestoreOperation"/>. </summary>
-        internal RestoreOperation()
+        /// <summary> Initializes a new instance of <see cref="RestoreDetailsInternal"/>. </summary>
+        internal RestoreDetailsInternal()
         {
         }
 
-        /// <summary> Initializes a new instance of <see cref="RestoreOperation"/>. </summary>
+        /// <summary> Initializes a new instance of <see cref="RestoreDetailsInternal"/>. </summary>
         /// <param name="status"> Status of the restore operation. </param>
         /// <param name="statusDetails"> The status details of restore operation. </param>
         /// <param name="error"> Error encountered, if any, during the restore operation. </param>
@@ -58,7 +58,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <param name="startTime"> The start time of the restore operation. </param>
         /// <param name="endTime"> The end time of the restore operation. </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal RestoreOperation(OperationStatus? status, string statusDetails, Error error, string jobId, DateTimeOffset? startTime, DateTimeOffset? endTime, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal RestoreDetailsInternal(OperationStatus? status, string statusDetails, KeyVaultServiceError error, string jobId, DateTimeOffset? startTime, DateTimeOffset? endTime, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
             Status = status;
             StatusDetails = statusDetails;
@@ -74,7 +74,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <summary> The status details of restore operation. </summary>
         public string StatusDetails { get; }
         /// <summary> Error encountered, if any, during the restore operation. </summary>
-        public Error Error { get; }
+        public KeyVaultServiceError Error { get; }
         /// <summary> Identifier for the restore operation. </summary>
         public string JobId { get; }
         /// <summary> The start time of the restore operation. </summary>

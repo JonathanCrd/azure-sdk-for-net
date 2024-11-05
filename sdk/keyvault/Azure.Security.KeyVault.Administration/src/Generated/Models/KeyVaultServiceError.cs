@@ -10,8 +10,8 @@ using System.Collections.Generic;
 
 namespace Azure.Security.KeyVault.Administration.Models
 {
-    /// <summary> The settings list result. </summary>
-    public partial class SettingsListResult
+    /// <summary> The key vault server error. </summary>
+    internal partial class KeyVaultServiceError
     {
         /// <summary>
         /// Keeps track of any properties unknown to the library.
@@ -45,28 +45,29 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// </summary>
         private IDictionary<string, BinaryData> _serializedAdditionalRawData;
 
-        /// <summary> Initializes a new instance of <see cref="SettingsListResult"/>. </summary>
-        internal SettingsListResult()
+        /// <summary> Initializes a new instance of <see cref="KeyVaultServiceError"/>. </summary>
+        internal KeyVaultServiceError()
         {
-            Settings = new ChangeTrackingList<KeyVaultSetting>();
         }
 
-        /// <summary> Initializes a new instance of <see cref="SettingsListResult"/>. </summary>
-        /// <param name="settings">
-        /// A response message containing a list of account settings with their associated
-        /// value.
-        /// </param>
+        /// <summary> Initializes a new instance of <see cref="KeyVaultServiceError"/>. </summary>
+        /// <param name="code"> The error code. </param>
+        /// <param name="message"> The error message. </param>
+        /// <param name="innerError"> The key vault server error. </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal SettingsListResult(IReadOnlyList<KeyVaultSetting> settings, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal KeyVaultServiceError(string code, string message, KeyVaultServiceError innerError, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
-            Settings = settings;
+            Code = code;
+            Message = message;
+            InnerError = innerError;
             _serializedAdditionalRawData = serializedAdditionalRawData;
         }
 
-        /// <summary>
-        /// A response message containing a list of account settings with their associated
-        /// value.
-        /// </summary>
-        public IReadOnlyList<KeyVaultSetting> Settings { get; }
+        /// <summary> The error code. </summary>
+        public string Code { get; }
+        /// <summary> The error message. </summary>
+        public string Message { get; }
+        /// <summary> The key vault server error. </summary>
+        public KeyVaultServiceError InnerError { get; }
     }
 }

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Azure.Security.KeyVault.Administration.Models
 {
     /// <summary> The authentication method and location for the selective key restore operation. </summary>
-    public partial class SelectiveKeyRestoreOperationParameters
+    internal partial class SelectiveKeyRestoreOperationParameters
     {
         /// <summary>
         /// Keeps track of any properties unknown to the library.

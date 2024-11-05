@@ -13,7 +13,7 @@ using Azure.Core;
 
 namespace Azure.Security.KeyVault.Administration.Models
 {
-    public partial class SASTokenParameter : IUtf8JsonSerializable, IJsonModel<SASTokenParameter>
+    internal partial class SASTokenParameter : IUtf8JsonSerializable, IJsonModel<SASTokenParameter>
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<SASTokenParameter>)this).Write(writer, ModelSerializationExtensions.WireOptions);
 

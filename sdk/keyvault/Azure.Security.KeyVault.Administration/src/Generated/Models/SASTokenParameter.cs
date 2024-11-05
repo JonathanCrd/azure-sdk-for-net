@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Azure.Security.KeyVault.Administration.Models
 {
     /// <summary> An authentication method and location for the operation. </summary>
-    public partial class SASTokenParameter
+    internal partial class SASTokenParameter
     {
         /// <summary>
         /// Keeps track of any properties unknown to the library.

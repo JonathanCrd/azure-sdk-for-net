@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Azure.Security.KeyVault.Administration.Models
 {
     /// <summary> Role assignment create parameters. </summary>
-    public partial class RoleAssignmentCreateParameters
+    internal partial class RoleAssignmentCreateParameters
     {
         /// <summary>
         /// Keeps track of any properties unknown to the library.

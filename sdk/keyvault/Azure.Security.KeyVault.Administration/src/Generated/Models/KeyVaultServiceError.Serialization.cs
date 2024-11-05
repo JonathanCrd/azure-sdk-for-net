@@ -13,16 +13,16 @@ using Azure.Core;
 
 namespace Azure.Security.KeyVault.Administration.Models
 {
-    public partial class Error : IUtf8JsonSerializable, IJsonModel<Error>
+    internal partial class KeyVaultServiceError : IUtf8JsonSerializable, IJsonModel<KeyVaultServiceError>
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<Error>)this).Write(writer, ModelSerializationExtensions.WireOptions);
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<KeyVaultServiceError>)this).Write(writer, ModelSerializationExtensions.WireOptions);
 
-        void IJsonModel<Error>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+        void IJsonModel<KeyVaultServiceError>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<Error>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultServiceError>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(Error)} does not support writing '{format}' format.");
+                throw new FormatException($"The model {nameof(KeyVaultServiceError)} does not support writing '{format}' format.");
             }
 
             writer.WriteStartObject();
@@ -59,19 +59,19 @@ namespace Azure.Security.KeyVault.Administration.Models
             writer.WriteEndObject();
         }
 
-        Error IJsonModel<Error>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
+        KeyVaultServiceError IJsonModel<KeyVaultServiceError>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<Error>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultServiceError>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(Error)} does not support reading '{format}' format.");
+                throw new FormatException($"The model {nameof(KeyVaultServiceError)} does not support reading '{format}' format.");
             }
 
             using JsonDocument document = JsonDocument.ParseValue(ref reader);
-            return DeserializeError(document.RootElement, options);
+            return DeserializeKeyVaultServiceError(document.RootElement, options);
         }
 
-        internal static Error DeserializeError(JsonElement element, ModelReaderWriterOptions options = null)
+        internal static KeyVaultServiceError DeserializeKeyVaultServiceError(JsonElement element, ModelReaderWriterOptions options = null)
         {
             options ??= ModelSerializationExtensions.WireOptions;
 
@@ -81,7 +81,7 @@ namespace Azure.Security.KeyVault.Administration.Models
             }
             string code = default;
             string message = default;
-            Error innererror = default;
+            KeyVaultServiceError innererror = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
             foreach (var property in element.EnumerateObject())
@@ -102,7 +102,7 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    innererror = DeserializeError(property.Value, options);
+                    innererror = DeserializeKeyVaultServiceError(property.Value, options);
                     continue;
                 }
                 if (options.Format != "W")
@@ -111,46 +111,46 @@ namespace Azure.Security.KeyVault.Administration.Models
                 }
             }
             serializedAdditionalRawData = rawDataDictionary;
-            return new Error(code, message, innererror, serializedAdditionalRawData);
+            return new KeyVaultServiceError(code, message, innererror, serializedAdditionalRawData);
         }
 
-        BinaryData IPersistableModel<Error>.Write(ModelReaderWriterOptions options)
+        BinaryData IPersistableModel<KeyVaultServiceError>.Write(ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<Error>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultServiceError>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     return ModelReaderWriter.Write(this, options);
                 default:
-                    throw new FormatException($"The model {nameof(Error)} does not support writing '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(KeyVaultServiceError)} does not support writing '{options.Format}' format.");
             }
         }
 
-        Error IPersistableModel<Error>.Create(BinaryData data, ModelReaderWriterOptions options)
+        KeyVaultServiceError IPersistableModel<KeyVaultServiceError>.Create(BinaryData data, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<Error>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultServiceError>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     {
                         using JsonDocument document = JsonDocument.Parse(data);
-                        return DeserializeError(document.RootElement, options);
+                        return DeserializeKeyVaultServiceError(document.RootElement, options);
                     }
                 default:
-                    throw new FormatException($"The model {nameof(Error)} does not support reading '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(KeyVaultServiceError)} does not support reading '{options.Format}' format.");
             }
         }
 
-        string IPersistableModel<Error>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
+        string IPersistableModel<KeyVaultServiceError>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
 
         /// <summary> Deserializes the model from a raw response. </summary>
         /// <param name="response"> The response to deserialize the model from. </param>
-        internal static Error FromResponse(Response response)
+        internal static KeyVaultServiceError FromResponse(Response response)
         {
             using var document = JsonDocument.Parse(response.Content);
-            return DeserializeError(document.RootElement);
+            return DeserializeKeyVaultServiceError(document.RootElement);
         }
 
         /// <summary> Convert into a <see cref="RequestContent"/>. </summary>

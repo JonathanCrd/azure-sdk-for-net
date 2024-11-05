@@ -13,7 +13,7 @@ using Azure.Core;
 
 namespace Azure.Security.KeyVault.Administration.Models
 {
-    public partial class RoleDefinitionProperties : IUtf8JsonSerializable, IJsonModel<RoleDefinitionProperties>
+    internal partial class RoleDefinitionProperties : IUtf8JsonSerializable, IJsonModel<RoleDefinitionProperties>
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<RoleDefinitionProperties>)this).Write(writer, ModelSerializationExtensions.WireOptions);
 
@@ -101,9 +101,9 @@ namespace Azure.Security.KeyVault.Administration.Models
             }
             string roleName = default;
             string description = default;
-            RoleType? type = default;
-            IList<Permission> permissions = default;
-            IList<RoleScope> assignableScopes = default;
+            KeyVaultRoleType? type = default;
+            IList<KeyVaultPermission> permissions = default;
+            IList<KeyVaultRoleScope> assignableScopes = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
             foreach (var property in element.EnumerateObject())
@@ -124,7 +124,7 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    type = new RoleType(property.Value.GetString());
+                    type = new KeyVaultRoleType(property.Value.GetString());
                     continue;
                 }
                 if (property.NameEquals("permissions"u8))
@@ -133,10 +133,10 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    List<Permission> array = new List<Permission>();
+                    List<KeyVaultPermission> array = new List<KeyVaultPermission>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Permission.DeserializePermission(item, options));
+                        array.Add(KeyVaultPermission.DeserializeKeyVaultPermission(item, options));
                     }
                     permissions = array;
                     continue;
@@ -147,10 +147,10 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    List<RoleScope> array = new List<RoleScope>();
+                    List<KeyVaultRoleScope> array = new List<KeyVaultRoleScope>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(new RoleScope(item.GetString()));
+                        array.Add(new KeyVaultRoleScope(item.GetString()));
                     }
                     assignableScopes = array;
                     continue;
@@ -165,8 +165,8 @@ namespace Azure.Security.KeyVault.Administration.Models
                 roleName,
                 description,
                 type,
-                permissions ?? new ChangeTrackingList<Permission>(),
-                assignableScopes ?? new ChangeTrackingList<RoleScope>(),
+                permissions ?? new ChangeTrackingList<KeyVaultPermission>(),
+                assignableScopes ?? new ChangeTrackingList<KeyVaultRoleScope>(),
                 serializedAdditionalRawData);
         }
 

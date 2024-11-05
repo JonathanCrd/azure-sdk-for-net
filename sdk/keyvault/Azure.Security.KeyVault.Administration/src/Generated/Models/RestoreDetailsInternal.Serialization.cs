@@ -13,16 +13,16 @@ using Azure.Core;
 
 namespace Azure.Security.KeyVault.Administration.Models
 {
-    public partial class FullBackupOperation : IUtf8JsonSerializable, IJsonModel<FullBackupOperation>
+    internal partial class RestoreDetailsInternal : IUtf8JsonSerializable, IJsonModel<RestoreDetailsInternal>
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<FullBackupOperation>)this).Write(writer, ModelSerializationExtensions.WireOptions);
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<RestoreDetailsInternal>)this).Write(writer, ModelSerializationExtensions.WireOptions);
 
-        void IJsonModel<FullBackupOperation>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+        void IJsonModel<RestoreDetailsInternal>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<FullBackupOperation>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<RestoreDetailsInternal>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(FullBackupOperation)} does not support writing '{format}' format.");
+                throw new FormatException($"The model {nameof(RestoreDetailsInternal)} does not support writing '{format}' format.");
             }
 
             writer.WriteStartObject();
@@ -41,6 +41,11 @@ namespace Azure.Security.KeyVault.Administration.Models
                 writer.WritePropertyName("error"u8);
                 writer.WriteObjectValue(Error, options);
             }
+            if (Optional.IsDefined(JobId))
+            {
+                writer.WritePropertyName("jobId"u8);
+                writer.WriteStringValue(JobId);
+            }
             if (Optional.IsDefined(StartTime))
             {
                 writer.WritePropertyName("startTime"u8);
@@ -50,16 +55,6 @@ namespace Azure.Security.KeyVault.Administration.Models
             {
                 writer.WritePropertyName("endTime"u8);
                 writer.WriteNumberValue(EndTime.Value, "U");
-            }
-            if (Optional.IsDefined(JobId))
-            {
-                writer.WritePropertyName("jobId"u8);
-                writer.WriteStringValue(JobId);
-            }
-            if (Optional.IsDefined(AzureStorageBlobContainerUri))
-            {
-                writer.WritePropertyName("azureStorageBlobContainerUri"u8);
-                writer.WriteStringValue(AzureStorageBlobContainerUri);
             }
             if (options.Format != "W" && _serializedAdditionalRawData != null)
             {
@@ -79,19 +74,19 @@ namespace Azure.Security.KeyVault.Administration.Models
             writer.WriteEndObject();
         }
 
-        FullBackupOperation IJsonModel<FullBackupOperation>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
+        RestoreDetailsInternal IJsonModel<RestoreDetailsInternal>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<FullBackupOperation>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<RestoreDetailsInternal>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(FullBackupOperation)} does not support reading '{format}' format.");
+                throw new FormatException($"The model {nameof(RestoreDetailsInternal)} does not support reading '{format}' format.");
             }
 
             using JsonDocument document = JsonDocument.ParseValue(ref reader);
-            return DeserializeFullBackupOperation(document.RootElement, options);
+            return DeserializeRestoreDetailsInternal(document.RootElement, options);
         }
 
-        internal static FullBackupOperation DeserializeFullBackupOperation(JsonElement element, ModelReaderWriterOptions options = null)
+        internal static RestoreDetailsInternal DeserializeRestoreDetailsInternal(JsonElement element, ModelReaderWriterOptions options = null)
         {
             options ??= ModelSerializationExtensions.WireOptions;
 
@@ -101,11 +96,10 @@ namespace Azure.Security.KeyVault.Administration.Models
             }
             OperationStatus? status = default;
             string statusDetails = default;
-            Error error = default;
+            KeyVaultServiceError error = default;
+            string jobId = default;
             DateTimeOffset? startTime = default;
             DateTimeOffset? endTime = default;
-            string jobId = default;
-            string azureStorageBlobContainerUri = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
             foreach (var property in element.EnumerateObject())
@@ -130,7 +124,12 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    error = Error.DeserializeError(property.Value, options);
+                    error = KeyVaultServiceError.DeserializeKeyVaultServiceError(property.Value, options);
+                    continue;
+                }
+                if (property.NameEquals("jobId"u8))
+                {
+                    jobId = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("startTime"u8))
@@ -151,70 +150,59 @@ namespace Azure.Security.KeyVault.Administration.Models
                     endTime = DateTimeOffset.FromUnixTimeSeconds(property.Value.GetInt64());
                     continue;
                 }
-                if (property.NameEquals("jobId"u8))
-                {
-                    jobId = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("azureStorageBlobContainerUri"u8))
-                {
-                    azureStorageBlobContainerUri = property.Value.GetString();
-                    continue;
-                }
                 if (options.Format != "W")
                 {
                     rawDataDictionary.Add(property.Name, BinaryData.FromString(property.Value.GetRawText()));
                 }
             }
             serializedAdditionalRawData = rawDataDictionary;
-            return new FullBackupOperation(
+            return new RestoreDetailsInternal(
                 status,
                 statusDetails,
                 error,
+                jobId,
                 startTime,
                 endTime,
-                jobId,
-                azureStorageBlobContainerUri,
                 serializedAdditionalRawData);
         }
 
-        BinaryData IPersistableModel<FullBackupOperation>.Write(ModelReaderWriterOptions options)
+        BinaryData IPersistableModel<RestoreDetailsInternal>.Write(ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<FullBackupOperation>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<RestoreDetailsInternal>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     return ModelReaderWriter.Write(this, options);
                 default:
-                    throw new FormatException($"The model {nameof(FullBackupOperation)} does not support writing '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(RestoreDetailsInternal)} does not support writing '{options.Format}' format.");
             }
         }
 
-        FullBackupOperation IPersistableModel<FullBackupOperation>.Create(BinaryData data, ModelReaderWriterOptions options)
+        RestoreDetailsInternal IPersistableModel<RestoreDetailsInternal>.Create(BinaryData data, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<FullBackupOperation>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<RestoreDetailsInternal>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     {
                         using JsonDocument document = JsonDocument.Parse(data);
-                        return DeserializeFullBackupOperation(document.RootElement, options);
+                        return DeserializeRestoreDetailsInternal(document.RootElement, options);
                     }
                 default:
-                    throw new FormatException($"The model {nameof(FullBackupOperation)} does not support reading '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(RestoreDetailsInternal)} does not support reading '{options.Format}' format.");
             }
         }
 
-        string IPersistableModel<FullBackupOperation>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
+        string IPersistableModel<RestoreDetailsInternal>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
 
         /// <summary> Deserializes the model from a raw response. </summary>
         /// <param name="response"> The response to deserialize the model from. </param>
-        internal static FullBackupOperation FromResponse(Response response)
+        internal static RestoreDetailsInternal FromResponse(Response response)
         {
             using var document = JsonDocument.Parse(response.Content);
-            return DeserializeFullBackupOperation(document.RootElement);
+            return DeserializeRestoreDetailsInternal(document.RootElement);
         }
 
         /// <summary> Convert into a <see cref="RequestContent"/>. </summary>

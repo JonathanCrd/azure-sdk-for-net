@@ -56,7 +56,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <param name="type"> The role definition type. </param>
         /// <param name="properties"> Role definition properties. </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal RoleDefinition(string id, string name, RoleDefinitionType? type, RoleDefinitionProperties properties, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal RoleDefinition(string id, string name, KeyVaultRoleDefinitionType? type, RoleDefinitionProperties properties, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
             Id = id;
             Name = name;
@@ -70,7 +70,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <summary> The role definition name. </summary>
         public string Name { get; }
         /// <summary> The role definition type. </summary>
-        public RoleDefinitionType? Type { get; }
+        public KeyVaultRoleDefinitionType? Type { get; }
         /// <summary> Role definition properties. </summary>
         public RoleDefinitionProperties Properties { get; }
     }

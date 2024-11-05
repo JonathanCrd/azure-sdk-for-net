@@ -15,15 +15,15 @@ using NUnit.Framework;
 
 namespace Azure.Security.KeyVault.Administration.Samples
 {
-    public partial class Samples_KeyVaultClient
+    public partial class Samples_BackupRestoreRestClient
     {
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullBackupStatus_ShortVersion()
+        public void Example_BackupRestoreRestClient_FullBackupStatus_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Response response = client.FullBackupStatus("<jobId>", null);
 
@@ -33,11 +33,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullBackupStatus_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackupStatus_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Response response = await client.FullBackupStatusAsync("<jobId>", null);
 
@@ -47,33 +47,33 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullBackupStatus_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_FullBackupStatus_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupOperation> response = client.FullBackupStatus("<jobId>");
+            Response<FullBackupDetailsInternal> response = client.FullBackupStatus("<jobId>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullBackupStatus_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackupStatus_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupOperation> response = await client.FullBackupStatusAsync("<jobId>");
+            Response<FullBackupDetailsInternal> response = await client.FullBackupStatusAsync("<jobId>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullBackupStatus_AllParameters()
+        public void Example_BackupRestoreRestClient_FullBackupStatus_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Response response = client.FullBackupStatus("<jobId>", null);
 
@@ -90,11 +90,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullBackupStatus_AllParameters_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackupStatus_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Response response = await client.FullBackupStatusAsync("<jobId>", null);
 
@@ -111,33 +111,33 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullBackupStatus_AllParameters_Convenience()
+        public void Example_BackupRestoreRestClient_FullBackupStatus_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupOperation> response = client.FullBackupStatus("<jobId>");
+            Response<FullBackupDetailsInternal> response = client.FullBackupStatus("<jobId>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullBackupStatus_AllParameters_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackupStatus_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupOperation> response = await client.FullBackupStatusAsync("<jobId>");
+            Response<FullBackupDetailsInternal> response = await client.FullBackupStatusAsync("<jobId>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_PreFullBackup_ShortVersion()
+        public void Example_BackupRestoreRestClient_PreFullBackup_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = null;
             Response response = client.PreFullBackup(content);
@@ -148,11 +148,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_PreFullBackup_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullBackup_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = null;
             Response response = await client.PreFullBackupAsync(content);
@@ -163,33 +163,33 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_PreFullBackup_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_PreFullBackup_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupOperation> response = client.PreFullBackup();
+            Response<FullBackupDetailsInternal> response = client.PreFullBackup();
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_PreFullBackup_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullBackup_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupOperation> response = await client.PreFullBackupAsync();
+            Response<FullBackupDetailsInternal> response = await client.PreFullBackupAsync();
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_PreFullBackup_AllParameters()
+        public void Example_BackupRestoreRestClient_PreFullBackup_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -212,11 +212,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_PreFullBackup_AllParameters_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullBackup_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -239,11 +239,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_PreFullBackup_AllParameters_Convenience()
+        public void Example_BackupRestoreRestClient_PreFullBackup_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             PreBackupOperationParameters preBackupOperationParameters = new PreBackupOperationParameters
             {
@@ -251,16 +251,16 @@ namespace Azure.Security.KeyVault.Administration.Samples
                 Token = "<token>",
                 UseManagedIdentity = true,
             };
-            Response<FullBackupOperation> response = client.PreFullBackup(preBackupOperationParameters: preBackupOperationParameters);
+            Response<FullBackupDetailsInternal> response = client.PreFullBackup(preBackupOperationParameters: preBackupOperationParameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_PreFullBackup_AllParameters_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullBackup_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             PreBackupOperationParameters preBackupOperationParameters = new PreBackupOperationParameters
             {
@@ -268,16 +268,16 @@ namespace Azure.Security.KeyVault.Administration.Samples
                 Token = "<token>",
                 UseManagedIdentity = true,
             };
-            Response<FullBackupOperation> response = await client.PreFullBackupAsync(preBackupOperationParameters: preBackupOperationParameters);
+            Response<FullBackupDetailsInternal> response = await client.PreFullBackupAsync(preBackupOperationParameters: preBackupOperationParameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_RestoreStatus_ShortVersion()
+        public void Example_BackupRestoreRestClient_RestoreStatus_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Response response = client.RestoreStatus("<jobId>", null);
 
@@ -287,11 +287,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_RestoreStatus_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_RestoreStatus_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Response response = await client.RestoreStatusAsync("<jobId>", null);
 
@@ -301,33 +301,33 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_RestoreStatus_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_RestoreStatus_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<RestoreOperation> response = client.RestoreStatus("<jobId>");
+            Response<RestoreDetailsInternal> response = client.RestoreStatus("<jobId>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_RestoreStatus_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_RestoreStatus_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<RestoreOperation> response = await client.RestoreStatusAsync("<jobId>");
+            Response<RestoreDetailsInternal> response = await client.RestoreStatusAsync("<jobId>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_RestoreStatus_AllParameters()
+        public void Example_BackupRestoreRestClient_RestoreStatus_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Response response = client.RestoreStatus("<jobId>", null);
 
@@ -343,11 +343,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_RestoreStatus_AllParameters_Async()
+        public async Task Example_BackupRestoreRestClient_RestoreStatus_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Response response = await client.RestoreStatusAsync("<jobId>", null);
 
@@ -363,33 +363,33 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_RestoreStatus_AllParameters_Convenience()
+        public void Example_BackupRestoreRestClient_RestoreStatus_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<RestoreOperation> response = client.RestoreStatus("<jobId>");
+            Response<RestoreDetailsInternal> response = client.RestoreStatus("<jobId>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_RestoreStatus_AllParameters_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_RestoreStatus_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<RestoreOperation> response = await client.RestoreStatusAsync("<jobId>");
+            Response<RestoreDetailsInternal> response = await client.RestoreStatusAsync("<jobId>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_PreFullRestoreOperation_ShortVersion()
+        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new object());
             Response response = client.PreFullRestoreOperation(content);
@@ -400,11 +400,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_PreFullRestoreOperation_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new object());
             Response response = await client.PreFullRestoreOperationAsync(content);
@@ -415,35 +415,35 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_PreFullRestoreOperation_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters();
-            Response<RestoreOperation> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
+            Response<RestoreDetailsInternal> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_PreFullRestoreOperation_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters();
-            Response<RestoreOperation> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
+            Response<RestoreDetailsInternal> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_PreFullRestoreOperation_AllParameters()
+        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -469,11 +469,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_PreFullRestoreOperation_AllParameters_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -499,11 +499,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_PreFullRestoreOperation_AllParameters_Convenience()
+        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters
             {
@@ -514,16 +514,16 @@ namespace Azure.Security.KeyVault.Administration.Samples
                 },
                 FolderToRestore = "<folderToRestore>",
             };
-            Response<RestoreOperation> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
+            Response<RestoreDetailsInternal> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_PreFullRestoreOperation_AllParameters_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters
             {
@@ -534,304 +534,16 @@ namespace Azure.Security.KeyVault.Administration.Samples
                 },
                 FolderToRestore = "<folderToRestore>",
             };
-            Response<RestoreOperation> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
+            Response<RestoreDetailsInternal> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_UpdateSetting_ShortVersion()
+        public void Example_BackupRestoreRestClient_FullBackup_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                value = "<value>",
-            });
-            Response response = client.UpdateSetting("<settingName>", content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_UpdateSetting_ShortVersion_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                value = "<value>",
-            });
-            Response response = await client.UpdateSettingAsync("<settingName>", content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_UpdateSetting_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                value = "<value>",
-            });
-            Response response = client.UpdateSetting("<settingName>", content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_UpdateSetting_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                value = "<value>",
-            });
-            Response response = await client.UpdateSettingAsync("<settingName>", content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_GetSetting_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response response = client.GetSetting("<settingName>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_GetSetting_ShortVersion_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response response = await client.GetSettingAsync("<settingName>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_GetSetting_ShortVersion_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_GetSetting_ShortVersion_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_GetSetting_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response response = client.GetSetting("<settingName>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_GetSetting_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response response = await client.GetSettingAsync("<settingName>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_GetSetting_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_GetSetting_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_GetSettings_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response response = client.GetSettings(null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_GetSettings_ShortVersion_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response response = await client.GetSettingsAsync(null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_GetSettings_ShortVersion_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response<SettingsListResult> response = client.GetSettings();
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_GetSettings_ShortVersion_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response<SettingsListResult> response = await client.GetSettingsAsync();
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_GetSettings_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response response = client.GetSettings(null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("type").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_GetSettings_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response response = await client.GetSettingsAsync(null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("type").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_GetSettings_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response<SettingsListResult> response = client.GetSettings();
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_GetSettings_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
-
-            Response<SettingsListResult> response = await client.GetSettingsAsync();
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullBackup_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = null;
             Operation operation = client.FullBackup(WaitUntil.Completed, content);
@@ -839,11 +551,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullBackup_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackup_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = null;
             Operation operation = await client.FullBackupAsync(WaitUntil.Completed, content);
@@ -851,33 +563,33 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullBackup_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_FullBackup_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Operation operation = client.FullBackup(WaitUntil.Completed);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullBackup_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackup_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Operation operation = await client.FullBackupAsync(WaitUntil.Completed);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullBackup_AllParameters()
+        public void Example_BackupRestoreRestClient_FullBackup_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -890,11 +602,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullBackup_AllParameters_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackup_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -907,11 +619,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullBackup_AllParameters_Convenience()
+        public void Example_BackupRestoreRestClient_FullBackup_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             SASTokenParameter azureStorageBlobContainerUri = new SASTokenParameter("<storageResourceUri>")
             {
@@ -923,11 +635,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullBackup_AllParameters_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackup_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             SASTokenParameter azureStorageBlobContainerUri = new SASTokenParameter("<storageResourceUri>")
             {
@@ -939,11 +651,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullRestoreOperation_ShortVersion()
+        public void Example_BackupRestoreRestClient_FullRestoreOperation_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -958,11 +670,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullRestoreOperation_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -977,11 +689,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullRestoreOperation_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_FullRestoreOperation_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>"), "<folderToRestore>");
             Operation operation = client.FullRestoreOperation(WaitUntil.Completed, restoreBlobDetails);
@@ -989,11 +701,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullRestoreOperation_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>"), "<folderToRestore>");
             Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, restoreBlobDetails);
@@ -1001,11 +713,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullRestoreOperation_AllParameters()
+        public void Example_BackupRestoreRestClient_FullRestoreOperation_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -1022,11 +734,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullRestoreOperation_AllParameters_Async()
+        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -1043,11 +755,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_FullRestoreOperation_AllParameters_Convenience()
+        public void Example_BackupRestoreRestClient_FullRestoreOperation_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
             {
@@ -1059,11 +771,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_FullRestoreOperation_AllParameters_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
             {
@@ -1075,11 +787,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_SelectiveKeyRestoreOperation_ShortVersion()
+        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = null;
             Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", content);
@@ -1087,11 +799,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_SelectiveKeyRestoreOperation_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = null;
             Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", content);
@@ -1099,33 +811,33 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_SelectiveKeyRestoreOperation_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_SelectiveKeyRestoreOperation_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_SelectiveKeyRestoreOperation_AllParameters()
+        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -1142,11 +854,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_SelectiveKeyRestoreOperation_AllParameters_Async()
+        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -1163,11 +875,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_KeyVault_SelectiveKeyRestoreOperation_AllParameters_Convenience()
+        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             SelectiveKeyRestoreOperationParameters restoreBlobDetails = new SelectiveKeyRestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
             {
@@ -1179,11 +891,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_KeyVault_SelectiveKeyRestoreOperation_AllParameters_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            KeyVaultClient client = new KeyVaultClient(endpoint, credential);
+            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             SelectiveKeyRestoreOperationParameters restoreBlobDetails = new SelectiveKeyRestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
             {

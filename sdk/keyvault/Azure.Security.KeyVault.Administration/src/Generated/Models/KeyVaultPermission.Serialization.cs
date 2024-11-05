@@ -10,19 +10,20 @@ using System.ClientModel.Primitives;
 using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
+using Azure.Security.KeyVault.Administration.Models;
 
-namespace Azure.Security.KeyVault.Administration.Models
+namespace Azure.Security.KeyVault.Administration
 {
-    public partial class Permission : IUtf8JsonSerializable, IJsonModel<Permission>
+    public partial class KeyVaultPermission : IUtf8JsonSerializable, IJsonModel<KeyVaultPermission>
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<Permission>)this).Write(writer, ModelSerializationExtensions.WireOptions);
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<KeyVaultPermission>)this).Write(writer, ModelSerializationExtensions.WireOptions);
 
-        void IJsonModel<Permission>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+        void IJsonModel<KeyVaultPermission>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<Permission>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultPermission>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(Permission)} does not support writing '{format}' format.");
+                throw new FormatException($"The model {nameof(KeyVaultPermission)} does not support writing '{format}' format.");
             }
 
             writer.WriteStartObject();
@@ -84,19 +85,19 @@ namespace Azure.Security.KeyVault.Administration.Models
             writer.WriteEndObject();
         }
 
-        Permission IJsonModel<Permission>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
+        KeyVaultPermission IJsonModel<KeyVaultPermission>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<Permission>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultPermission>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(Permission)} does not support reading '{format}' format.");
+                throw new FormatException($"The model {nameof(KeyVaultPermission)} does not support reading '{format}' format.");
             }
 
             using JsonDocument document = JsonDocument.ParseValue(ref reader);
-            return DeserializePermission(document.RootElement, options);
+            return DeserializeKeyVaultPermission(document.RootElement, options);
         }
 
-        internal static Permission DeserializePermission(JsonElement element, ModelReaderWriterOptions options = null)
+        internal static KeyVaultPermission DeserializeKeyVaultPermission(JsonElement element, ModelReaderWriterOptions options = null)
         {
             options ??= ModelSerializationExtensions.WireOptions;
 
@@ -106,8 +107,8 @@ namespace Azure.Security.KeyVault.Administration.Models
             }
             IList<string> actions = default;
             IList<string> notActions = default;
-            IList<DataAction> dataActions = default;
-            IList<DataAction> notDataActions = default;
+            IList<KeyVaultDataAction> dataActions = default;
+            IList<KeyVaultDataAction> notDataActions = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
             foreach (var property in element.EnumerateObject())
@@ -146,10 +147,10 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    List<DataAction> array = new List<DataAction>();
+                    List<KeyVaultDataAction> array = new List<KeyVaultDataAction>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(new DataAction(item.GetString()));
+                        array.Add(new KeyVaultDataAction(item.GetString()));
                     }
                     dataActions = array;
                     continue;
@@ -160,10 +161,10 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    List<DataAction> array = new List<DataAction>();
+                    List<KeyVaultDataAction> array = new List<KeyVaultDataAction>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(new DataAction(item.GetString()));
+                        array.Add(new KeyVaultDataAction(item.GetString()));
                     }
                     notDataActions = array;
                     continue;
@@ -174,46 +175,46 @@ namespace Azure.Security.KeyVault.Administration.Models
                 }
             }
             serializedAdditionalRawData = rawDataDictionary;
-            return new Permission(actions ?? new ChangeTrackingList<string>(), notActions ?? new ChangeTrackingList<string>(), dataActions ?? new ChangeTrackingList<DataAction>(), notDataActions ?? new ChangeTrackingList<DataAction>(), serializedAdditionalRawData);
+            return new KeyVaultPermission(actions ?? new ChangeTrackingList<string>(), notActions ?? new ChangeTrackingList<string>(), dataActions ?? new ChangeTrackingList<KeyVaultDataAction>(), notDataActions ?? new ChangeTrackingList<KeyVaultDataAction>(), serializedAdditionalRawData);
         }
 
-        BinaryData IPersistableModel<Permission>.Write(ModelReaderWriterOptions options)
+        BinaryData IPersistableModel<KeyVaultPermission>.Write(ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<Permission>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultPermission>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     return ModelReaderWriter.Write(this, options);
                 default:
-                    throw new FormatException($"The model {nameof(Permission)} does not support writing '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(KeyVaultPermission)} does not support writing '{options.Format}' format.");
             }
         }
 
-        Permission IPersistableModel<Permission>.Create(BinaryData data, ModelReaderWriterOptions options)
+        KeyVaultPermission IPersistableModel<KeyVaultPermission>.Create(BinaryData data, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<Permission>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultPermission>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     {
                         using JsonDocument document = JsonDocument.Parse(data);
-                        return DeserializePermission(document.RootElement, options);
+                        return DeserializeKeyVaultPermission(document.RootElement, options);
                     }
                 default:
-                    throw new FormatException($"The model {nameof(Permission)} does not support reading '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(KeyVaultPermission)} does not support reading '{options.Format}' format.");
             }
         }
 
-        string IPersistableModel<Permission>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
+        string IPersistableModel<KeyVaultPermission>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
 
         /// <summary> Deserializes the model from a raw response. </summary>
         /// <param name="response"> The response to deserialize the model from. </param>
-        internal static Permission FromResponse(Response response)
+        internal static KeyVaultPermission FromResponse(Response response)
         {
             using var document = JsonDocument.Parse(response.Content);
-            return DeserializePermission(document.RootElement);
+            return DeserializeKeyVaultPermission(document.RootElement);
         }
 
         /// <summary> Convert into a <see cref="RequestContent"/>. </summary>

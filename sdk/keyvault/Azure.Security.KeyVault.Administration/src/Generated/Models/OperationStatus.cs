@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace Azure.Security.KeyVault.Administration.Models
 {
     /// <summary> The status of a long-running operation. </summary>
-    public readonly partial struct OperationStatus : IEquatable<OperationStatus>
+    internal readonly partial struct OperationStatus : IEquatable<OperationStatus>
     {
         private readonly string _value;
 

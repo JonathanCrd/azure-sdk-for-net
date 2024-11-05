@@ -13,7 +13,7 @@ using Azure.Core;
 
 namespace Azure.Security.KeyVault.Administration.Models
 {
-    public partial class SelectiveKeyRestoreOperationParameters : IUtf8JsonSerializable, IJsonModel<SelectiveKeyRestoreOperationParameters>
+    internal partial class SelectiveKeyRestoreOperationParameters : IUtf8JsonSerializable, IJsonModel<SelectiveKeyRestoreOperationParameters>
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<SelectiveKeyRestoreOperationParameters>)this).Write(writer, ModelSerializationExtensions.WireOptions);
 

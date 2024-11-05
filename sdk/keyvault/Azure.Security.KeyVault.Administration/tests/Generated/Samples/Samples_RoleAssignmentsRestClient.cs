@@ -15,15 +15,15 @@ using NUnit.Framework;
 
 namespace Azure.Security.KeyVault.Administration.Samples
 {
-    public partial class Samples_RoleAssignments
+    public partial class Samples_RoleAssignmentsRestClient
     {
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_Delete_ShortVersion()
+        public void Example_RoleAssignmentsRestClient_Delete_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             Response response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
 
@@ -33,11 +33,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_Delete_ShortVersion_Async()
+        public async Task Example_RoleAssignmentsRestClient_Delete_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             Response response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
 
@@ -47,33 +47,33 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_Delete_ShortVersion_Convenience()
+        public void Example_RoleAssignmentsRestClient_Delete_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response<RoleAssignment> response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+            Response<Models.KeyVaultRoleAssignment> response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_Delete_ShortVersion_Convenience_Async()
+        public async Task Example_RoleAssignmentsRestClient_Delete_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response<RoleAssignment> response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+            Response<Models.KeyVaultRoleAssignment> response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_Delete_AllParameters()
+        public void Example_RoleAssignmentsRestClient_Delete_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             Response response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
 
@@ -88,11 +88,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_Delete_AllParameters_Async()
+        public async Task Example_RoleAssignmentsRestClient_Delete_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             Response response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
 
@@ -107,33 +107,33 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_Delete_AllParameters_Convenience()
+        public void Example_RoleAssignmentsRestClient_Delete_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response<RoleAssignment> response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+            Response<Models.KeyVaultRoleAssignment> response = client.Delete(new Uri("http://localhost:3000"), "<roleAssignmentName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_Delete_AllParameters_Convenience_Async()
+        public async Task Example_RoleAssignmentsRestClient_Delete_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response<RoleAssignment> response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+            Response<Models.KeyVaultRoleAssignment> response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_Create_ShortVersion()
+        public void Example_RoleAssignmentsRestClient_Create_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -151,11 +151,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_Create_ShortVersion_Async()
+        public async Task Example_RoleAssignmentsRestClient_Create_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -173,35 +173,35 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_Create_ShortVersion_Convenience()
+        public void Example_RoleAssignmentsRestClient_Create_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters(new RoleAssignmentProperties("<roleDefinitionId>", "<principalId>"));
-            Response<RoleAssignment> response = client.Create(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
+            Response<Models.KeyVaultRoleAssignment> response = client.Create(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_Create_ShortVersion_Convenience_Async()
+        public async Task Example_RoleAssignmentsRestClient_Create_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters(new RoleAssignmentProperties("<roleDefinitionId>", "<principalId>"));
-            Response<RoleAssignment> response = await client.CreateAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
+            Response<Models.KeyVaultRoleAssignment> response = await client.CreateAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_Create_AllParameters()
+        public void Example_RoleAssignmentsRestClient_Create_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -224,11 +224,11 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_Create_AllParameters_Async()
+        public async Task Example_RoleAssignmentsRestClient_Create_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
@@ -251,37 +251,37 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_Create_AllParameters_Convenience()
+        public void Example_RoleAssignmentsRestClient_Create_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters(new RoleAssignmentProperties("<roleDefinitionId>", "<principalId>"));
-            Response<RoleAssignment> response = client.Create(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
+            Response<Models.KeyVaultRoleAssignment> response = client.Create(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_Create_AllParameters_Convenience_Async()
+        public async Task Example_RoleAssignmentsRestClient_Create_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
             RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters(new RoleAssignmentProperties("<roleDefinitionId>", "<principalId>"));
-            Response<RoleAssignment> response = await client.CreateAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
+            Response<Models.KeyVaultRoleAssignment> response = await client.CreateAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", parameters);
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_GetRoleAssignment_ShortVersion()
+        public void Example_RoleAssignmentsRestClient_GetRoleAssignmentsRestClient_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response response = client.GetRoleAssignment(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+            Response response = client.GetRoleAssignmentsRestClient(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -289,13 +289,13 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_GetRoleAssignment_ShortVersion_Async()
+        public async Task Example_RoleAssignmentsRestClient_GetRoleAssignmentsRestClient_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response response = await client.GetRoleAssignmentAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+            Response response = await client.GetRoleAssignmentsRestClientAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -303,35 +303,35 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_GetRoleAssignment_ShortVersion_Convenience()
+        public void Example_RoleAssignmentsRestClient_GetRoleAssignmentsRestClient_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response<RoleAssignment> response = client.GetRoleAssignment(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+            Response<Models.KeyVaultRoleAssignment> response = client.GetRoleAssignmentsRestClient(new Uri("http://localhost:3000"), "<roleAssignmentName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_GetRoleAssignment_ShortVersion_Convenience_Async()
+        public async Task Example_RoleAssignmentsRestClient_GetRoleAssignmentsRestClient_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response<RoleAssignment> response = await client.GetRoleAssignmentAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+            Response<Models.KeyVaultRoleAssignment> response = await client.GetRoleAssignmentsRestClientAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_GetRoleAssignment_AllParameters()
+        public void Example_RoleAssignmentsRestClient_GetRoleAssignmentsRestClient_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response response = client.GetRoleAssignment(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+            Response response = client.GetRoleAssignmentsRestClient(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.GetProperty("id").ToString());
@@ -344,13 +344,13 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_GetRoleAssignment_AllParameters_Async()
+        public async Task Example_RoleAssignmentsRestClient_GetRoleAssignmentsRestClient_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response response = await client.GetRoleAssignmentAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
+            Response response = await client.GetRoleAssignmentsRestClientAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.GetProperty("id").ToString());
@@ -363,35 +363,35 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_GetRoleAssignment_AllParameters_Convenience()
+        public void Example_RoleAssignmentsRestClient_GetRoleAssignmentsRestClient_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response<RoleAssignment> response = client.GetRoleAssignment(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+            Response<Models.KeyVaultRoleAssignment> response = client.GetRoleAssignmentsRestClient(new Uri("http://localhost:3000"), "<roleAssignmentName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_GetRoleAssignment_AllParameters_Convenience_Async()
+        public async Task Example_RoleAssignmentsRestClient_GetRoleAssignmentsRestClient_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            Response<RoleAssignment> response = await client.GetRoleAssignmentAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
+            Response<Models.KeyVaultRoleAssignment> response = await client.GetRoleAssignmentsRestClientAsync(new Uri("http://localhost:3000"), "<roleAssignmentName>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_GetForScopes_ShortVersion()
+        public void Example_RoleAssignmentsRestClient_GetResults_ShortVersion()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            foreach (BinaryData item in client.GetForScopes(new Uri("http://localhost:3000"), null, null))
+            foreach (BinaryData item in client.GetResults(new Uri("http://localhost:3000"), null, null))
             {
                 JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
                 Console.WriteLine(result.ToString());
@@ -400,13 +400,13 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_GetForScopes_ShortVersion_Async()
+        public async Task Example_RoleAssignmentsRestClient_GetResults_ShortVersion_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            await foreach (BinaryData item in client.GetForScopesAsync(new Uri("http://localhost:3000"), null, null))
+            await foreach (BinaryData item in client.GetResultsAsync(new Uri("http://localhost:3000"), null, null))
             {
                 JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
                 Console.WriteLine(result.ToString());
@@ -415,39 +415,39 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_GetForScopes_ShortVersion_Convenience()
+        public void Example_RoleAssignmentsRestClient_GetResults_ShortVersion_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            foreach (RoleAssignment item in client.GetForScopes(new Uri("http://localhost:3000")))
+            foreach (Models.KeyVaultRoleAssignment item in client.GetResults(new Uri("http://localhost:3000")))
             {
             }
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_GetForScopes_ShortVersion_Convenience_Async()
+        public async Task Example_RoleAssignmentsRestClient_GetResults_ShortVersion_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            await foreach (RoleAssignment item in client.GetForScopesAsync(new Uri("http://localhost:3000")))
+            await foreach (Models.KeyVaultRoleAssignment item in client.GetResultsAsync(new Uri("http://localhost:3000")))
             {
             }
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_GetForScopes_AllParameters()
+        public void Example_RoleAssignmentsRestClient_GetResults_AllParameters()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            foreach (BinaryData item in client.GetForScopes(new Uri("http://localhost:3000"), "<$filter>", null))
+            foreach (BinaryData item in client.GetResults(new Uri("http://localhost:3000"), "<$filter>", null))
             {
                 JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
                 Console.WriteLine(result.GetProperty("id").ToString());
@@ -461,13 +461,13 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_GetForScopes_AllParameters_Async()
+        public async Task Example_RoleAssignmentsRestClient_GetResults_AllParameters_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            await foreach (BinaryData item in client.GetForScopesAsync(new Uri("http://localhost:3000"), "<$filter>", null))
+            await foreach (BinaryData item in client.GetResultsAsync(new Uri("http://localhost:3000"), "<$filter>", null))
             {
                 JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
                 Console.WriteLine(result.GetProperty("id").ToString());
@@ -481,26 +481,26 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleAssignments_GetForScopes_AllParameters_Convenience()
+        public void Example_RoleAssignmentsRestClient_GetResults_AllParameters_Convenience()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            foreach (RoleAssignment item in client.GetForScopes(new Uri("http://localhost:3000"), filter: "<$filter>"))
+            foreach (Models.KeyVaultRoleAssignment item in client.GetResults(new Uri("http://localhost:3000"), filter: "<$filter>"))
             {
             }
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleAssignments_GetForScopes_AllParameters_Convenience_Async()
+        public async Task Example_RoleAssignmentsRestClient_GetResults_AllParameters_Convenience_Async()
         {
             Uri endpoint = new Uri("<https://my-service.azure.com>");
             TokenCredential credential = new DefaultAzureCredential();
-            RoleAssignments client = new KeyVaultClient(endpoint, credential).GetRoleAssignmentsClient();
+            RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-            await foreach (RoleAssignment item in client.GetForScopesAsync(new Uri("http://localhost:3000"), filter: "<$filter>"))
+            await foreach (Models.KeyVaultRoleAssignment item in client.GetResultsAsync(new Uri("http://localhost:3000"), filter: "<$filter>"))
             {
             }
         }

@@ -11,18 +11,18 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
-namespace Azure.Security.KeyVault.Administration.Models
+namespace Azure.Security.KeyVault.Administration
 {
-    public partial class RoleAssignmentPropertiesWithScope : IUtf8JsonSerializable, IJsonModel<RoleAssignmentPropertiesWithScope>
+    public partial class KeyVaultRoleAssignmentProperties : IUtf8JsonSerializable, IJsonModel<KeyVaultRoleAssignmentProperties>
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<RoleAssignmentPropertiesWithScope>)this).Write(writer, ModelSerializationExtensions.WireOptions);
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<KeyVaultRoleAssignmentProperties>)this).Write(writer, ModelSerializationExtensions.WireOptions);
 
-        void IJsonModel<RoleAssignmentPropertiesWithScope>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+        void IJsonModel<KeyVaultRoleAssignmentProperties>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<RoleAssignmentPropertiesWithScope>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultRoleAssignmentProperties>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(RoleAssignmentPropertiesWithScope)} does not support writing '{format}' format.");
+                throw new FormatException($"The model {nameof(KeyVaultRoleAssignmentProperties)} does not support writing '{format}' format.");
             }
 
             writer.WriteStartObject();
@@ -59,19 +59,19 @@ namespace Azure.Security.KeyVault.Administration.Models
             writer.WriteEndObject();
         }
 
-        RoleAssignmentPropertiesWithScope IJsonModel<RoleAssignmentPropertiesWithScope>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
+        KeyVaultRoleAssignmentProperties IJsonModel<KeyVaultRoleAssignmentProperties>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<RoleAssignmentPropertiesWithScope>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultRoleAssignmentProperties>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(RoleAssignmentPropertiesWithScope)} does not support reading '{format}' format.");
+                throw new FormatException($"The model {nameof(KeyVaultRoleAssignmentProperties)} does not support reading '{format}' format.");
             }
 
             using JsonDocument document = JsonDocument.ParseValue(ref reader);
-            return DeserializeRoleAssignmentPropertiesWithScope(document.RootElement, options);
+            return DeserializeKeyVaultRoleAssignmentProperties(document.RootElement, options);
         }
 
-        internal static RoleAssignmentPropertiesWithScope DeserializeRoleAssignmentPropertiesWithScope(JsonElement element, ModelReaderWriterOptions options = null)
+        internal static KeyVaultRoleAssignmentProperties DeserializeKeyVaultRoleAssignmentProperties(JsonElement element, ModelReaderWriterOptions options = null)
         {
             options ??= ModelSerializationExtensions.WireOptions;
 
@@ -79,7 +79,7 @@ namespace Azure.Security.KeyVault.Administration.Models
             {
                 return null;
             }
-            RoleScope? scope = default;
+            KeyVaultRoleScope? scope = default;
             string roleDefinitionId = default;
             string principalId = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
@@ -92,7 +92,7 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    scope = new RoleScope(property.Value.GetString());
+                    scope = new KeyVaultRoleScope(property.Value.GetString());
                     continue;
                 }
                 if (property.NameEquals("roleDefinitionId"u8))
@@ -111,47 +111,39 @@ namespace Azure.Security.KeyVault.Administration.Models
                 }
             }
             serializedAdditionalRawData = rawDataDictionary;
-            return new RoleAssignmentPropertiesWithScope(scope, roleDefinitionId, principalId, serializedAdditionalRawData);
+            return new KeyVaultRoleAssignmentProperties(scope, roleDefinitionId, principalId, serializedAdditionalRawData);
         }
 
-        BinaryData IPersistableModel<RoleAssignmentPropertiesWithScope>.Write(ModelReaderWriterOptions options)
+        BinaryData IPersistableModel<KeyVaultRoleAssignmentProperties>.Write(ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<RoleAssignmentPropertiesWithScope>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultRoleAssignmentProperties>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     return ModelReaderWriter.Write(this, options);
                 default:
-                    throw new FormatException($"The model {nameof(RoleAssignmentPropertiesWithScope)} does not support writing '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(KeyVaultRoleAssignmentProperties)} does not support writing '{options.Format}' format.");
             }
         }
 
-        RoleAssignmentPropertiesWithScope IPersistableModel<RoleAssignmentPropertiesWithScope>.Create(BinaryData data, ModelReaderWriterOptions options)
+        KeyVaultRoleAssignmentProperties IPersistableModel<KeyVaultRoleAssignmentProperties>.Create(BinaryData data, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<RoleAssignmentPropertiesWithScope>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<KeyVaultRoleAssignmentProperties>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     {
                         using JsonDocument document = JsonDocument.Parse(data);
-                        return DeserializeRoleAssignmentPropertiesWithScope(document.RootElement, options);
+                        return DeserializeKeyVaultRoleAssignmentProperties(document.RootElement, options);
                     }
                 default:
-                    throw new FormatException($"The model {nameof(RoleAssignmentPropertiesWithScope)} does not support reading '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(KeyVaultRoleAssignmentProperties)} does not support reading '{options.Format}' format.");
             }
         }
 
-        string IPersistableModel<RoleAssignmentPropertiesWithScope>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
-
-        /// <summary> Deserializes the model from a raw response. </summary>
-        /// <param name="response"> The response to deserialize the model from. </param>
-        internal static RoleAssignmentPropertiesWithScope FromResponse(Response response)
-        {
-            using var document = JsonDocument.Parse(response.Content);
-            return DeserializeRoleAssignmentPropertiesWithScope(document.RootElement);
-        }
+        string IPersistableModel<KeyVaultRoleAssignmentProperties>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
 
         /// <summary> Convert into a <see cref="RequestContent"/>. </summary>
         internal virtual RequestContent ToRequestContent()

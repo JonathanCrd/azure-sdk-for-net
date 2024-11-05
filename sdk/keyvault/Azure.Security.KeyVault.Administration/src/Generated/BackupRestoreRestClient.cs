@@ -10,13 +10,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Azure.Core;
 using Azure.Core.Pipeline;
-using Azure.Security.KeyVault.Administration.Models;
 
-namespace Azure.Security.KeyVault.Administration
+namespace Azure.Security.KeyVault.Administration.Models
 {
     // Data plane generated client.
-    /// <summary> The KeyVault service client. </summary>
-    public partial class KeyVaultClient
+    /// <summary> The BackupRestoreRest service client. </summary>
+    internal partial class BackupRestoreRestClient
     {
         private static readonly string[] AuthorizationScopes = new string[] { "https://vault.azure.net/.default" };
         private readonly TokenCredential _tokenCredential;
@@ -30,29 +29,29 @@ namespace Azure.Security.KeyVault.Administration
         /// <summary> The HTTP pipeline for sending and receiving REST requests and responses. </summary>
         public virtual HttpPipeline Pipeline => _pipeline;
 
-        /// <summary> Initializes a new instance of KeyVaultClient for mocking. </summary>
-        protected KeyVaultClient()
+        /// <summary> Initializes a new instance of BackupRestoreRestClient for mocking. </summary>
+        protected BackupRestoreRestClient()
         {
         }
 
-        /// <summary> Initializes a new instance of KeyVaultClient. </summary>
+        /// <summary> Initializes a new instance of BackupRestoreRestClient. </summary>
         /// <param name="endpoint"> The <see cref="Uri"/> to use. </param>
         /// <param name="credential"> A credential used to authenticate to an Azure Service. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> or <paramref name="credential"/> is null. </exception>
-        public KeyVaultClient(Uri endpoint, TokenCredential credential) : this(endpoint, credential, new KeyVaultClientOptions())
+        public BackupRestoreRestClient(Uri endpoint, TokenCredential credential) : this(endpoint, credential, new AzureSecurityKeyVaultAdministrationClientOptions())
         {
         }
 
-        /// <summary> Initializes a new instance of KeyVaultClient. </summary>
+        /// <summary> Initializes a new instance of BackupRestoreRestClient. </summary>
         /// <param name="endpoint"> The <see cref="Uri"/> to use. </param>
         /// <param name="credential"> A credential used to authenticate to an Azure Service. </param>
         /// <param name="options"> The options for configuring the client. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> or <paramref name="credential"/> is null. </exception>
-        public KeyVaultClient(Uri endpoint, TokenCredential credential, KeyVaultClientOptions options)
+        public BackupRestoreRestClient(Uri endpoint, TokenCredential credential, AzureSecurityKeyVaultAdministrationClientOptions options)
         {
             Argument.AssertNotNull(endpoint, nameof(endpoint));
             Argument.AssertNotNull(credential, nameof(credential));
-            options ??= new KeyVaultClientOptions();
+            options ??= new AzureSecurityKeyVaultAdministrationClientOptions();
 
             ClientDiagnostics = new ClientDiagnostics(options, true);
             _tokenCredential = credential;
@@ -66,14 +65,14 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="jobId"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="jobId"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullBackupStatusAsync(string,CancellationToken)']/*" />
-        public virtual async Task<Response<FullBackupOperation>> FullBackupStatusAsync(string jobId, CancellationToken cancellationToken = default)
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackupStatusAsync(string,CancellationToken)']/*" />
+        public virtual async Task<Response<FullBackupDetailsInternal>> FullBackupStatusAsync(string jobId, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(jobId, nameof(jobId));
 
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = await FullBackupStatusAsync(jobId, context).ConfigureAwait(false);
-            return Response.FromValue(FullBackupOperation.FromResponse(response), response);
+            return Response.FromValue(FullBackupDetailsInternal.FromResponse(response), response);
         }
 
         /// <summary> Returns the status of full backup operation. </summary>
@@ -81,14 +80,14 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="jobId"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="jobId"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullBackupStatus(string,CancellationToken)']/*" />
-        public virtual Response<FullBackupOperation> FullBackupStatus(string jobId, CancellationToken cancellationToken = default)
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackupStatus(string,CancellationToken)']/*" />
+        public virtual Response<FullBackupDetailsInternal> FullBackupStatus(string jobId, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(jobId, nameof(jobId));
 
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = FullBackupStatus(jobId, context);
-            return Response.FromValue(FullBackupOperation.FromResponse(response), response);
+            return Response.FromValue(FullBackupDetailsInternal.FromResponse(response), response);
         }
 
         /// <summary>
@@ -112,12 +111,12 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentException"> <paramref name="jobId"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullBackupStatusAsync(string,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackupStatusAsync(string,RequestContext)']/*" />
         public virtual async Task<Response> FullBackupStatusAsync(string jobId, RequestContext context)
         {
             Argument.AssertNotNullOrEmpty(jobId, nameof(jobId));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.FullBackupStatus");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullBackupStatus");
             scope.Start();
             try
             {
@@ -152,12 +151,12 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentException"> <paramref name="jobId"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullBackupStatus(string,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackupStatus(string,RequestContext)']/*" />
         public virtual Response FullBackupStatus(string jobId, RequestContext context)
         {
             Argument.AssertNotNullOrEmpty(jobId, nameof(jobId));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.FullBackupStatus");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullBackupStatus");
             scope.Start();
             try
             {
@@ -177,13 +176,13 @@ namespace Azure.Security.KeyVault.Administration
         /// </summary>
         /// <param name="preBackupOperationParameters"> Optional parameters to validate prior to performing a full backup operation. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='PreFullBackupAsync(PreBackupOperationParameters,CancellationToken)']/*" />
-        public virtual async Task<Response<FullBackupOperation>> PreFullBackupAsync(PreBackupOperationParameters preBackupOperationParameters = null, CancellationToken cancellationToken = default)
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackupAsync(PreBackupOperationParameters,CancellationToken)']/*" />
+        public virtual async Task<Response<FullBackupDetailsInternal>> PreFullBackupAsync(PreBackupOperationParameters preBackupOperationParameters = null, CancellationToken cancellationToken = default)
         {
             using RequestContent content = preBackupOperationParameters?.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = await PreFullBackupAsync(content, context).ConfigureAwait(false);
-            return Response.FromValue(FullBackupOperation.FromResponse(response), response);
+            return Response.FromValue(FullBackupDetailsInternal.FromResponse(response), response);
         }
 
         /// <summary>
@@ -192,13 +191,13 @@ namespace Azure.Security.KeyVault.Administration
         /// </summary>
         /// <param name="preBackupOperationParameters"> Optional parameters to validate prior to performing a full backup operation. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='PreFullBackup(PreBackupOperationParameters,CancellationToken)']/*" />
-        public virtual Response<FullBackupOperation> PreFullBackup(PreBackupOperationParameters preBackupOperationParameters = null, CancellationToken cancellationToken = default)
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackup(PreBackupOperationParameters,CancellationToken)']/*" />
+        public virtual Response<FullBackupDetailsInternal> PreFullBackup(PreBackupOperationParameters preBackupOperationParameters = null, CancellationToken cancellationToken = default)
         {
             using RequestContent content = preBackupOperationParameters?.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = PreFullBackup(content, context);
-            return Response.FromValue(FullBackupOperation.FromResponse(response), response);
+            return Response.FromValue(FullBackupDetailsInternal.FromResponse(response), response);
         }
 
         /// <summary>
@@ -221,10 +220,10 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='PreFullBackupAsync(RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackupAsync(RequestContent,RequestContext)']/*" />
         public virtual async Task<Response> PreFullBackupAsync(RequestContent content, RequestContext context = null)
         {
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.PreFullBackup");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullBackup");
             scope.Start();
             try
             {
@@ -258,10 +257,10 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='PreFullBackup(RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackup(RequestContent,RequestContext)']/*" />
         public virtual Response PreFullBackup(RequestContent content, RequestContext context = null)
         {
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.PreFullBackup");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullBackup");
             scope.Start();
             try
             {
@@ -280,14 +279,14 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="jobId"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="jobId"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='RestoreStatusAsync(string,CancellationToken)']/*" />
-        public virtual async Task<Response<RestoreOperation>> RestoreStatusAsync(string jobId, CancellationToken cancellationToken = default)
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='RestoreStatusAsync(string,CancellationToken)']/*" />
+        public virtual async Task<Response<RestoreDetailsInternal>> RestoreStatusAsync(string jobId, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(jobId, nameof(jobId));
 
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = await RestoreStatusAsync(jobId, context).ConfigureAwait(false);
-            return Response.FromValue(RestoreOperation.FromResponse(response), response);
+            return Response.FromValue(RestoreDetailsInternal.FromResponse(response), response);
         }
 
         /// <summary> Returns the status of restore operation. </summary>
@@ -295,14 +294,14 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="jobId"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="jobId"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='RestoreStatus(string,CancellationToken)']/*" />
-        public virtual Response<RestoreOperation> RestoreStatus(string jobId, CancellationToken cancellationToken = default)
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='RestoreStatus(string,CancellationToken)']/*" />
+        public virtual Response<RestoreDetailsInternal> RestoreStatus(string jobId, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(jobId, nameof(jobId));
 
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = RestoreStatus(jobId, context);
-            return Response.FromValue(RestoreOperation.FromResponse(response), response);
+            return Response.FromValue(RestoreDetailsInternal.FromResponse(response), response);
         }
 
         /// <summary>
@@ -326,12 +325,12 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentException"> <paramref name="jobId"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='RestoreStatusAsync(string,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='RestoreStatusAsync(string,RequestContext)']/*" />
         public virtual async Task<Response> RestoreStatusAsync(string jobId, RequestContext context)
         {
             Argument.AssertNotNullOrEmpty(jobId, nameof(jobId));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.RestoreStatus");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.RestoreStatus");
             scope.Start();
             try
             {
@@ -366,12 +365,12 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentException"> <paramref name="jobId"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='RestoreStatus(string,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='RestoreStatus(string,RequestContext)']/*" />
         public virtual Response RestoreStatus(string jobId, RequestContext context)
         {
             Argument.AssertNotNullOrEmpty(jobId, nameof(jobId));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.RestoreStatus");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.RestoreStatus");
             scope.Start();
             try
             {
@@ -392,15 +391,15 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="preRestoreOperationParameters"> Optional pre restore parameters to validate prior to performing a full restore operation. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="preRestoreOperationParameters"/> is null. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='PreFullRestoreOperationAsync(PreRestoreOperationParameters,CancellationToken)']/*" />
-        public virtual async Task<Response<RestoreOperation>> PreFullRestoreOperationAsync(PreRestoreOperationParameters preRestoreOperationParameters, CancellationToken cancellationToken = default)
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperationAsync(PreRestoreOperationParameters,CancellationToken)']/*" />
+        public virtual async Task<Response<RestoreDetailsInternal>> PreFullRestoreOperationAsync(PreRestoreOperationParameters preRestoreOperationParameters, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNull(preRestoreOperationParameters, nameof(preRestoreOperationParameters));
 
             using RequestContent content = preRestoreOperationParameters.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = await PreFullRestoreOperationAsync(content, context).ConfigureAwait(false);
-            return Response.FromValue(RestoreOperation.FromResponse(response), response);
+            return Response.FromValue(RestoreDetailsInternal.FromResponse(response), response);
         }
 
         /// <summary>
@@ -410,15 +409,15 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="preRestoreOperationParameters"> Optional pre restore parameters to validate prior to performing a full restore operation. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="preRestoreOperationParameters"/> is null. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='PreFullRestoreOperation(PreRestoreOperationParameters,CancellationToken)']/*" />
-        public virtual Response<RestoreOperation> PreFullRestoreOperation(PreRestoreOperationParameters preRestoreOperationParameters, CancellationToken cancellationToken = default)
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperation(PreRestoreOperationParameters,CancellationToken)']/*" />
+        public virtual Response<RestoreDetailsInternal> PreFullRestoreOperation(PreRestoreOperationParameters preRestoreOperationParameters, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNull(preRestoreOperationParameters, nameof(preRestoreOperationParameters));
 
             using RequestContent content = preRestoreOperationParameters.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
             Response response = PreFullRestoreOperation(content, context);
-            return Response.FromValue(RestoreOperation.FromResponse(response), response);
+            return Response.FromValue(RestoreDetailsInternal.FromResponse(response), response);
         }
 
         /// <summary>
@@ -442,12 +441,12 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='PreFullRestoreOperationAsync(RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperationAsync(RequestContent,RequestContext)']/*" />
         public virtual async Task<Response> PreFullRestoreOperationAsync(RequestContent content, RequestContext context = null)
         {
             Argument.AssertNotNull(content, nameof(content));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.PreFullRestoreOperation");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullRestoreOperation");
             scope.Start();
             try
             {
@@ -482,294 +481,16 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='PreFullRestoreOperation(RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperation(RequestContent,RequestContext)']/*" />
         public virtual Response PreFullRestoreOperation(RequestContent content, RequestContext context = null)
         {
             Argument.AssertNotNull(content, nameof(content));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.PreFullRestoreOperation");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullRestoreOperation");
             scope.Start();
             try
             {
                 using HttpMessage message = CreatePreFullRestoreOperationRequest(content, context);
-                return _pipeline.ProcessMessage(message, context);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// [Protocol Method] Updates key vault account setting, stores it, then returns the setting name and value to the client.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="settingName"> The name of the account setting. Must be a valid settings option. </param>
-        /// <param name="content"> The content to send as the body of the request. </param>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="settingName"/> or <paramref name="content"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="settingName"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='UpdateSettingAsync(string,RequestContent,RequestContext)']/*" />
-        public virtual async Task<Response> UpdateSettingAsync(string settingName, RequestContent content, RequestContext context = null)
-        {
-            Argument.AssertNotNullOrEmpty(settingName, nameof(settingName));
-            Argument.AssertNotNull(content, nameof(content));
-
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.UpdateSetting");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreateUpdateSettingRequest(settingName, content, context);
-                return await _pipeline.ProcessMessageAsync(message, context).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// [Protocol Method] Updates key vault account setting, stores it, then returns the setting name and value to the client.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="settingName"> The name of the account setting. Must be a valid settings option. </param>
-        /// <param name="content"> The content to send as the body of the request. </param>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="settingName"/> or <paramref name="content"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="settingName"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='UpdateSetting(string,RequestContent,RequestContext)']/*" />
-        public virtual Response UpdateSetting(string settingName, RequestContent content, RequestContext context = null)
-        {
-            Argument.AssertNotNullOrEmpty(settingName, nameof(settingName));
-            Argument.AssertNotNull(content, nameof(content));
-
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.UpdateSetting");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreateUpdateSettingRequest(settingName, content, context);
-                return _pipeline.ProcessMessage(message, context);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get specified account setting object. </summary>
-        /// <param name="settingName"> The name of the account setting. Must be a valid settings option. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="settingName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="settingName"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <remarks> Retrieves the setting object of a specified setting name. </remarks>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSettingAsync(string,CancellationToken)']/*" />
-        public virtual async Task<Response<KeyVaultSetting>> GetSettingAsync(string settingName, CancellationToken cancellationToken = default)
-        {
-            Argument.AssertNotNullOrEmpty(settingName, nameof(settingName));
-
-            RequestContext context = FromCancellationToken(cancellationToken);
-            Response response = await GetSettingAsync(settingName, context).ConfigureAwait(false);
-            return Response.FromValue(KeyVaultSetting.FromResponse(response), response);
-        }
-
-        /// <summary> Get specified account setting object. </summary>
-        /// <param name="settingName"> The name of the account setting. Must be a valid settings option. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="settingName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="settingName"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <remarks> Retrieves the setting object of a specified setting name. </remarks>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSetting(string,CancellationToken)']/*" />
-        public virtual Response<KeyVaultSetting> GetSetting(string settingName, CancellationToken cancellationToken = default)
-        {
-            Argument.AssertNotNullOrEmpty(settingName, nameof(settingName));
-
-            RequestContext context = FromCancellationToken(cancellationToken);
-            Response response = GetSetting(settingName, context);
-            return Response.FromValue(KeyVaultSetting.FromResponse(response), response);
-        }
-
-        /// <summary>
-        /// [Protocol Method] Get specified account setting object.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Please try the simpler <see cref="GetSettingAsync(string,CancellationToken)"/> convenience overload with strongly typed models first.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="settingName"> The name of the account setting. Must be a valid settings option. </param>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="settingName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="settingName"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSettingAsync(string,RequestContext)']/*" />
-        public virtual async Task<Response> GetSettingAsync(string settingName, RequestContext context)
-        {
-            Argument.AssertNotNullOrEmpty(settingName, nameof(settingName));
-
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.GetSetting");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreateGetSettingRequest(settingName, context);
-                return await _pipeline.ProcessMessageAsync(message, context).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// [Protocol Method] Get specified account setting object.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Please try the simpler <see cref="GetSetting(string,CancellationToken)"/> convenience overload with strongly typed models first.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="settingName"> The name of the account setting. Must be a valid settings option. </param>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="settingName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="settingName"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSetting(string,RequestContext)']/*" />
-        public virtual Response GetSetting(string settingName, RequestContext context)
-        {
-            Argument.AssertNotNullOrEmpty(settingName, nameof(settingName));
-
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.GetSetting");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreateGetSettingRequest(settingName, context);
-                return _pipeline.ProcessMessage(message, context);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> List account settings. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Retrieves a list of all the available account settings that can be configured. </remarks>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSettingsAsync(CancellationToken)']/*" />
-        public virtual async Task<Response<SettingsListResult>> GetSettingsAsync(CancellationToken cancellationToken = default)
-        {
-            RequestContext context = FromCancellationToken(cancellationToken);
-            Response response = await GetSettingsAsync(context).ConfigureAwait(false);
-            return Response.FromValue(SettingsListResult.FromResponse(response), response);
-        }
-
-        /// <summary> List account settings. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Retrieves a list of all the available account settings that can be configured. </remarks>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSettings(CancellationToken)']/*" />
-        public virtual Response<SettingsListResult> GetSettings(CancellationToken cancellationToken = default)
-        {
-            RequestContext context = FromCancellationToken(cancellationToken);
-            Response response = GetSettings(context);
-            return Response.FromValue(SettingsListResult.FromResponse(response), response);
-        }
-
-        /// <summary>
-        /// [Protocol Method] List account settings.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Please try the simpler <see cref="GetSettingsAsync(CancellationToken)"/> convenience overload with strongly typed models first.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSettingsAsync(RequestContext)']/*" />
-        public virtual async Task<Response> GetSettingsAsync(RequestContext context)
-        {
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.GetSettings");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreateGetSettingsRequest(context);
-                return await _pipeline.ProcessMessageAsync(message, context).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// [Protocol Method] List account settings.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Please try the simpler <see cref="GetSettings(CancellationToken)"/> convenience overload with strongly typed models first.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='GetSettings(RequestContext)']/*" />
-        public virtual Response GetSettings(RequestContext context)
-        {
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.GetSettings");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreateGetSettingsRequest(context);
                 return _pipeline.ProcessMessage(message, context);
             }
             catch (Exception e)
@@ -789,7 +510,7 @@ namespace Azure.Security.KeyVault.Administration
         /// stored. This token needs to be valid for at least next 24 hours from the time of making this call.
         /// </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullBackupAsync(WaitUntil,SASTokenParameter,CancellationToken)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackupAsync(WaitUntil,SASTokenParameter,CancellationToken)']/*" />
         public virtual async Task<Operation> FullBackupAsync(WaitUntil waitUntil, SASTokenParameter azureStorageBlobContainerUri = null, CancellationToken cancellationToken = default)
         {
             using RequestContent content = azureStorageBlobContainerUri?.ToRequestContent();
@@ -807,7 +528,7 @@ namespace Azure.Security.KeyVault.Administration
         /// stored. This token needs to be valid for at least next 24 hours from the time of making this call.
         /// </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullBackup(WaitUntil,SASTokenParameter,CancellationToken)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackup(WaitUntil,SASTokenParameter,CancellationToken)']/*" />
         public virtual Operation FullBackup(WaitUntil waitUntil, SASTokenParameter azureStorageBlobContainerUri = null, CancellationToken cancellationToken = default)
         {
             using RequestContent content = azureStorageBlobContainerUri?.ToRequestContent();
@@ -836,15 +557,15 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullBackupAsync(WaitUntil,RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackupAsync(WaitUntil,RequestContent,RequestContext)']/*" />
         public virtual async Task<Operation> FullBackupAsync(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
         {
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.FullBackup");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullBackup");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateFullBackupRequest(content, context);
-                return await ProtocolOperationHelpers.ProcessMessageWithoutResponseValueAsync(_pipeline, message, ClientDiagnostics, "KeyVaultClient.FullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
+                return await ProtocolOperationHelpers.ProcessMessageWithoutResponseValueAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -874,15 +595,15 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullBackup(WaitUntil,RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackup(WaitUntil,RequestContent,RequestContext)']/*" />
         public virtual Operation FullBackup(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
         {
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.FullBackup");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullBackup");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateFullBackupRequest(content, context);
-                return ProtocolOperationHelpers.ProcessMessageWithoutResponseValue(_pipeline, message, ClientDiagnostics, "KeyVaultClient.FullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
+                return ProtocolOperationHelpers.ProcessMessageWithoutResponseValue(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
             }
             catch (Exception e)
             {
@@ -899,7 +620,7 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="restoreBlobDetails"> The Azure blob SAS token pointing to a folder where the previous successful full backup was stored. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="restoreBlobDetails"/> is null. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullRestoreOperationAsync(WaitUntil,RestoreOperationParameters,CancellationToken)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullRestoreOperationAsync(WaitUntil,RestoreOperationParameters,CancellationToken)']/*" />
         public virtual async Task<Operation> FullRestoreOperationAsync(WaitUntil waitUntil, RestoreOperationParameters restoreBlobDetails, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNull(restoreBlobDetails, nameof(restoreBlobDetails));
@@ -917,7 +638,7 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="restoreBlobDetails"> The Azure blob SAS token pointing to a folder where the previous successful full backup was stored. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="restoreBlobDetails"/> is null. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullRestoreOperation(WaitUntil,RestoreOperationParameters,CancellationToken)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullRestoreOperation(WaitUntil,RestoreOperationParameters,CancellationToken)']/*" />
         public virtual Operation FullRestoreOperation(WaitUntil waitUntil, RestoreOperationParameters restoreBlobDetails, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNull(restoreBlobDetails, nameof(restoreBlobDetails));
@@ -949,17 +670,17 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullRestoreOperationAsync(WaitUntil,RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullRestoreOperationAsync(WaitUntil,RequestContent,RequestContext)']/*" />
         public virtual async Task<Operation> FullRestoreOperationAsync(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
         {
             Argument.AssertNotNull(content, nameof(content));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.FullRestoreOperation");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullRestoreOperation");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateFullRestoreOperationRequest(content, context);
-                return await ProtocolOperationHelpers.ProcessMessageWithoutResponseValueAsync(_pipeline, message, ClientDiagnostics, "KeyVaultClient.FullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
+                return await ProtocolOperationHelpers.ProcessMessageWithoutResponseValueAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -990,17 +711,17 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='FullRestoreOperation(WaitUntil,RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullRestoreOperation(WaitUntil,RequestContent,RequestContext)']/*" />
         public virtual Operation FullRestoreOperation(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
         {
             Argument.AssertNotNull(content, nameof(content));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.FullRestoreOperation");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullRestoreOperation");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateFullRestoreOperationRequest(content, context);
-                return ProtocolOperationHelpers.ProcessMessageWithoutResponseValue(_pipeline, message, ClientDiagnostics, "KeyVaultClient.FullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
+                return ProtocolOperationHelpers.ProcessMessageWithoutResponseValue(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
             }
             catch (Exception e)
             {
@@ -1022,7 +743,7 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="keyName"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="keyName"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperationAsync(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperationAsync(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)']/*" />
         public virtual async Task<Operation> SelectiveKeyRestoreOperationAsync(WaitUntil waitUntil, string keyName, SelectiveKeyRestoreOperationParameters restoreBlobDetails = null, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(keyName, nameof(keyName));
@@ -1045,7 +766,7 @@ namespace Azure.Security.KeyVault.Administration
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="keyName"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="keyName"/> is an empty string, and was expected to be non-empty. </exception>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperation(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperation(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)']/*" />
         public virtual Operation SelectiveKeyRestoreOperation(WaitUntil waitUntil, string keyName, SelectiveKeyRestoreOperationParameters restoreBlobDetails = null, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(keyName, nameof(keyName));
@@ -1079,17 +800,17 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentException"> <paramref name="keyName"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperationAsync(WaitUntil,string,RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperationAsync(WaitUntil,string,RequestContent,RequestContext)']/*" />
         public virtual async Task<Operation> SelectiveKeyRestoreOperationAsync(WaitUntil waitUntil, string keyName, RequestContent content, RequestContext context = null)
         {
             Argument.AssertNotNullOrEmpty(keyName, nameof(keyName));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.SelectiveKeyRestoreOperation");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.SelectiveKeyRestoreOperation");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateSelectiveKeyRestoreOperationRequest(keyName, content, context);
-                return await ProtocolOperationHelpers.ProcessMessageWithoutResponseValueAsync(_pipeline, message, ClientDiagnostics, "KeyVaultClient.SelectiveKeyRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
+                return await ProtocolOperationHelpers.ProcessMessageWithoutResponseValueAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.SelectiveKeyRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -1122,54 +843,23 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentException"> <paramref name="keyName"/> is an empty string, and was expected to be non-empty. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
-        /// <include file="Docs/KeyVaultClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperation(WaitUntil,string,RequestContent,RequestContext)']/*" />
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperation(WaitUntil,string,RequestContent,RequestContext)']/*" />
         public virtual Operation SelectiveKeyRestoreOperation(WaitUntil waitUntil, string keyName, RequestContent content, RequestContext context = null)
         {
             Argument.AssertNotNullOrEmpty(keyName, nameof(keyName));
 
-            using var scope = ClientDiagnostics.CreateScope("KeyVaultClient.SelectiveKeyRestoreOperation");
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.SelectiveKeyRestoreOperation");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateSelectiveKeyRestoreOperationRequest(keyName, content, context);
-                return ProtocolOperationHelpers.ProcessMessageWithoutResponseValue(_pipeline, message, ClientDiagnostics, "KeyVaultClient.SelectiveKeyRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
+                return ProtocolOperationHelpers.ProcessMessageWithoutResponseValue(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.SelectiveKeyRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
             }
             catch (Exception e)
             {
                 scope.Failed(e);
                 throw;
             }
-        }
-
-        private RoleDefinitions _cachedRoleDefinitions;
-        private RoleAssignments _cachedRoleAssignments;
-
-        /// <summary> Initializes a new instance of RoleDefinitions. </summary>
-        public virtual RoleDefinitions GetRoleDefinitionsClient()
-        {
-            return Volatile.Read(ref _cachedRoleDefinitions) ?? Interlocked.CompareExchange(ref _cachedRoleDefinitions, new RoleDefinitions(ClientDiagnostics, _pipeline, _tokenCredential, _endpoint, _apiVersion), null) ?? _cachedRoleDefinitions;
-        }
-
-        /// <summary> Initializes a new instance of RoleAssignments. </summary>
-        public virtual RoleAssignments GetRoleAssignmentsClient()
-        {
-            return Volatile.Read(ref _cachedRoleAssignments) ?? Interlocked.CompareExchange(ref _cachedRoleAssignments, new RoleAssignments(ClientDiagnostics, _pipeline, _tokenCredential, _endpoint, _apiVersion), null) ?? _cachedRoleAssignments;
-        }
-
-        internal HttpMessage CreateFullBackupStatusRequest(string jobId, RequestContext context)
-        {
-            var message = _pipeline.CreateMessage(context, ResponseClassifier200);
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/backup/", false);
-            uri.AppendPath(jobId, true);
-            uri.AppendPath("/pending", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
         }
 
         internal HttpMessage CreateFullBackupRequest(RequestContent content, RequestContext context)
@@ -1185,6 +875,22 @@ namespace Azure.Security.KeyVault.Administration
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
             request.Content = content;
+            return message;
+        }
+
+        internal HttpMessage CreateFullBackupStatusRequest(string jobId, RequestContext context)
+        {
+            var message = _pipeline.CreateMessage(context, ResponseClassifier200);
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/backup/", false);
+            uri.AppendPath(jobId, true);
+            uri.AppendPath("/pending", false);
+            uri.AppendQuery("api-version", _apiVersion, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
             return message;
         }
 
@@ -1270,52 +976,6 @@ namespace Azure.Security.KeyVault.Administration
             return message;
         }
 
-        internal HttpMessage CreateUpdateSettingRequest(string settingName, RequestContent content, RequestContext context)
-        {
-            var message = _pipeline.CreateMessage(context, ResponseClassifier200);
-            var request = message.Request;
-            request.Method = RequestMethod.Patch;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/settings/", false);
-            uri.AppendPath(settingName, true);
-            uri.AppendQuery("api-version", _apiVersion, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "application/json");
-            request.Content = content;
-            return message;
-        }
-
-        internal HttpMessage CreateGetSettingRequest(string settingName, RequestContext context)
-        {
-            var message = _pipeline.CreateMessage(context, ResponseClassifier200);
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/settings/", false);
-            uri.AppendPath(settingName, true);
-            uri.AppendQuery("api-version", _apiVersion, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        internal HttpMessage CreateGetSettingsRequest(RequestContext context)
-        {
-            var message = _pipeline.CreateMessage(context, ResponseClassifier200);
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/settings", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
         private static RequestContext DefaultRequestContext = new RequestContext();
         internal static RequestContext FromCancellationToken(CancellationToken cancellationToken = default)
         {
@@ -1327,9 +987,9 @@ namespace Azure.Security.KeyVault.Administration
             return new RequestContext() { CancellationToken = cancellationToken };
         }
 
-        private static ResponseClassifier _responseClassifier200;
-        private static ResponseClassifier ResponseClassifier200 => _responseClassifier200 ??= new StatusCodeClassifier(stackalloc ushort[] { 200 });
         private static ResponseClassifier _responseClassifier202;
         private static ResponseClassifier ResponseClassifier202 => _responseClassifier202 ??= new StatusCodeClassifier(stackalloc ushort[] { 202 });
+        private static ResponseClassifier _responseClassifier200;
+        private static ResponseClassifier ResponseClassifier200 => _responseClassifier200 ??= new StatusCodeClassifier(stackalloc ushort[] { 200 });
     }
 }

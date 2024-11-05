@@ -8,10 +8,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace Azure.Security.KeyVault.Administration.Models
+namespace Azure.Security.KeyVault.Administration
 {
-    /// <summary> Role Assignments. </summary>
-    public partial class RoleAssignment
+    /// <summary> The settings list result. </summary>
+    public partial class GetSettingsResult
     {
         /// <summary>
         /// Keeps track of any properties unknown to the library.
@@ -45,33 +45,28 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// </summary>
         private IDictionary<string, BinaryData> _serializedAdditionalRawData;
 
-        /// <summary> Initializes a new instance of <see cref="RoleAssignment"/>. </summary>
-        internal RoleAssignment()
+        /// <summary> Initializes a new instance of <see cref="GetSettingsResult"/>. </summary>
+        internal GetSettingsResult()
         {
+            Settings = new ChangeTrackingList<KeyVaultSetting>();
         }
 
-        /// <summary> Initializes a new instance of <see cref="RoleAssignment"/>. </summary>
-        /// <param name="id"> The role assignment ID. </param>
-        /// <param name="name"> The role assignment name. </param>
-        /// <param name="type"> The role assignment type. </param>
-        /// <param name="properties"> Role assignment properties. </param>
+        /// <summary> Initializes a new instance of <see cref="GetSettingsResult"/>. </summary>
+        /// <param name="settings">
+        /// A response message containing a list of account settings with their associated
+        /// value.
+        /// </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal RoleAssignment(string id, string name, string type, RoleAssignmentPropertiesWithScope properties, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal GetSettingsResult(IReadOnlyList<KeyVaultSetting> settings, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
-            Id = id;
-            Name = name;
-            Type = type;
-            Properties = properties;
+            Settings = settings;
             _serializedAdditionalRawData = serializedAdditionalRawData;
         }
 
-        /// <summary> The role assignment ID. </summary>
-        public string Id { get; }
-        /// <summary> The role assignment name. </summary>
-        public string Name { get; }
-        /// <summary> The role assignment type. </summary>
-        public string Type { get; }
-        /// <summary> Role assignment properties. </summary>
-        public RoleAssignmentPropertiesWithScope Properties { get; }
+        /// <summary>
+        /// A response message containing a list of account settings with their associated
+        /// value.
+        /// </summary>
+        public IReadOnlyList<KeyVaultSetting> Settings { get; }
     }
 }

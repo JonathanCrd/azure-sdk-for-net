@@ -10,8 +10,8 @@ using System.Collections.Generic;
 
 namespace Azure.Security.KeyVault.Administration.Models
 {
-    /// <summary> The key vault server error. </summary>
-    public partial class Error
+    /// <summary> Role Assignments. </summary>
+    public partial class KeyVaultRoleAssignment
     {
         /// <summary>
         /// Keeps track of any properties unknown to the library.
@@ -45,29 +45,33 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// </summary>
         private IDictionary<string, BinaryData> _serializedAdditionalRawData;
 
-        /// <summary> Initializes a new instance of <see cref="Error"/>. </summary>
-        internal Error()
+        /// <summary> Initializes a new instance of <see cref="KeyVaultRoleAssignment"/>. </summary>
+        internal KeyVaultRoleAssignment()
         {
         }
 
-        /// <summary> Initializes a new instance of <see cref="Error"/>. </summary>
-        /// <param name="code"> The error code. </param>
-        /// <param name="message"> The error message. </param>
-        /// <param name="innerError"> The key vault server error. </param>
+        /// <summary> Initializes a new instance of <see cref="KeyVaultRoleAssignment"/>. </summary>
+        /// <param name="id"> The role assignment ID. </param>
+        /// <param name="name"> The role assignment name. </param>
+        /// <param name="type"> The role assignment type. </param>
+        /// <param name="properties"> Role assignment properties. </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal Error(string code, string message, Error innerError, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal KeyVaultRoleAssignment(string id, string name, string type, KeyVaultRoleAssignmentProperties properties, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
-            Code = code;
-            Message = message;
-            InnerError = innerError;
+            Id = id;
+            Name = name;
+            Type = type;
+            Properties = properties;
             _serializedAdditionalRawData = serializedAdditionalRawData;
         }
 
-        /// <summary> The error code. </summary>
-        public string Code { get; }
-        /// <summary> The error message. </summary>
-        public string Message { get; }
-        /// <summary> The key vault server error. </summary>
-        public Error InnerError { get; }
+        /// <summary> The role assignment ID. </summary>
+        public string Id { get; }
+        /// <summary> The role assignment name. </summary>
+        public string Name { get; }
+        /// <summary> The role assignment type. </summary>
+        public string Type { get; }
+        /// <summary> Role assignment properties. </summary>
+        public KeyVaultRoleAssignmentProperties Properties { get; }
     }
 }

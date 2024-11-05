@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Azure.Security.KeyVault.Administration.Models
 {
     /// <summary> Role definition properties. </summary>
-    public partial class RoleDefinitionProperties
+    internal partial class RoleDefinitionProperties
     {
         /// <summary>
         /// Keeps track of any properties unknown to the library.
@@ -48,8 +48,8 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <summary> Initializes a new instance of <see cref="RoleDefinitionProperties"/>. </summary>
         public RoleDefinitionProperties()
         {
-            Permissions = new ChangeTrackingList<Permission>();
-            AssignableScopes = new ChangeTrackingList<RoleScope>();
+            Permissions = new ChangeTrackingList<KeyVaultPermission>();
+            AssignableScopes = new ChangeTrackingList<KeyVaultRoleScope>();
         }
 
         /// <summary> Initializes a new instance of <see cref="RoleDefinitionProperties"/>. </summary>
@@ -59,7 +59,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <param name="permissions"> Role definition permissions. </param>
         /// <param name="assignableScopes"> Role definition assignable scopes. </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal RoleDefinitionProperties(string roleName, string description, RoleType? roleType, IList<Permission> permissions, IList<RoleScope> assignableScopes, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal RoleDefinitionProperties(string roleName, string description, KeyVaultRoleType? roleType, IList<KeyVaultPermission> permissions, IList<KeyVaultRoleScope> assignableScopes, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
             RoleName = roleName;
             Description = description;
@@ -74,10 +74,10 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <summary> The role definition description. </summary>
         public string Description { get; set; }
         /// <summary> The role type. </summary>
-        public RoleType? RoleType { get; set; }
+        public KeyVaultRoleType? RoleType { get; set; }
         /// <summary> Role definition permissions. </summary>
-        public IList<Permission> Permissions { get; }
+        public IList<KeyVaultPermission> Permissions { get; }
         /// <summary> Role definition assignable scopes. </summary>
-        public IList<RoleScope> AssignableScopes { get; }
+        public IList<KeyVaultRoleScope> AssignableScopes { get; }
     }
 }

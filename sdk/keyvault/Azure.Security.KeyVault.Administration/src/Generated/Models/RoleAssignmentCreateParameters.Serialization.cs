@@ -13,7 +13,7 @@ using Azure.Core;
 
 namespace Azure.Security.KeyVault.Administration.Models
 {
-    public partial class RoleAssignmentCreateParameters : IUtf8JsonSerializable, IJsonModel<RoleAssignmentCreateParameters>
+    internal partial class RoleAssignmentCreateParameters : IUtf8JsonSerializable, IJsonModel<RoleAssignmentCreateParameters>
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<RoleAssignmentCreateParameters>)this).Write(writer, ModelSerializationExtensions.WireOptions);
 

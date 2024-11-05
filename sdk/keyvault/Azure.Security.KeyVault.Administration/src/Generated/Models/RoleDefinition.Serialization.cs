@@ -86,7 +86,7 @@ namespace Azure.Security.KeyVault.Administration.Models
             }
             string id = default;
             string name = default;
-            RoleDefinitionType? type = default;
+            KeyVaultRoleDefinitionType? type = default;
             RoleDefinitionProperties properties = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
@@ -108,7 +108,7 @@ namespace Azure.Security.KeyVault.Administration.Models
                     {
                         continue;
                     }
-                    type = new RoleDefinitionType(property.Value.GetString());
+                    type = new KeyVaultRoleDefinitionType(property.Value.GetString());
                     continue;
                 }
                 if (property.NameEquals("properties"u8))

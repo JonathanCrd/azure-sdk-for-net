@@ -11,18 +11,18 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
-namespace Azure.Security.KeyVault.Administration.Models
+namespace Azure.Security.KeyVault.Administration
 {
-    public partial class SettingsListResult : IUtf8JsonSerializable, IJsonModel<SettingsListResult>
+    public partial class GetSettingsResult : IUtf8JsonSerializable, IJsonModel<GetSettingsResult>
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<SettingsListResult>)this).Write(writer, ModelSerializationExtensions.WireOptions);
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IJsonModel<GetSettingsResult>)this).Write(writer, ModelSerializationExtensions.WireOptions);
 
-        void IJsonModel<SettingsListResult>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+        void IJsonModel<GetSettingsResult>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<SettingsListResult>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<GetSettingsResult>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(SettingsListResult)} does not support writing '{format}' format.");
+                throw new FormatException($"The model {nameof(GetSettingsResult)} does not support writing '{format}' format.");
             }
 
             writer.WriteStartObject();
@@ -54,19 +54,19 @@ namespace Azure.Security.KeyVault.Administration.Models
             writer.WriteEndObject();
         }
 
-        SettingsListResult IJsonModel<SettingsListResult>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
+        GetSettingsResult IJsonModel<GetSettingsResult>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<SettingsListResult>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<GetSettingsResult>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(SettingsListResult)} does not support reading '{format}' format.");
+                throw new FormatException($"The model {nameof(GetSettingsResult)} does not support reading '{format}' format.");
             }
 
             using JsonDocument document = JsonDocument.ParseValue(ref reader);
-            return DeserializeSettingsListResult(document.RootElement, options);
+            return DeserializeGetSettingsResult(document.RootElement, options);
         }
 
-        internal static SettingsListResult DeserializeSettingsListResult(JsonElement element, ModelReaderWriterOptions options = null)
+        internal static GetSettingsResult DeserializeGetSettingsResult(JsonElement element, ModelReaderWriterOptions options = null)
         {
             options ??= ModelSerializationExtensions.WireOptions;
 
@@ -99,46 +99,46 @@ namespace Azure.Security.KeyVault.Administration.Models
                 }
             }
             serializedAdditionalRawData = rawDataDictionary;
-            return new SettingsListResult(settings ?? new ChangeTrackingList<KeyVaultSetting>(), serializedAdditionalRawData);
+            return new GetSettingsResult(settings ?? new ChangeTrackingList<KeyVaultSetting>(), serializedAdditionalRawData);
         }
 
-        BinaryData IPersistableModel<SettingsListResult>.Write(ModelReaderWriterOptions options)
+        BinaryData IPersistableModel<GetSettingsResult>.Write(ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<SettingsListResult>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<GetSettingsResult>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     return ModelReaderWriter.Write(this, options);
                 default:
-                    throw new FormatException($"The model {nameof(SettingsListResult)} does not support writing '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(GetSettingsResult)} does not support writing '{options.Format}' format.");
             }
         }
 
-        SettingsListResult IPersistableModel<SettingsListResult>.Create(BinaryData data, ModelReaderWriterOptions options)
+        GetSettingsResult IPersistableModel<GetSettingsResult>.Create(BinaryData data, ModelReaderWriterOptions options)
         {
-            var format = options.Format == "W" ? ((IPersistableModel<SettingsListResult>)this).GetFormatFromOptions(options) : options.Format;
+            var format = options.Format == "W" ? ((IPersistableModel<GetSettingsResult>)this).GetFormatFromOptions(options) : options.Format;
 
             switch (format)
             {
                 case "J":
                     {
                         using JsonDocument document = JsonDocument.Parse(data);
-                        return DeserializeSettingsListResult(document.RootElement, options);
+                        return DeserializeGetSettingsResult(document.RootElement, options);
                     }
                 default:
-                    throw new FormatException($"The model {nameof(SettingsListResult)} does not support reading '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(GetSettingsResult)} does not support reading '{options.Format}' format.");
             }
         }
 
-        string IPersistableModel<SettingsListResult>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
+        string IPersistableModel<GetSettingsResult>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
 
         /// <summary> Deserializes the model from a raw response. </summary>
         /// <param name="response"> The response to deserialize the model from. </param>
-        internal static SettingsListResult FromResponse(Response response)
+        internal static GetSettingsResult FromResponse(Response response)
         {
             using var document = JsonDocument.Parse(response.Content);
-            return DeserializeSettingsListResult(document.RootElement);
+            return DeserializeGetSettingsResult(document.RootElement);
         }
 
         /// <summary> Convert into a <see cref="RequestContent"/>. </summary>
