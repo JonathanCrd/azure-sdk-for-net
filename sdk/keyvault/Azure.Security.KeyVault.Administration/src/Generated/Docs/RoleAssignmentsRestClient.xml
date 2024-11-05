@@ -331,73 +331,73 @@ Console.WriteLine(result.GetProperty("properties").GetProperty("roleDefinitionId
 Console.WriteLine(result.GetProperty("properties").GetProperty("principalId").ToString());
 ]]></code></example>
     </member>
-    <member name="GetResultsAsync(Uri,string,CancellationToken)">
+    <member name="GetForScopesAsync(Uri,string,CancellationToken)">
       <example>
-This sample shows how to call GetResultsAsync.
+This sample shows how to call GetForScopesAsync.
 <code><![CDATA[
 Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-await foreach (Models.KeyVaultRoleAssignment item in client.GetResultsAsync(new Uri("http://localhost:3000")))
+await foreach (Models.KeyVaultRoleAssignment item in client.GetForScopesAsync(new Uri("http://localhost:3000")))
 {
 }
 ]]></code>
-This sample shows how to call GetResultsAsync with all parameters.
+This sample shows how to call GetForScopesAsync with all parameters.
 <code><![CDATA[
 Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-await foreach (Models.KeyVaultRoleAssignment item in client.GetResultsAsync(new Uri("http://localhost:3000"), filter: "<$filter>"))
+await foreach (Models.KeyVaultRoleAssignment item in client.GetForScopesAsync(new Uri("http://localhost:3000"), filter: "<$filter>"))
 {
 }
 ]]></code></example>
     </member>
-    <member name="GetResults(Uri,string,CancellationToken)">
+    <member name="GetForScopes(Uri,string,CancellationToken)">
       <example>
-This sample shows how to call GetResults.
+This sample shows how to call GetForScopes.
 <code><![CDATA[
 Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-foreach (Models.KeyVaultRoleAssignment item in client.GetResults(new Uri("http://localhost:3000")))
+foreach (Models.KeyVaultRoleAssignment item in client.GetForScopes(new Uri("http://localhost:3000")))
 {
 }
 ]]></code>
-This sample shows how to call GetResults with all parameters.
+This sample shows how to call GetForScopes with all parameters.
 <code><![CDATA[
 Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-foreach (Models.KeyVaultRoleAssignment item in client.GetResults(new Uri("http://localhost:3000"), filter: "<$filter>"))
+foreach (Models.KeyVaultRoleAssignment item in client.GetForScopes(new Uri("http://localhost:3000"), filter: "<$filter>"))
 {
 }
 ]]></code></example>
     </member>
-    <member name="GetResultsAsync(Uri,string,RequestContext)">
+    <member name="GetForScopesAsync(Uri,string,RequestContext)">
       <example>
-This sample shows how to call GetResultsAsync and parse the result.
+This sample shows how to call GetForScopesAsync and parse the result.
 <code><![CDATA[
 Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-await foreach (BinaryData item in client.GetResultsAsync(new Uri("http://localhost:3000"), null, null))
+await foreach (BinaryData item in client.GetForScopesAsync(new Uri("http://localhost:3000"), null, null))
 {
     JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
     Console.WriteLine(result.ToString());
 }
 ]]></code>
-This sample shows how to call GetResultsAsync with all parameters and parse the result.
+This sample shows how to call GetForScopesAsync with all parameters and parse the result.
 <code><![CDATA[
 Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-await foreach (BinaryData item in client.GetResultsAsync(new Uri("http://localhost:3000"), "<$filter>", null))
+await foreach (BinaryData item in client.GetForScopesAsync(new Uri("http://localhost:3000"), "<$filter>", null))
 {
     JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
     Console.WriteLine(result.GetProperty("id").ToString());
@@ -409,27 +409,27 @@ await foreach (BinaryData item in client.GetResultsAsync(new Uri("http://localho
 }
 ]]></code></example>
     </member>
-    <member name="GetResults(Uri,string,RequestContext)">
+    <member name="GetForScopes(Uri,string,RequestContext)">
       <example>
-This sample shows how to call GetResults and parse the result.
+This sample shows how to call GetForScopes and parse the result.
 <code><![CDATA[
 Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-foreach (BinaryData item in client.GetResults(new Uri("http://localhost:3000"), null, null))
+foreach (BinaryData item in client.GetForScopes(new Uri("http://localhost:3000"), null, null))
 {
     JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
     Console.WriteLine(result.ToString());
 }
 ]]></code>
-This sample shows how to call GetResults with all parameters and parse the result.
+This sample shows how to call GetForScopes with all parameters and parse the result.
 <code><![CDATA[
 Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 RoleAssignmentsRestClient client = new RoleAssignmentsRestClient(endpoint, credential);
 
-foreach (BinaryData item in client.GetResults(new Uri("http://localhost:3000"), "<$filter>", null))
+foreach (BinaryData item in client.GetForScopes(new Uri("http://localhost:3000"), "<$filter>", null))
 {
     JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
     Console.WriteLine(result.GetProperty("id").ToString());

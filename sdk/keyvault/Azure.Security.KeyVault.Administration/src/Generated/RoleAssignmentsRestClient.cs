@@ -435,15 +435,15 @@ namespace Azure.Security.KeyVault.Administration
         /// </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="scope"/> is null. </exception>
-        /// <include file="Docs/RoleAssignmentsRestClient.xml" path="doc/members/member[@name='GetResultsAsync(Uri,string,CancellationToken)']/*" />
-        public virtual AsyncPageable<Models.KeyVaultRoleAssignment> GetResultsAsync(Uri scope, string filter = null, CancellationToken cancellationToken = default)
+        /// <include file="Docs/RoleAssignmentsRestClient.xml" path="doc/members/member[@name='GetForScopesAsync(Uri,string,CancellationToken)']/*" />
+        public virtual AsyncPageable<Models.KeyVaultRoleAssignment> GetForScopesAsync(Uri scope, string filter = null, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNull(scope, nameof(scope));
 
             RequestContext context = cancellationToken.CanBeCanceled ? new RequestContext { CancellationToken = cancellationToken } : null;
-            HttpMessage FirstPageRequest(int? pageSizeHint) => CreateGetResultsRequest(scope, filter, context);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => CreateGetResultsNextPageRequest(nextLink, scope, filter, context);
-            return GeneratorPageableHelpers.CreateAsyncPageable(FirstPageRequest, NextPageRequest, e => Models.KeyVaultRoleAssignment.DeserializeKeyVaultRoleAssignment(e), ClientDiagnostics, _pipeline, "RoleAssignmentsRestClient.GetResults", "value", "nextLink", context);
+            HttpMessage FirstPageRequest(int? pageSizeHint) => CreateGetForScopesRequest(scope, filter, context);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => CreateGetForScopesNextPageRequest(nextLink, scope, filter, context);
+            return GeneratorPageableHelpers.CreateAsyncPageable(FirstPageRequest, NextPageRequest, e => Models.KeyVaultRoleAssignment.DeserializeKeyVaultRoleAssignment(e), ClientDiagnostics, _pipeline, "RoleAssignmentsRestClient.GetForScopes", "value", "nextLink", context);
         }
 
         /// <summary> Gets role assignments for a scope. </summary>
@@ -455,15 +455,15 @@ namespace Azure.Security.KeyVault.Administration
         /// </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="scope"/> is null. </exception>
-        /// <include file="Docs/RoleAssignmentsRestClient.xml" path="doc/members/member[@name='GetResults(Uri,string,CancellationToken)']/*" />
-        public virtual Pageable<Models.KeyVaultRoleAssignment> GetResults(Uri scope, string filter = null, CancellationToken cancellationToken = default)
+        /// <include file="Docs/RoleAssignmentsRestClient.xml" path="doc/members/member[@name='GetForScopes(Uri,string,CancellationToken)']/*" />
+        public virtual Pageable<Models.KeyVaultRoleAssignment> GetForScopes(Uri scope, string filter = null, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNull(scope, nameof(scope));
 
             RequestContext context = cancellationToken.CanBeCanceled ? new RequestContext { CancellationToken = cancellationToken } : null;
-            HttpMessage FirstPageRequest(int? pageSizeHint) => CreateGetResultsRequest(scope, filter, context);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => CreateGetResultsNextPageRequest(nextLink, scope, filter, context);
-            return GeneratorPageableHelpers.CreatePageable(FirstPageRequest, NextPageRequest, e => Models.KeyVaultRoleAssignment.DeserializeKeyVaultRoleAssignment(e), ClientDiagnostics, _pipeline, "RoleAssignmentsRestClient.GetResults", "value", "nextLink", context);
+            HttpMessage FirstPageRequest(int? pageSizeHint) => CreateGetForScopesRequest(scope, filter, context);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => CreateGetForScopesNextPageRequest(nextLink, scope, filter, context);
+            return GeneratorPageableHelpers.CreatePageable(FirstPageRequest, NextPageRequest, e => Models.KeyVaultRoleAssignment.DeserializeKeyVaultRoleAssignment(e), ClientDiagnostics, _pipeline, "RoleAssignmentsRestClient.GetForScopes", "value", "nextLink", context);
         }
 
         /// <summary>
@@ -476,7 +476,7 @@ namespace Azure.Security.KeyVault.Administration
         /// </item>
         /// <item>
         /// <description>
-        /// Please try the simpler <see cref="GetResultsAsync(Uri,string,CancellationToken)"/> convenience overload with strongly typed models first.
+        /// Please try the simpler <see cref="GetForScopesAsync(Uri,string,CancellationToken)"/> convenience overload with strongly typed models first.
         /// </description>
         /// </item>
         /// </list>
@@ -491,14 +491,14 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentNullException"> <paramref name="scope"/> is null. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="AsyncPageable{T}"/> from the service containing a list of <see cref="BinaryData"/> objects. Details of the body schema for each item in the collection are in the Remarks section below. </returns>
-        /// <include file="Docs/RoleAssignmentsRestClient.xml" path="doc/members/member[@name='GetResultsAsync(Uri,string,RequestContext)']/*" />
-        public virtual AsyncPageable<BinaryData> GetResultsAsync(Uri scope, string filter, RequestContext context)
+        /// <include file="Docs/RoleAssignmentsRestClient.xml" path="doc/members/member[@name='GetForScopesAsync(Uri,string,RequestContext)']/*" />
+        public virtual AsyncPageable<BinaryData> GetForScopesAsync(Uri scope, string filter, RequestContext context)
         {
             Argument.AssertNotNull(scope, nameof(scope));
 
-            HttpMessage FirstPageRequest(int? pageSizeHint) => CreateGetResultsRequest(scope, filter, context);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => CreateGetResultsNextPageRequest(nextLink, scope, filter, context);
-            return GeneratorPageableHelpers.CreateAsyncPageable(FirstPageRequest, NextPageRequest, e => BinaryData.FromString(e.GetRawText()), ClientDiagnostics, _pipeline, "RoleAssignmentsRestClient.GetResults", "value", "nextLink", context);
+            HttpMessage FirstPageRequest(int? pageSizeHint) => CreateGetForScopesRequest(scope, filter, context);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => CreateGetForScopesNextPageRequest(nextLink, scope, filter, context);
+            return GeneratorPageableHelpers.CreateAsyncPageable(FirstPageRequest, NextPageRequest, e => BinaryData.FromString(e.GetRawText()), ClientDiagnostics, _pipeline, "RoleAssignmentsRestClient.GetForScopes", "value", "nextLink", context);
         }
 
         /// <summary>
@@ -511,7 +511,7 @@ namespace Azure.Security.KeyVault.Administration
         /// </item>
         /// <item>
         /// <description>
-        /// Please try the simpler <see cref="GetResults(Uri,string,CancellationToken)"/> convenience overload with strongly typed models first.
+        /// Please try the simpler <see cref="GetForScopes(Uri,string,CancellationToken)"/> convenience overload with strongly typed models first.
         /// </description>
         /// </item>
         /// </list>
@@ -526,34 +526,14 @@ namespace Azure.Security.KeyVault.Administration
         /// <exception cref="ArgumentNullException"> <paramref name="scope"/> is null. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Pageable{T}"/> from the service containing a list of <see cref="BinaryData"/> objects. Details of the body schema for each item in the collection are in the Remarks section below. </returns>
-        /// <include file="Docs/RoleAssignmentsRestClient.xml" path="doc/members/member[@name='GetResults(Uri,string,RequestContext)']/*" />
-        public virtual Pageable<BinaryData> GetResults(Uri scope, string filter, RequestContext context)
+        /// <include file="Docs/RoleAssignmentsRestClient.xml" path="doc/members/member[@name='GetForScopes(Uri,string,RequestContext)']/*" />
+        public virtual Pageable<BinaryData> GetForScopes(Uri scope, string filter, RequestContext context)
         {
             Argument.AssertNotNull(scope, nameof(scope));
 
-            HttpMessage FirstPageRequest(int? pageSizeHint) => CreateGetResultsRequest(scope, filter, context);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => CreateGetResultsNextPageRequest(nextLink, scope, filter, context);
-            return GeneratorPageableHelpers.CreatePageable(FirstPageRequest, NextPageRequest, e => BinaryData.FromString(e.GetRawText()), ClientDiagnostics, _pipeline, "RoleAssignmentsRestClient.GetResults", "value", "nextLink", context);
-        }
-
-        internal HttpMessage CreateGetResultsRequest(Uri scope, string filter, RequestContext context)
-        {
-            var message = _pipeline.CreateMessage(context, ResponseClassifier200);
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/", false);
-            uri.Reset(scope);
-            uri.AppendPath("/providers/Microsoft.Authorization/roleAssignments", false);
-            uri.AppendQuery("api-version", _apiVersion, true);
-            if (filter != null)
-            {
-                uri.AppendQuery("$filter", filter, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
+            HttpMessage FirstPageRequest(int? pageSizeHint) => CreateGetForScopesRequest(scope, filter, context);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => CreateGetForScopesNextPageRequest(nextLink, scope, filter, context);
+            return GeneratorPageableHelpers.CreatePageable(FirstPageRequest, NextPageRequest, e => BinaryData.FromString(e.GetRawText()), ClientDiagnostics, _pipeline, "RoleAssignmentsRestClient.GetForScopes", "value", "nextLink", context);
         }
 
         internal HttpMessage CreateDeleteRequest(Uri scope, string roleAssignmentName, RequestContext context)
@@ -609,7 +589,27 @@ namespace Azure.Security.KeyVault.Administration
             return message;
         }
 
-        internal HttpMessage CreateGetResultsNextPageRequest(string nextLink, Uri scope, string filter, RequestContext context)
+        internal HttpMessage CreateGetForScopesRequest(Uri scope, string filter, RequestContext context)
+        {
+            var message = _pipeline.CreateMessage(context, ResponseClassifier200);
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/", false);
+            uri.Reset(scope);
+            uri.AppendPath("/providers/Microsoft.Authorization/roleAssignments", false);
+            uri.AppendQuery("api-version", _apiVersion, true);
+            if (filter != null)
+            {
+                uri.AppendQuery("$filter", filter, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        internal HttpMessage CreateGetForScopesNextPageRequest(string nextLink, Uri scope, string filter, RequestContext context)
         {
             var message = _pipeline.CreateMessage(context, ResponseClassifier200);
             var request = message.Request;
