@@ -170,110 +170,6 @@ namespace Azure.Security.KeyVault.Administration.Models
             }
         }
 
-        /// <summary>
-        /// Pre-backup operation for checking whether the customer can perform a full
-        /// backup operation.
-        /// </summary>
-        /// <param name="preBackupOperationParameters"> Optional parameters to validate prior to performing a full backup operation. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackupAsync(PreBackupOperationParameters,CancellationToken)']/*" />
-        public virtual async Task<Response<FullBackupDetailsInternal>> PreFullBackupAsync(PreBackupOperationParameters preBackupOperationParameters = null, CancellationToken cancellationToken = default)
-        {
-            using RequestContent content = preBackupOperationParameters?.ToRequestContent();
-            RequestContext context = FromCancellationToken(cancellationToken);
-            Response response = await PreFullBackupAsync(content, context).ConfigureAwait(false);
-            return Response.FromValue(FullBackupDetailsInternal.FromResponse(response), response);
-        }
-
-        /// <summary>
-        /// Pre-backup operation for checking whether the customer can perform a full
-        /// backup operation.
-        /// </summary>
-        /// <param name="preBackupOperationParameters"> Optional parameters to validate prior to performing a full backup operation. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackup(PreBackupOperationParameters,CancellationToken)']/*" />
-        public virtual Response<FullBackupDetailsInternal> PreFullBackup(PreBackupOperationParameters preBackupOperationParameters = null, CancellationToken cancellationToken = default)
-        {
-            using RequestContent content = preBackupOperationParameters?.ToRequestContent();
-            RequestContext context = FromCancellationToken(cancellationToken);
-            Response response = PreFullBackup(content, context);
-            return Response.FromValue(FullBackupDetailsInternal.FromResponse(response), response);
-        }
-
-        /// <summary>
-        /// [Protocol Method] Pre-backup operation for checking whether the customer can perform a full
-        /// backup operation.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Please try the simpler <see cref="PreFullBackupAsync(PreBackupOperationParameters,CancellationToken)"/> convenience overload with strongly typed models first.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="content"> The content to send as the body of the request. </param>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackupAsync(RequestContent,RequestContext)']/*" />
-        public virtual async Task<Response> PreFullBackupAsync(RequestContent content, RequestContext context = null)
-        {
-            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullBackup");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreatePreFullBackupRequest(content, context);
-                return await _pipeline.ProcessMessageAsync(message, context).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// [Protocol Method] Pre-backup operation for checking whether the customer can perform a full
-        /// backup operation.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Please try the simpler <see cref="PreFullBackup(PreBackupOperationParameters,CancellationToken)"/> convenience overload with strongly typed models first.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="content"> The content to send as the body of the request. </param>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackup(RequestContent,RequestContext)']/*" />
-        public virtual Response PreFullBackup(RequestContent content, RequestContext context = null)
-        {
-            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullBackup");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreatePreFullBackupRequest(content, context);
-                return _pipeline.ProcessMessage(message, context);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
         /// <summary> Returns the status of restore operation. </summary>
         /// <param name="jobId"> The Job Id returned part of the restore operation. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
@@ -385,122 +281,6 @@ namespace Azure.Security.KeyVault.Administration.Models
         }
 
         /// <summary>
-        /// Pre-restore operation for checking whether the customer can perform a full
-        /// restore operation.
-        /// </summary>
-        /// <param name="preRestoreOperationParameters"> Optional pre restore parameters to validate prior to performing a full restore operation. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="preRestoreOperationParameters"/> is null. </exception>
-        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperationAsync(PreRestoreOperationParameters,CancellationToken)']/*" />
-        public virtual async Task<Response<RestoreDetailsInternal>> PreFullRestoreOperationAsync(PreRestoreOperationParameters preRestoreOperationParameters, CancellationToken cancellationToken = default)
-        {
-            Argument.AssertNotNull(preRestoreOperationParameters, nameof(preRestoreOperationParameters));
-
-            using RequestContent content = preRestoreOperationParameters.ToRequestContent();
-            RequestContext context = FromCancellationToken(cancellationToken);
-            Response response = await PreFullRestoreOperationAsync(content, context).ConfigureAwait(false);
-            return Response.FromValue(RestoreDetailsInternal.FromResponse(response), response);
-        }
-
-        /// <summary>
-        /// Pre-restore operation for checking whether the customer can perform a full
-        /// restore operation.
-        /// </summary>
-        /// <param name="preRestoreOperationParameters"> Optional pre restore parameters to validate prior to performing a full restore operation. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="preRestoreOperationParameters"/> is null. </exception>
-        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperation(PreRestoreOperationParameters,CancellationToken)']/*" />
-        public virtual Response<RestoreDetailsInternal> PreFullRestoreOperation(PreRestoreOperationParameters preRestoreOperationParameters, CancellationToken cancellationToken = default)
-        {
-            Argument.AssertNotNull(preRestoreOperationParameters, nameof(preRestoreOperationParameters));
-
-            using RequestContent content = preRestoreOperationParameters.ToRequestContent();
-            RequestContext context = FromCancellationToken(cancellationToken);
-            Response response = PreFullRestoreOperation(content, context);
-            return Response.FromValue(RestoreDetailsInternal.FromResponse(response), response);
-        }
-
-        /// <summary>
-        /// [Protocol Method] Pre-restore operation for checking whether the customer can perform a full
-        /// restore operation.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Please try the simpler <see cref="PreFullRestoreOperationAsync(PreRestoreOperationParameters,CancellationToken)"/> convenience overload with strongly typed models first.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="content"> The content to send as the body of the request. </param>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperationAsync(RequestContent,RequestContext)']/*" />
-        public virtual async Task<Response> PreFullRestoreOperationAsync(RequestContent content, RequestContext context = null)
-        {
-            Argument.AssertNotNull(content, nameof(content));
-
-            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullRestoreOperation");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreatePreFullRestoreOperationRequest(content, context);
-                return await _pipeline.ProcessMessageAsync(message, context).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// [Protocol Method] Pre-restore operation for checking whether the customer can perform a full
-        /// restore operation.
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Please try the simpler <see cref="PreFullRestoreOperation(PreRestoreOperationParameters,CancellationToken)"/> convenience overload with strongly typed models first.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        /// <param name="content"> The content to send as the body of the request. </param>
-        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
-        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
-        /// <returns> The response returned from the service. </returns>
-        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperation(RequestContent,RequestContext)']/*" />
-        public virtual Response PreFullRestoreOperation(RequestContent content, RequestContext context = null)
-        {
-            Argument.AssertNotNull(content, nameof(content));
-
-            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullRestoreOperation");
-            scope.Start();
-            try
-            {
-                using HttpMessage message = CreatePreFullRestoreOperationRequest(content, context);
-                return _pipeline.ProcessMessage(message, context);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary>
         /// Creates a full backup using a user-provided SAS token to an Azure blob storage
         /// container.
         /// </summary>
@@ -511,11 +291,12 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackupAsync(WaitUntil,SASTokenParameter,CancellationToken)']/*" />
-        public virtual async Task<Operation> FullBackupAsync(WaitUntil waitUntil, SASTokenParameter azureStorageBlobContainerUri = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Operation<FullBackupDetailsInternal>> FullBackupAsync(WaitUntil waitUntil, SASTokenParameter azureStorageBlobContainerUri = null, CancellationToken cancellationToken = default)
         {
             using RequestContent content = azureStorageBlobContainerUri?.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
-            return await FullBackupAsync(waitUntil, content, context).ConfigureAwait(false);
+            Operation<BinaryData> response = await FullBackupAsync(waitUntil, content, context).ConfigureAwait(false);
+            return ProtocolOperationHelpers.Convert(response, FullBackupDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.FullBackup");
         }
 
         /// <summary>
@@ -529,11 +310,12 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackup(WaitUntil,SASTokenParameter,CancellationToken)']/*" />
-        public virtual Operation FullBackup(WaitUntil waitUntil, SASTokenParameter azureStorageBlobContainerUri = null, CancellationToken cancellationToken = default)
+        public virtual Operation<FullBackupDetailsInternal> FullBackup(WaitUntil waitUntil, SASTokenParameter azureStorageBlobContainerUri = null, CancellationToken cancellationToken = default)
         {
             using RequestContent content = azureStorageBlobContainerUri?.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
-            return FullBackup(waitUntil, content, context);
+            Operation<BinaryData> response = FullBackup(waitUntil, content, context);
+            return ProtocolOperationHelpers.Convert(response, FullBackupDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.FullBackup");
         }
 
         /// <summary>
@@ -558,14 +340,14 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackupAsync(WaitUntil,RequestContent,RequestContext)']/*" />
-        public virtual async Task<Operation> FullBackupAsync(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
+        public virtual async Task<Operation<BinaryData>> FullBackupAsync(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
         {
             using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullBackup");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateFullBackupRequest(content, context);
-                return await ProtocolOperationHelpers.ProcessMessageWithoutResponseValueAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
+                return await ProtocolOperationHelpers.ProcessMessageAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -596,14 +378,230 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullBackup(WaitUntil,RequestContent,RequestContext)']/*" />
-        public virtual Operation FullBackup(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
+        public virtual Operation<BinaryData> FullBackup(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
         {
             using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullBackup");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateFullBackupRequest(content, context);
-                return ProtocolOperationHelpers.ProcessMessageWithoutResponseValue(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
+                return ProtocolOperationHelpers.ProcessMessage(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Pre-backup operation for checking whether the customer can perform a full
+        /// backup operation.
+        /// </summary>
+        /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="preBackupOperationParameters"> Optional parameters to validate prior to performing a full backup operation. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackupAsync(WaitUntil,PreBackupOperationParameters,CancellationToken)']/*" />
+        public virtual async Task<Operation<FullBackupDetailsInternal>> PreFullBackupAsync(WaitUntil waitUntil, PreBackupOperationParameters preBackupOperationParameters = null, CancellationToken cancellationToken = default)
+        {
+            using RequestContent content = preBackupOperationParameters?.ToRequestContent();
+            RequestContext context = FromCancellationToken(cancellationToken);
+            Operation<BinaryData> response = await PreFullBackupAsync(waitUntil, content, context).ConfigureAwait(false);
+            return ProtocolOperationHelpers.Convert(response, FullBackupDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.PreFullBackup");
+        }
+
+        /// <summary>
+        /// Pre-backup operation for checking whether the customer can perform a full
+        /// backup operation.
+        /// </summary>
+        /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="preBackupOperationParameters"> Optional parameters to validate prior to performing a full backup operation. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackup(WaitUntil,PreBackupOperationParameters,CancellationToken)']/*" />
+        public virtual Operation<FullBackupDetailsInternal> PreFullBackup(WaitUntil waitUntil, PreBackupOperationParameters preBackupOperationParameters = null, CancellationToken cancellationToken = default)
+        {
+            using RequestContent content = preBackupOperationParameters?.ToRequestContent();
+            RequestContext context = FromCancellationToken(cancellationToken);
+            Operation<BinaryData> response = PreFullBackup(waitUntil, content, context);
+            return ProtocolOperationHelpers.Convert(response, FullBackupDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.PreFullBackup");
+        }
+
+        /// <summary>
+        /// [Protocol Method] Pre-backup operation for checking whether the customer can perform a full
+        /// backup operation.
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Please try the simpler <see cref="PreFullBackupAsync(WaitUntil,PreBackupOperationParameters,CancellationToken)"/> convenience overload with strongly typed models first.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="content"> The content to send as the body of the request. </param>
+        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
+        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
+        /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackupAsync(WaitUntil,RequestContent,RequestContext)']/*" />
+        public virtual async Task<Operation<BinaryData>> PreFullBackupAsync(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
+        {
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullBackup");
+            scope.Start();
+            try
+            {
+                using HttpMessage message = CreatePreFullBackupRequest(content, context);
+                return await ProtocolOperationHelpers.ProcessMessageAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.PreFullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// [Protocol Method] Pre-backup operation for checking whether the customer can perform a full
+        /// backup operation.
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Please try the simpler <see cref="PreFullBackup(WaitUntil,PreBackupOperationParameters,CancellationToken)"/> convenience overload with strongly typed models first.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="content"> The content to send as the body of the request. </param>
+        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
+        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
+        /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullBackup(WaitUntil,RequestContent,RequestContext)']/*" />
+        public virtual Operation<BinaryData> PreFullBackup(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
+        {
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullBackup");
+            scope.Start();
+            try
+            {
+                using HttpMessage message = CreatePreFullBackupRequest(content, context);
+                return ProtocolOperationHelpers.ProcessMessage(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.PreFullBackup", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Pre-restore operation for checking whether the customer can perform a full
+        /// restore operation.
+        /// </summary>
+        /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="preRestoreOperationParameters"> Optional pre restore parameters to validate prior to performing a full restore operation. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperationAsync(WaitUntil,PreRestoreOperationParameters,CancellationToken)']/*" />
+        public virtual async Task<Operation<RestoreDetailsInternal>> PreFullRestoreOperationAsync(WaitUntil waitUntil, PreRestoreOperationParameters preRestoreOperationParameters = null, CancellationToken cancellationToken = default)
+        {
+            using RequestContent content = preRestoreOperationParameters?.ToRequestContent();
+            RequestContext context = FromCancellationToken(cancellationToken);
+            Operation<BinaryData> response = await PreFullRestoreOperationAsync(waitUntil, content, context).ConfigureAwait(false);
+            return ProtocolOperationHelpers.Convert(response, RestoreDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.PreFullRestoreOperation");
+        }
+
+        /// <summary>
+        /// Pre-restore operation for checking whether the customer can perform a full
+        /// restore operation.
+        /// </summary>
+        /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="preRestoreOperationParameters"> Optional pre restore parameters to validate prior to performing a full restore operation. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperation(WaitUntil,PreRestoreOperationParameters,CancellationToken)']/*" />
+        public virtual Operation<RestoreDetailsInternal> PreFullRestoreOperation(WaitUntil waitUntil, PreRestoreOperationParameters preRestoreOperationParameters = null, CancellationToken cancellationToken = default)
+        {
+            using RequestContent content = preRestoreOperationParameters?.ToRequestContent();
+            RequestContext context = FromCancellationToken(cancellationToken);
+            Operation<BinaryData> response = PreFullRestoreOperation(waitUntil, content, context);
+            return ProtocolOperationHelpers.Convert(response, RestoreDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.PreFullRestoreOperation");
+        }
+
+        /// <summary>
+        /// [Protocol Method] Pre-restore operation for checking whether the customer can perform a full
+        /// restore operation.
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Please try the simpler <see cref="PreFullRestoreOperationAsync(WaitUntil,PreRestoreOperationParameters,CancellationToken)"/> convenience overload with strongly typed models first.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="content"> The content to send as the body of the request. </param>
+        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
+        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
+        /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperationAsync(WaitUntil,RequestContent,RequestContext)']/*" />
+        public virtual async Task<Operation<BinaryData>> PreFullRestoreOperationAsync(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
+        {
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullRestoreOperation");
+            scope.Start();
+            try
+            {
+                using HttpMessage message = CreatePreFullRestoreOperationRequest(content, context);
+                return await ProtocolOperationHelpers.ProcessMessageAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.PreFullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// [Protocol Method] Pre-restore operation for checking whether the customer can perform a full
+        /// restore operation.
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// This <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/ProtocolMethods.md">protocol method</see> allows explicit creation of the request and processing of the response for advanced scenarios.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Please try the simpler <see cref="PreFullRestoreOperation(WaitUntil,PreRestoreOperationParameters,CancellationToken)"/> convenience overload with strongly typed models first.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="content"> The content to send as the body of the request. </param>
+        /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
+        /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
+        /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
+        /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='PreFullRestoreOperation(WaitUntil,RequestContent,RequestContext)']/*" />
+        public virtual Operation<BinaryData> PreFullRestoreOperation(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
+        {
+            using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.PreFullRestoreOperation");
+            scope.Start();
+            try
+            {
+                using HttpMessage message = CreatePreFullRestoreOperationRequest(content, context);
+                return ProtocolOperationHelpers.ProcessMessage(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.PreFullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
             }
             catch (Exception e)
             {
@@ -619,15 +617,13 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
         /// <param name="restoreBlobDetails"> The Azure blob SAS token pointing to a folder where the previous successful full backup was stored. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="restoreBlobDetails"/> is null. </exception>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullRestoreOperationAsync(WaitUntil,RestoreOperationParameters,CancellationToken)']/*" />
-        public virtual async Task<Operation> FullRestoreOperationAsync(WaitUntil waitUntil, RestoreOperationParameters restoreBlobDetails, CancellationToken cancellationToken = default)
+        public virtual async Task<Operation<RestoreDetailsInternal>> FullRestoreOperationAsync(WaitUntil waitUntil, RestoreOperationParameters restoreBlobDetails = null, CancellationToken cancellationToken = default)
         {
-            Argument.AssertNotNull(restoreBlobDetails, nameof(restoreBlobDetails));
-
-            using RequestContent content = restoreBlobDetails.ToRequestContent();
+            using RequestContent content = restoreBlobDetails?.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
-            return await FullRestoreOperationAsync(waitUntil, content, context).ConfigureAwait(false);
+            Operation<BinaryData> response = await FullRestoreOperationAsync(waitUntil, content, context).ConfigureAwait(false);
+            return ProtocolOperationHelpers.Convert(response, RestoreDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.FullRestoreOperation");
         }
 
         /// <summary>
@@ -637,15 +633,13 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
         /// <param name="restoreBlobDetails"> The Azure blob SAS token pointing to a folder where the previous successful full backup was stored. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="restoreBlobDetails"/> is null. </exception>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullRestoreOperation(WaitUntil,RestoreOperationParameters,CancellationToken)']/*" />
-        public virtual Operation FullRestoreOperation(WaitUntil waitUntil, RestoreOperationParameters restoreBlobDetails, CancellationToken cancellationToken = default)
+        public virtual Operation<RestoreDetailsInternal> FullRestoreOperation(WaitUntil waitUntil, RestoreOperationParameters restoreBlobDetails = null, CancellationToken cancellationToken = default)
         {
-            Argument.AssertNotNull(restoreBlobDetails, nameof(restoreBlobDetails));
-
-            using RequestContent content = restoreBlobDetails.ToRequestContent();
+            using RequestContent content = restoreBlobDetails?.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
-            return FullRestoreOperation(waitUntil, content, context);
+            Operation<BinaryData> response = FullRestoreOperation(waitUntil, content, context);
+            return ProtocolOperationHelpers.Convert(response, RestoreDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.FullRestoreOperation");
         }
 
         /// <summary>
@@ -667,20 +661,17 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
         /// <param name="content"> The content to send as the body of the request. </param>
         /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullRestoreOperationAsync(WaitUntil,RequestContent,RequestContext)']/*" />
-        public virtual async Task<Operation> FullRestoreOperationAsync(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
+        public virtual async Task<Operation<BinaryData>> FullRestoreOperationAsync(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
         {
-            Argument.AssertNotNull(content, nameof(content));
-
             using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullRestoreOperation");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateFullRestoreOperationRequest(content, context);
-                return await ProtocolOperationHelpers.ProcessMessageWithoutResponseValueAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
+                return await ProtocolOperationHelpers.ProcessMessageAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -708,20 +699,17 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
         /// <param name="content"> The content to send as the body of the request. </param>
         /// <param name="context"> The request context, which can override default behaviors of the client pipeline on a per-call basis. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='FullRestoreOperation(WaitUntil,RequestContent,RequestContext)']/*" />
-        public virtual Operation FullRestoreOperation(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
+        public virtual Operation<BinaryData> FullRestoreOperation(WaitUntil waitUntil, RequestContent content, RequestContext context = null)
         {
-            Argument.AssertNotNull(content, nameof(content));
-
             using var scope = ClientDiagnostics.CreateScope("BackupRestoreRestClient.FullRestoreOperation");
             scope.Start();
             try
             {
                 using HttpMessage message = CreateFullRestoreOperationRequest(content, context);
-                return ProtocolOperationHelpers.ProcessMessageWithoutResponseValue(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
+                return ProtocolOperationHelpers.ProcessMessage(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.FullRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
             }
             catch (Exception e)
             {
@@ -744,13 +732,14 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <exception cref="ArgumentNullException"> <paramref name="keyName"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="keyName"/> is an empty string, and was expected to be non-empty. </exception>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperationAsync(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)']/*" />
-        public virtual async Task<Operation> SelectiveKeyRestoreOperationAsync(WaitUntil waitUntil, string keyName, SelectiveKeyRestoreOperationParameters restoreBlobDetails = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Operation<RestoreDetailsInternal>> SelectiveKeyRestoreOperationAsync(WaitUntil waitUntil, string keyName, SelectiveKeyRestoreOperationParameters restoreBlobDetails = null, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(keyName, nameof(keyName));
 
             using RequestContent content = restoreBlobDetails?.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
-            return await SelectiveKeyRestoreOperationAsync(waitUntil, keyName, content, context).ConfigureAwait(false);
+            Operation<BinaryData> response = await SelectiveKeyRestoreOperationAsync(waitUntil, keyName, content, context).ConfigureAwait(false);
+            return ProtocolOperationHelpers.Convert(response, RestoreDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.SelectiveKeyRestoreOperation");
         }
 
         /// <summary>
@@ -767,13 +756,14 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <exception cref="ArgumentNullException"> <paramref name="keyName"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="keyName"/> is an empty string, and was expected to be non-empty. </exception>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperation(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)']/*" />
-        public virtual Operation SelectiveKeyRestoreOperation(WaitUntil waitUntil, string keyName, SelectiveKeyRestoreOperationParameters restoreBlobDetails = null, CancellationToken cancellationToken = default)
+        public virtual Operation<RestoreDetailsInternal> SelectiveKeyRestoreOperation(WaitUntil waitUntil, string keyName, SelectiveKeyRestoreOperationParameters restoreBlobDetails = null, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(keyName, nameof(keyName));
 
             using RequestContent content = restoreBlobDetails?.ToRequestContent();
             RequestContext context = FromCancellationToken(cancellationToken);
-            return SelectiveKeyRestoreOperation(waitUntil, keyName, content, context);
+            Operation<BinaryData> response = SelectiveKeyRestoreOperation(waitUntil, keyName, content, context);
+            return ProtocolOperationHelpers.Convert(response, RestoreDetailsInternal.FromResponse, ClientDiagnostics, "BackupRestoreRestClient.SelectiveKeyRestoreOperation");
         }
 
         /// <summary>
@@ -801,7 +791,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperationAsync(WaitUntil,string,RequestContent,RequestContext)']/*" />
-        public virtual async Task<Operation> SelectiveKeyRestoreOperationAsync(WaitUntil waitUntil, string keyName, RequestContent content, RequestContext context = null)
+        public virtual async Task<Operation<BinaryData>> SelectiveKeyRestoreOperationAsync(WaitUntil waitUntil, string keyName, RequestContent content, RequestContext context = null)
         {
             Argument.AssertNotNullOrEmpty(keyName, nameof(keyName));
 
@@ -810,7 +800,7 @@ namespace Azure.Security.KeyVault.Administration.Models
             try
             {
                 using HttpMessage message = CreateSelectiveKeyRestoreOperationRequest(keyName, content, context);
-                return await ProtocolOperationHelpers.ProcessMessageWithoutResponseValueAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.SelectiveKeyRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
+                return await ProtocolOperationHelpers.ProcessMessageAsync(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.SelectiveKeyRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -844,7 +834,7 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <exception cref="RequestFailedException"> Service returned a non-success status code. </exception>
         /// <returns> The <see cref="Operation"/> representing an asynchronous operation on the service. </returns>
         /// <include file="Docs/BackupRestoreRestClient.xml" path="doc/members/member[@name='SelectiveKeyRestoreOperation(WaitUntil,string,RequestContent,RequestContext)']/*" />
-        public virtual Operation SelectiveKeyRestoreOperation(WaitUntil waitUntil, string keyName, RequestContent content, RequestContext context = null)
+        public virtual Operation<BinaryData> SelectiveKeyRestoreOperation(WaitUntil waitUntil, string keyName, RequestContent content, RequestContext context = null)
         {
             Argument.AssertNotNullOrEmpty(keyName, nameof(keyName));
 
@@ -853,7 +843,7 @@ namespace Azure.Security.KeyVault.Administration.Models
             try
             {
                 using HttpMessage message = CreateSelectiveKeyRestoreOperationRequest(keyName, content, context);
-                return ProtocolOperationHelpers.ProcessMessageWithoutResponseValue(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.SelectiveKeyRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
+                return ProtocolOperationHelpers.ProcessMessage(_pipeline, message, ClientDiagnostics, "BackupRestoreRestClient.SelectiveKeyRestoreOperation", OperationFinalStateVia.AzureAsyncOperation, context, waitUntil);
             }
             catch (Exception e)
             {

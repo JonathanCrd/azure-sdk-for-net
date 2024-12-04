@@ -19,13 +19,13 @@ namespace Azure.Security.KeyVault.Administration.Samples
     {
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_Delete_ShortVersion()
+        public void Example_RoleDefinitionsRestClient_Delete_DeleteACustomRoleDefinition()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            Response response = client.Delete(new Uri("http://localhost:3000"), "<roleDefinitionName>", null);
+            Response response = client.Delete("/", "00000000-0000-0000-0000-000000000000", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -33,13 +33,13 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_Delete_ShortVersion_Async()
+        public async Task Example_RoleDefinitionsRestClient_Delete_DeleteACustomRoleDefinition_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            Response response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>", null);
+            Response response = await client.DeleteAsync("/", "00000000-0000-0000-0000-000000000000", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -47,161 +47,31 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_Delete_ShortVersion_Convenience()
+        public void Example_RoleDefinitionsRestClient_Delete_DeleteACustomRoleDefinition_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            Response<RoleDefinition> response = client.Delete(new Uri("http://localhost:3000"), "<roleDefinitionName>");
+            Response<RoleDefinition> response = client.Delete("/", "00000000-0000-0000-0000-000000000000");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_Delete_ShortVersion_Convenience_Async()
+        public async Task Example_RoleDefinitionsRestClient_Delete_DeleteACustomRoleDefinition_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            Response<RoleDefinition> response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>");
+            Response<RoleDefinition> response = await client.DeleteAsync("/", "00000000-0000-0000-0000-000000000000");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_Delete_AllParameters()
+        public void Example_RoleDefinitionsRestClient_CreateOrUpdate_CreateOrUpdateACustomRoleDefinition()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            Response response = client.Delete(new Uri("http://localhost:3000"), "<roleDefinitionName>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("id").ToString());
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("roleName").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("description").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("actions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("dataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notDataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("assignableScopes")[0].ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_Delete_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            Response response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("id").ToString());
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("roleName").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("description").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("actions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("dataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notDataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("assignableScopes")[0].ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_Delete_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            Response<RoleDefinition> response = client.Delete(new Uri("http://localhost:3000"), "<roleDefinitionName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_Delete_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            Response<RoleDefinition> response = await client.DeleteAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_CreateOrUpdate_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                properties = new object(),
-            });
-            Response response = client.CreateOrUpdate(new Uri("http://localhost:3000"), "<roleDefinitionName>", content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_CreateOrUpdate_ShortVersion_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                properties = new object(),
-            });
-            Response response = await client.CreateOrUpdateAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>", content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_CreateOrUpdate_ShortVersion_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            RoleDefinitionCreateParameters parameters = new RoleDefinitionCreateParameters(new RoleDefinitionProperties());
-            Response<RoleDefinition> response = client.CreateOrUpdate(new Uri("http://localhost:3000"), "<roleDefinitionName>", parameters);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_CreateOrUpdate_ShortVersion_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            RoleDefinitionCreateParameters parameters = new RoleDefinitionCreateParameters(new RoleDefinitionProperties());
-            Response<RoleDefinition> response = await client.CreateOrUpdateAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>", parameters);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_CreateOrUpdate_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
@@ -209,58 +79,32 @@ namespace Azure.Security.KeyVault.Administration.Samples
             {
                 properties = new
                 {
-                    roleName = "<roleName>",
-                    description = "<description>",
-                    type = "AKVBuiltInRole",
+                    roleName = "My custom role",
+                    type = "CustomRole",
+                    description = "Role description",
                     permissions = new object[]
             {
 new
 {
-actions = new object[]
-{
-"<actions>"
-},
-notActions = new object[]
-{
-"<notActions>"
-},
 dataActions = new object[]
 {
-"Microsoft.KeyVault/managedHsm/keys/read/action"
-},
-notDataActions = new object[]
-{
-"Microsoft.KeyVault/managedHsm/keys/read/action"
+"Microsoft.KeyVault/managedHsm/keys/sign/action"
 },
 }
             },
-                    assignableScopes = new object[]
-            {
-"/"
-            },
                 },
             });
-            Response response = client.CreateOrUpdate(new Uri("http://localhost:3000"), "<roleDefinitionName>", content);
+            Response response = client.CreateOrUpdate("keys", "00000000-0000-0000-0000-000000000000", content);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("id").ToString());
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("roleName").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("description").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("actions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("dataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notDataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("assignableScopes")[0].ToString());
+            Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_CreateOrUpdate_AllParameters_Async()
+        public async Task Example_RoleDefinitionsRestClient_CreateOrUpdate_CreateOrUpdateACustomRoleDefinition_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
@@ -268,112 +112,22 @@ notDataActions = new object[]
             {
                 properties = new
                 {
-                    roleName = "<roleName>",
-                    description = "<description>",
-                    type = "AKVBuiltInRole",
+                    roleName = "My custom role",
+                    type = "CustomRole",
+                    description = "Role description",
                     permissions = new object[]
             {
 new
 {
-actions = new object[]
-{
-"<actions>"
-},
-notActions = new object[]
-{
-"<notActions>"
-},
 dataActions = new object[]
 {
-"Microsoft.KeyVault/managedHsm/keys/read/action"
-},
-notDataActions = new object[]
-{
-"Microsoft.KeyVault/managedHsm/keys/read/action"
+"Microsoft.KeyVault/managedHsm/keys/sign/action"
 },
 }
             },
-                    assignableScopes = new object[]
-            {
-"/"
-            },
                 },
             });
-            Response response = await client.CreateOrUpdateAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>", content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("id").ToString());
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("roleName").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("description").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("actions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("dataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notDataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("assignableScopes")[0].ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_CreateOrUpdate_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            RoleDefinitionCreateParameters parameters = new RoleDefinitionCreateParameters(new RoleDefinitionProperties
-            {
-                RoleName = "<roleName>",
-                Description = "<description>",
-                RoleType = KeyVaultRoleType.BuiltInRole,
-                Permissions = {new KeyVaultPermission
-{
-Actions = {"<actions>"},
-NotActions = {"<notActions>"},
-DataActions = {KeyVaultDataAction.ReadHsmKey},
-NotDataActions = {KeyVaultDataAction.ReadHsmKey},
-}},
-                AssignableScopes = { KeyVaultRoleScope.Global },
-            });
-            Response<RoleDefinition> response = client.CreateOrUpdate(new Uri("http://localhost:3000"), "<roleDefinitionName>", parameters);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_CreateOrUpdate_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            RoleDefinitionCreateParameters parameters = new RoleDefinitionCreateParameters(new RoleDefinitionProperties
-            {
-                RoleName = "<roleName>",
-                Description = "<description>",
-                RoleType = KeyVaultRoleType.BuiltInRole,
-                Permissions = {new KeyVaultPermission
-{
-Actions = {"<actions>"},
-NotActions = {"<notActions>"},
-DataActions = {KeyVaultDataAction.ReadHsmKey},
-NotDataActions = {KeyVaultDataAction.ReadHsmKey},
-}},
-                AssignableScopes = { KeyVaultRoleScope.Global },
-            });
-            Response<RoleDefinition> response = await client.CreateOrUpdateAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>", parameters);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            Response response = client.GetRoleDefinitionsRestClient(new Uri("http://localhost:3000"), "<roleDefinitionName>", null);
+            Response response = await client.CreateOrUpdateAsync("keys", "00000000-0000-0000-0000-000000000000", content);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -381,13 +135,55 @@ NotDataActions = {KeyVaultDataAction.ReadHsmKey},
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_ShortVersion_Async()
+        public void Example_RoleDefinitionsRestClient_CreateOrUpdate_CreateOrUpdateACustomRoleDefinition_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            Response response = await client.GetRoleDefinitionsRestClientAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>", null);
+            RoleDefinitionCreateParameters parameters = new RoleDefinitionCreateParameters(new RoleDefinitionProperties
+            {
+                RoleName = "My custom role",
+                Description = "Role description",
+                RoleType = KeyVaultRoleType.CustomRole,
+                Permissions = {new KeyVaultPermission
+{
+DataActions = {KeyVaultDataAction.SignHsmKey},
+}},
+            });
+            Response<RoleDefinition> response = client.CreateOrUpdate("keys", "00000000-0000-0000-0000-000000000000", parameters);
+        }
+
+        [Test]
+        [Ignore("Only validating compilation of examples")]
+        public async Task Example_RoleDefinitionsRestClient_CreateOrUpdate_CreateOrUpdateACustomRoleDefinition_Convenience_Async()
+        {
+            Uri endpoint = new Uri("<endpoint>");
+            TokenCredential credential = new DefaultAzureCredential();
+            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
+
+            RoleDefinitionCreateParameters parameters = new RoleDefinitionCreateParameters(new RoleDefinitionProperties
+            {
+                RoleName = "My custom role",
+                Description = "Role description",
+                RoleType = KeyVaultRoleType.CustomRole,
+                Permissions = {new KeyVaultPermission
+{
+DataActions = {KeyVaultDataAction.SignHsmKey},
+}},
+            });
+            Response<RoleDefinition> response = await client.CreateOrUpdateAsync("keys", "00000000-0000-0000-0000-000000000000", parameters);
+        }
+
+        [Test]
+        [Ignore("Only validating compilation of examples")]
+        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_GetTheSpecifiedRoleDefinition()
+        {
+            Uri endpoint = new Uri("<endpoint>");
+            TokenCredential credential = new DefaultAzureCredential();
+            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
+
+            Response response = client.GetRoleDefinitionsRestClient("/", "00000000-0000-0000-0000-000000000000", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -395,105 +191,49 @@ NotDataActions = {KeyVaultDataAction.ReadHsmKey},
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_ShortVersion_Convenience()
+        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_GetTheSpecifiedRoleDefinition_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            Response<RoleDefinition> response = client.GetRoleDefinitionsRestClient(new Uri("http://localhost:3000"), "<roleDefinitionName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_ShortVersion_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            Response<RoleDefinition> response = await client.GetRoleDefinitionsRestClientAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            Response response = client.GetRoleDefinitionsRestClient(new Uri("http://localhost:3000"), "<roleDefinitionName>", null);
+            Response response = await client.GetRoleDefinitionsRestClientAsync("/", "00000000-0000-0000-0000-000000000000", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("id").ToString());
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("roleName").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("description").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("actions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("dataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notDataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("assignableScopes")[0].ToString());
+            Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_AllParameters_Async()
+        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_GetTheSpecifiedRoleDefinition_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            Response response = await client.GetRoleDefinitionsRestClientAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("id").ToString());
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("roleName").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("description").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("type").ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("actions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("dataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notDataActions")[0].ToString());
-            Console.WriteLine(result.GetProperty("properties").GetProperty("assignableScopes")[0].ToString());
+            Response<RoleDefinition> response = client.GetRoleDefinitionsRestClient("/", "00000000-0000-0000-0000-000000000000");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_AllParameters_Convenience()
+        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_GetTheSpecifiedRoleDefinition_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            Response<RoleDefinition> response = client.GetRoleDefinitionsRestClient(new Uri("http://localhost:3000"), "<roleDefinitionName>");
+            Response<RoleDefinition> response = await client.GetRoleDefinitionsRestClientAsync("/", "00000000-0000-0000-0000-000000000000");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClient_AllParameters_Convenience_Async()
+        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_GetAllRoleDefinitionsThatAreApplicableAtScopeAndAbove()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            Response<RoleDefinition> response = await client.GetRoleDefinitionsRestClientAsync(new Uri("http://localhost:3000"), "<roleDefinitionName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            foreach (BinaryData item in client.GetRoleDefinitionsRestClients(new Uri("http://localhost:3000"), null, null))
+            foreach (BinaryData item in client.GetRoleDefinitionsRestClients("keys", null, null))
             {
                 JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
                 Console.WriteLine(result.ToString());
@@ -502,13 +242,13 @@ NotDataActions = {KeyVaultDataAction.ReadHsmKey},
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_ShortVersion_Async()
+        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_GetAllRoleDefinitionsThatAreApplicableAtScopeAndAbove_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            await foreach (BinaryData item in client.GetRoleDefinitionsRestClientsAsync(new Uri("http://localhost:3000"), null, null))
+            await foreach (BinaryData item in client.GetRoleDefinitionsRestClientsAsync("keys", null, null))
             {
                 JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
                 Console.WriteLine(result.ToString());
@@ -517,102 +257,26 @@ NotDataActions = {KeyVaultDataAction.ReadHsmKey},
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_ShortVersion_Convenience()
+        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_GetAllRoleDefinitionsThatAreApplicableAtScopeAndAbove_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            foreach (RoleDefinition item in client.GetRoleDefinitionsRestClients(new Uri("http://localhost:3000")))
+            foreach (RoleDefinition item in client.GetRoleDefinitionsRestClients("keys"))
             {
             }
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_ShortVersion_Convenience_Async()
+        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_GetAllRoleDefinitionsThatAreApplicableAtScopeAndAbove_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
 
-            await foreach (RoleDefinition item in client.GetRoleDefinitionsRestClientsAsync(new Uri("http://localhost:3000")))
-            {
-            }
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            foreach (BinaryData item in client.GetRoleDefinitionsRestClients(new Uri("http://localhost:3000"), "<$filter>", null))
-            {
-                JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
-                Console.WriteLine(result.GetProperty("id").ToString());
-                Console.WriteLine(result.GetProperty("name").ToString());
-                Console.WriteLine(result.GetProperty("type").ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("roleName").ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("description").ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("type").ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("actions")[0].ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notActions")[0].ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("dataActions")[0].ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notDataActions")[0].ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("assignableScopes")[0].ToString());
-            }
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            await foreach (BinaryData item in client.GetRoleDefinitionsRestClientsAsync(new Uri("http://localhost:3000"), "<$filter>", null))
-            {
-                JsonElement result = JsonDocument.Parse(item.ToStream()).RootElement;
-                Console.WriteLine(result.GetProperty("id").ToString());
-                Console.WriteLine(result.GetProperty("name").ToString());
-                Console.WriteLine(result.GetProperty("type").ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("roleName").ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("description").ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("type").ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("actions")[0].ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notActions")[0].ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("dataActions")[0].ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("permissions")[0].GetProperty("notDataActions")[0].ToString());
-                Console.WriteLine(result.GetProperty("properties").GetProperty("assignableScopes")[0].ToString());
-            }
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            foreach (RoleDefinition item in client.GetRoleDefinitionsRestClients(new Uri("http://localhost:3000"), filter: "<$filter>"))
-            {
-            }
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_RoleDefinitionsRestClient_GetRoleDefinitionsRestClients_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            RoleDefinitionsRestClient client = new RoleDefinitionsRestClient(endpoint, credential);
-
-            await foreach (RoleDefinition item in client.GetRoleDefinitionsRestClientsAsync(new Uri("http://localhost:3000"), filter: "<$filter>"))
+            await foreach (RoleDefinition item in client.GetRoleDefinitionsRestClientsAsync("keys"))
             {
             }
         }

@@ -5,629 +5,331 @@
       <example>
 This sample shows how to call FullBackupStatusAsync.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Response<FullBackupDetailsInternal> response = await client.FullBackupStatusAsync("<jobId>");
-]]></code>
-This sample shows how to call FullBackupStatusAsync with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response<FullBackupDetailsInternal> response = await client.FullBackupStatusAsync("<jobId>");
+Response<FullBackupDetailsInternal> response = await client.FullBackupStatusAsync("45aacd568ab049a2803861e8dd3ae21f");
 ]]></code></example>
     </member>
     <member name="FullBackupStatus(string,CancellationToken)">
       <example>
 This sample shows how to call FullBackupStatus.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Response<FullBackupDetailsInternal> response = client.FullBackupStatus("<jobId>");
-]]></code>
-This sample shows how to call FullBackupStatus with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response<FullBackupDetailsInternal> response = client.FullBackupStatus("<jobId>");
+Response<FullBackupDetailsInternal> response = client.FullBackupStatus("45aacd568ab049a2803861e8dd3ae21f");
 ]]></code></example>
     </member>
     <member name="FullBackupStatusAsync(string,RequestContext)">
       <example>
 This sample shows how to call FullBackupStatusAsync and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Response response = await client.FullBackupStatusAsync("<jobId>", null);
+Response response = await client.FullBackupStatusAsync("45aacd568ab049a2803861e8dd3ae21f", null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call FullBackupStatusAsync with all parameters and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response response = await client.FullBackupStatusAsync("<jobId>", null);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("status").ToString());
-Console.WriteLine(result.GetProperty("statusDetails").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-Console.WriteLine(result.GetProperty("startTime").ToString());
-Console.WriteLine(result.GetProperty("endTime").ToString());
-Console.WriteLine(result.GetProperty("jobId").ToString());
-Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
 ]]></code></example>
     </member>
     <member name="FullBackupStatus(string,RequestContext)">
       <example>
 This sample shows how to call FullBackupStatus and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Response response = client.FullBackupStatus("<jobId>", null);
+Response response = client.FullBackupStatus("45aacd568ab049a2803861e8dd3ae21f", null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call FullBackupStatus with all parameters and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response response = client.FullBackupStatus("<jobId>", null);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("status").ToString());
-Console.WriteLine(result.GetProperty("statusDetails").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-Console.WriteLine(result.GetProperty("startTime").ToString());
-Console.WriteLine(result.GetProperty("endTime").ToString());
-Console.WriteLine(result.GetProperty("jobId").ToString());
-Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
-]]></code></example>
-    </member>
-    <member name="PreFullBackupAsync(PreBackupOperationParameters,CancellationToken)">
-      <example>
-This sample shows how to call PreFullBackupAsync.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response<FullBackupDetailsInternal> response = await client.PreFullBackupAsync();
-]]></code>
-This sample shows how to call PreFullBackupAsync with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-PreBackupOperationParameters preBackupOperationParameters = new PreBackupOperationParameters
-{
-    StorageResourceUri = "<storageResourceUri>",
-    Token = "<token>",
-    UseManagedIdentity = true,
-};
-Response<FullBackupDetailsInternal> response = await client.PreFullBackupAsync(preBackupOperationParameters: preBackupOperationParameters);
-]]></code></example>
-    </member>
-    <member name="PreFullBackup(PreBackupOperationParameters,CancellationToken)">
-      <example>
-This sample shows how to call PreFullBackup.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response<FullBackupDetailsInternal> response = client.PreFullBackup();
-]]></code>
-This sample shows how to call PreFullBackup with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-PreBackupOperationParameters preBackupOperationParameters = new PreBackupOperationParameters
-{
-    StorageResourceUri = "<storageResourceUri>",
-    Token = "<token>",
-    UseManagedIdentity = true,
-};
-Response<FullBackupDetailsInternal> response = client.PreFullBackup(preBackupOperationParameters: preBackupOperationParameters);
-]]></code></example>
-    </member>
-    <member name="PreFullBackupAsync(RequestContent,RequestContext)">
-      <example>
-This sample shows how to call PreFullBackupAsync and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = null;
-Response response = await client.PreFullBackupAsync(content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call PreFullBackupAsync with all request content and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = RequestContent.Create(new
-{
-    storageResourceUri = "<storageResourceUri>",
-    token = "<token>",
-    useManagedIdentity = true,
-});
-Response response = await client.PreFullBackupAsync(content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("status").ToString());
-Console.WriteLine(result.GetProperty("statusDetails").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-Console.WriteLine(result.GetProperty("startTime").ToString());
-Console.WriteLine(result.GetProperty("endTime").ToString());
-Console.WriteLine(result.GetProperty("jobId").ToString());
-Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
-]]></code></example>
-    </member>
-    <member name="PreFullBackup(RequestContent,RequestContext)">
-      <example>
-This sample shows how to call PreFullBackup and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = null;
-Response response = client.PreFullBackup(content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call PreFullBackup with all request content and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = RequestContent.Create(new
-{
-    storageResourceUri = "<storageResourceUri>",
-    token = "<token>",
-    useManagedIdentity = true,
-});
-Response response = client.PreFullBackup(content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("status").ToString());
-Console.WriteLine(result.GetProperty("statusDetails").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-Console.WriteLine(result.GetProperty("startTime").ToString());
-Console.WriteLine(result.GetProperty("endTime").ToString());
-Console.WriteLine(result.GetProperty("jobId").ToString());
-Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
 ]]></code></example>
     </member>
     <member name="RestoreStatusAsync(string,CancellationToken)">
       <example>
 This sample shows how to call RestoreStatusAsync.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Response<RestoreDetailsInternal> response = await client.RestoreStatusAsync("<jobId>");
-]]></code>
-This sample shows how to call RestoreStatusAsync with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response<RestoreDetailsInternal> response = await client.RestoreStatusAsync("<jobId>");
+Response<RestoreDetailsInternal> response = await client.RestoreStatusAsync("45aacd568ab049a2803861e8dd3ae21f");
 ]]></code></example>
     </member>
     <member name="RestoreStatus(string,CancellationToken)">
       <example>
 This sample shows how to call RestoreStatus.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Response<RestoreDetailsInternal> response = client.RestoreStatus("<jobId>");
-]]></code>
-This sample shows how to call RestoreStatus with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response<RestoreDetailsInternal> response = client.RestoreStatus("<jobId>");
+Response<RestoreDetailsInternal> response = client.RestoreStatus("45aacd568ab049a2803861e8dd3ae21f");
 ]]></code></example>
     </member>
     <member name="RestoreStatusAsync(string,RequestContext)">
       <example>
 This sample shows how to call RestoreStatusAsync and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Response response = await client.RestoreStatusAsync("<jobId>", null);
+Response response = await client.RestoreStatusAsync("45aacd568ab049a2803861e8dd3ae21f", null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call RestoreStatusAsync with all parameters and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response response = await client.RestoreStatusAsync("<jobId>", null);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("status").ToString());
-Console.WriteLine(result.GetProperty("statusDetails").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-Console.WriteLine(result.GetProperty("jobId").ToString());
-Console.WriteLine(result.GetProperty("startTime").ToString());
-Console.WriteLine(result.GetProperty("endTime").ToString());
 ]]></code></example>
     </member>
     <member name="RestoreStatus(string,RequestContext)">
       <example>
 This sample shows how to call RestoreStatus and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Response response = client.RestoreStatus("<jobId>", null);
+Response response = client.RestoreStatus("45aacd568ab049a2803861e8dd3ae21f", null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call RestoreStatus with all parameters and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-Response response = client.RestoreStatus("<jobId>", null);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("status").ToString());
-Console.WriteLine(result.GetProperty("statusDetails").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-Console.WriteLine(result.GetProperty("jobId").ToString());
-Console.WriteLine(result.GetProperty("startTime").ToString());
-Console.WriteLine(result.GetProperty("endTime").ToString());
-]]></code></example>
-    </member>
-    <member name="PreFullRestoreOperationAsync(PreRestoreOperationParameters,CancellationToken)">
-      <example>
-This sample shows how to call PreFullRestoreOperationAsync.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters();
-Response<RestoreDetailsInternal> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
-]]></code>
-This sample shows how to call PreFullRestoreOperationAsync with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters
-{
-    SasTokenParameters = new SASTokenParameter("<storageResourceUri>")
-    {
-        Token = "<token>",
-        UseManagedIdentity = true,
-    },
-    FolderToRestore = "<folderToRestore>",
-};
-Response<RestoreDetailsInternal> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
-]]></code></example>
-    </member>
-    <member name="PreFullRestoreOperation(PreRestoreOperationParameters,CancellationToken)">
-      <example>
-This sample shows how to call PreFullRestoreOperation.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters();
-Response<RestoreDetailsInternal> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
-]]></code>
-This sample shows how to call PreFullRestoreOperation with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters
-{
-    SasTokenParameters = new SASTokenParameter("<storageResourceUri>")
-    {
-        Token = "<token>",
-        UseManagedIdentity = true,
-    },
-    FolderToRestore = "<folderToRestore>",
-};
-Response<RestoreDetailsInternal> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
-]]></code></example>
-    </member>
-    <member name="PreFullRestoreOperationAsync(RequestContent,RequestContext)">
-      <example>
-This sample shows how to call PreFullRestoreOperationAsync and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = RequestContent.Create(new object());
-Response response = await client.PreFullRestoreOperationAsync(content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call PreFullRestoreOperationAsync with all request content and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = RequestContent.Create(new
-{
-    sasTokenParameters = new
-    {
-        storageResourceUri = "<storageResourceUri>",
-        token = "<token>",
-        useManagedIdentity = true,
-    },
-    folderToRestore = "<folderToRestore>",
-});
-Response response = await client.PreFullRestoreOperationAsync(content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("status").ToString());
-Console.WriteLine(result.GetProperty("statusDetails").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-Console.WriteLine(result.GetProperty("jobId").ToString());
-Console.WriteLine(result.GetProperty("startTime").ToString());
-Console.WriteLine(result.GetProperty("endTime").ToString());
-]]></code></example>
-    </member>
-    <member name="PreFullRestoreOperation(RequestContent,RequestContext)">
-      <example>
-This sample shows how to call PreFullRestoreOperation and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = RequestContent.Create(new object());
-Response response = client.PreFullRestoreOperation(content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call PreFullRestoreOperation with all request content and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = RequestContent.Create(new
-{
-    sasTokenParameters = new
-    {
-        storageResourceUri = "<storageResourceUri>",
-        token = "<token>",
-        useManagedIdentity = true,
-    },
-    folderToRestore = "<folderToRestore>",
-});
-Response response = client.PreFullRestoreOperation(content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("status").ToString());
-Console.WriteLine(result.GetProperty("statusDetails").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-Console.WriteLine(result.GetProperty("jobId").ToString());
-Console.WriteLine(result.GetProperty("startTime").ToString());
-Console.WriteLine(result.GetProperty("endTime").ToString());
 ]]></code></example>
     </member>
     <member name="FullBackupAsync(WaitUntil,SASTokenParameter,CancellationToken)">
       <example>
 This sample shows how to call FullBackupAsync.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Operation operation = await client.FullBackupAsync(WaitUntil.Completed);
-]]></code>
-This sample shows how to call FullBackupAsync with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-SASTokenParameter azureStorageBlobContainerUri = new SASTokenParameter("<storageResourceUri>")
-{
-    Token = "<token>",
-    UseManagedIdentity = true,
-};
-Operation operation = await client.FullBackupAsync(WaitUntil.Completed, azureStorageBlobContainerUri: azureStorageBlobContainerUri);
+Operation<FullBackupDetailsInternal> operation = await client.FullBackupAsync(WaitUntil.Completed);
+FullBackupDetailsInternal responseData = operation.Value;
 ]]></code></example>
     </member>
     <member name="FullBackup(WaitUntil,SASTokenParameter,CancellationToken)">
       <example>
 This sample shows how to call FullBackup.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Operation operation = client.FullBackup(WaitUntil.Completed);
-]]></code>
-This sample shows how to call FullBackup with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-SASTokenParameter azureStorageBlobContainerUri = new SASTokenParameter("<storageResourceUri>")
-{
-    Token = "<token>",
-    UseManagedIdentity = true,
-};
-Operation operation = client.FullBackup(WaitUntil.Completed, azureStorageBlobContainerUri: azureStorageBlobContainerUri);
+Operation<FullBackupDetailsInternal> operation = client.FullBackup(WaitUntil.Completed);
+FullBackupDetailsInternal responseData = operation.Value;
 ]]></code></example>
     </member>
     <member name="FullBackupAsync(WaitUntil,RequestContent,RequestContext)">
       <example>
-This sample shows how to call FullBackupAsync.
+This sample shows how to call FullBackupAsync and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = null;
-Operation operation = await client.FullBackupAsync(WaitUntil.Completed, content);
-]]></code>
-This sample shows how to call FullBackupAsync with all parameters and request content.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
 using RequestContent content = RequestContent.Create(new
 {
-    storageResourceUri = "<storageResourceUri>",
-    token = "<token>",
-    useManagedIdentity = true,
+    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
 });
-Operation operation = await client.FullBackupAsync(WaitUntil.Completed, content);
+Operation<BinaryData> operation = await client.FullBackupAsync(WaitUntil.Completed, content);
+BinaryData responseData = operation.Value;
+
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
 ]]></code></example>
     </member>
     <member name="FullBackup(WaitUntil,RequestContent,RequestContext)">
       <example>
-This sample shows how to call FullBackup.
+This sample shows how to call FullBackup and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = null;
-Operation operation = client.FullBackup(WaitUntil.Completed, content);
-]]></code>
-This sample shows how to call FullBackup with all parameters and request content.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
 using RequestContent content = RequestContent.Create(new
 {
-    storageResourceUri = "<storageResourceUri>",
-    token = "<token>",
-    useManagedIdentity = true,
+    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
 });
-Operation operation = client.FullBackup(WaitUntil.Completed, content);
+Operation<BinaryData> operation = client.FullBackup(WaitUntil.Completed, content);
+BinaryData responseData = operation.Value;
+
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
+]]></code></example>
+    </member>
+    <member name="PreFullBackupAsync(WaitUntil,PreBackupOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call PreFullBackupAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<endpoint>");
+TokenCredential credential = new DefaultAzureCredential();
+BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+
+Operation<FullBackupDetailsInternal> operation = await client.PreFullBackupAsync(WaitUntil.Completed);
+FullBackupDetailsInternal responseData = operation.Value;
+]]></code></example>
+    </member>
+    <member name="PreFullBackup(WaitUntil,PreBackupOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call PreFullBackup.
+<code><![CDATA[
+Uri endpoint = new Uri("<endpoint>");
+TokenCredential credential = new DefaultAzureCredential();
+BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+
+Operation<FullBackupDetailsInternal> operation = client.PreFullBackup(WaitUntil.Completed);
+FullBackupDetailsInternal responseData = operation.Value;
+]]></code></example>
+    </member>
+    <member name="PreFullBackupAsync(WaitUntil,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call PreFullBackupAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<endpoint>");
+TokenCredential credential = new DefaultAzureCredential();
+BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
+});
+Operation<BinaryData> operation = await client.PreFullBackupAsync(WaitUntil.Completed, content);
+BinaryData responseData = operation.Value;
+
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
+]]></code></example>
+    </member>
+    <member name="PreFullBackup(WaitUntil,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call PreFullBackup and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<endpoint>");
+TokenCredential credential = new DefaultAzureCredential();
+BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
+});
+Operation<BinaryData> operation = client.PreFullBackup(WaitUntil.Completed, content);
+BinaryData responseData = operation.Value;
+
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
+]]></code></example>
+    </member>
+    <member name="PreFullRestoreOperationAsync(WaitUntil,PreRestoreOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call PreFullRestoreOperationAsync.
+<code><![CDATA[
+Uri endpoint = new Uri("<endpoint>");
+TokenCredential credential = new DefaultAzureCredential();
+BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+
+Operation<RestoreDetailsInternal> operation = await client.PreFullRestoreOperationAsync(WaitUntil.Completed);
+RestoreDetailsInternal responseData = operation.Value;
+]]></code></example>
+    </member>
+    <member name="PreFullRestoreOperation(WaitUntil,PreRestoreOperationParameters,CancellationToken)">
+      <example>
+This sample shows how to call PreFullRestoreOperation.
+<code><![CDATA[
+Uri endpoint = new Uri("<endpoint>");
+TokenCredential credential = new DefaultAzureCredential();
+BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+
+Operation<RestoreDetailsInternal> operation = client.PreFullRestoreOperation(WaitUntil.Completed);
+RestoreDetailsInternal responseData = operation.Value;
+]]></code></example>
+    </member>
+    <member name="PreFullRestoreOperationAsync(WaitUntil,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call PreFullRestoreOperationAsync and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<endpoint>");
+TokenCredential credential = new DefaultAzureCredential();
+BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+        token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
+    },
+    folderToRestore = "mhsm-mypool-20200303062926785",
+});
+Operation<BinaryData> operation = await client.PreFullRestoreOperationAsync(WaitUntil.Completed, content);
+BinaryData responseData = operation.Value;
+
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
+]]></code></example>
+    </member>
+    <member name="PreFullRestoreOperation(WaitUntil,RequestContent,RequestContext)">
+      <example>
+This sample shows how to call PreFullRestoreOperation and parse the result.
+<code><![CDATA[
+Uri endpoint = new Uri("<endpoint>");
+TokenCredential credential = new DefaultAzureCredential();
+BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+
+using RequestContent content = RequestContent.Create(new
+{
+    sasTokenParameters = new
+    {
+        storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+        token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
+    },
+    folderToRestore = "mhsm-mypool-20200303062926785",
+});
+Operation<BinaryData> operation = client.PreFullRestoreOperation(WaitUntil.Completed, content);
+BinaryData responseData = operation.Value;
+
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
 ]]></code></example>
     </member>
     <member name="FullRestoreOperationAsync(WaitUntil,RestoreOperationParameters,CancellationToken)">
       <example>
 This sample shows how to call FullRestoreOperationAsync.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>"), "<folderToRestore>");
-Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, restoreBlobDetails);
-]]></code>
-This sample shows how to call FullRestoreOperationAsync with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
-{
-    Token = "<token>",
-    UseManagedIdentity = true,
-}, "<folderToRestore>");
-Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, restoreBlobDetails);
+Operation<RestoreDetailsInternal> operation = await client.FullRestoreOperationAsync(WaitUntil.Completed);
+RestoreDetailsInternal responseData = operation.Value;
 ]]></code></example>
     </member>
     <member name="FullRestoreOperation(WaitUntil,RestoreOperationParameters,CancellationToken)">
       <example>
 This sample shows how to call FullRestoreOperation.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>"), "<folderToRestore>");
-Operation operation = client.FullRestoreOperation(WaitUntil.Completed, restoreBlobDetails);
-]]></code>
-This sample shows how to call FullRestoreOperation with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
-{
-    Token = "<token>",
-    UseManagedIdentity = true,
-}, "<folderToRestore>");
-Operation operation = client.FullRestoreOperation(WaitUntil.Completed, restoreBlobDetails);
+Operation<RestoreDetailsInternal> operation = client.FullRestoreOperation(WaitUntil.Completed);
+RestoreDetailsInternal responseData = operation.Value;
 ]]></code></example>
     </member>
     <member name="FullRestoreOperationAsync(WaitUntil,RequestContent,RequestContext)">
       <example>
-This sample shows how to call FullRestoreOperationAsync.
+This sample shows how to call FullRestoreOperationAsync and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -635,36 +337,23 @@ using RequestContent content = RequestContent.Create(new
 {
     sasTokenParameters = new
     {
-        storageResourceUri = "<storageResourceUri>",
+        storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+        token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
     },
-    folderToRestore = "<folderToRestore>",
+    folderToRestore = "mhsm-mypool-20200303062926785",
 });
-Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, content);
-]]></code>
-This sample shows how to call FullRestoreOperationAsync with all parameters and request content.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+Operation<BinaryData> operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, content);
+BinaryData responseData = operation.Value;
 
-using RequestContent content = RequestContent.Create(new
-{
-    sasTokenParameters = new
-    {
-        storageResourceUri = "<storageResourceUri>",
-        token = "<token>",
-        useManagedIdentity = true,
-    },
-    folderToRestore = "<folderToRestore>",
-});
-Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, content);
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
 ]]></code></example>
     </member>
     <member name="FullRestoreOperation(WaitUntil,RequestContent,RequestContext)">
       <example>
-This sample shows how to call FullRestoreOperation.
+This sample shows how to call FullRestoreOperation and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -672,93 +361,47 @@ using RequestContent content = RequestContent.Create(new
 {
     sasTokenParameters = new
     {
-        storageResourceUri = "<storageResourceUri>",
+        storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+        token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
     },
-    folderToRestore = "<folderToRestore>",
+    folderToRestore = "mhsm-mypool-20200303062926785",
 });
-Operation operation = client.FullRestoreOperation(WaitUntil.Completed, content);
-]]></code>
-This sample shows how to call FullRestoreOperation with all parameters and request content.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
+Operation<BinaryData> operation = client.FullRestoreOperation(WaitUntil.Completed, content);
+BinaryData responseData = operation.Value;
 
-using RequestContent content = RequestContent.Create(new
-{
-    sasTokenParameters = new
-    {
-        storageResourceUri = "<storageResourceUri>",
-        token = "<token>",
-        useManagedIdentity = true,
-    },
-    folderToRestore = "<folderToRestore>",
-});
-Operation operation = client.FullRestoreOperation(WaitUntil.Completed, content);
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
 ]]></code></example>
     </member>
     <member name="SelectiveKeyRestoreOperationAsync(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)">
       <example>
 This sample shows how to call SelectiveKeyRestoreOperationAsync.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>");
-]]></code>
-This sample shows how to call SelectiveKeyRestoreOperationAsync with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-SelectiveKeyRestoreOperationParameters restoreBlobDetails = new SelectiveKeyRestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
-{
-    Token = "<token>",
-    UseManagedIdentity = true,
-}, "<folder>");
-Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", restoreBlobDetails: restoreBlobDetails);
+Operation<RestoreDetailsInternal> operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "hsm-mail-key");
+RestoreDetailsInternal responseData = operation.Value;
 ]]></code></example>
     </member>
     <member name="SelectiveKeyRestoreOperation(WaitUntil,string,SelectiveKeyRestoreOperationParameters,CancellationToken)">
       <example>
 This sample shows how to call SelectiveKeyRestoreOperation.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>");
-]]></code>
-This sample shows how to call SelectiveKeyRestoreOperation with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-SelectiveKeyRestoreOperationParameters restoreBlobDetails = new SelectiveKeyRestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
-{
-    Token = "<token>",
-    UseManagedIdentity = true,
-}, "<folder>");
-Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", restoreBlobDetails: restoreBlobDetails);
+Operation<RestoreDetailsInternal> operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "hsm-mail-key");
+RestoreDetailsInternal responseData = operation.Value;
 ]]></code></example>
     </member>
     <member name="SelectiveKeyRestoreOperationAsync(WaitUntil,string,RequestContent,RequestContext)">
       <example>
-This sample shows how to call SelectiveKeyRestoreOperationAsync.
+This sample shows how to call SelectiveKeyRestoreOperationAsync and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = null;
-Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", content);
-]]></code>
-This sample shows how to call SelectiveKeyRestoreOperationAsync with all parameters and request content.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -766,29 +409,23 @@ using RequestContent content = RequestContent.Create(new
 {
     sasTokenParameters = new
     {
-        storageResourceUri = "<storageResourceUri>",
-        token = "<token>",
-        useManagedIdentity = true,
+        storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+        token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
     },
-    folder = "<folder>",
+    folder = "mhsm-mypool-20200303062926785",
 });
-Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", content);
+Operation<BinaryData> operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "hsm-mail-key", content);
+BinaryData responseData = operation.Value;
+
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
 ]]></code></example>
     </member>
     <member name="SelectiveKeyRestoreOperation(WaitUntil,string,RequestContent,RequestContext)">
       <example>
-This sample shows how to call SelectiveKeyRestoreOperation.
+This sample shows how to call SelectiveKeyRestoreOperation and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-using RequestContent content = null;
-Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", content);
-]]></code>
-This sample shows how to call SelectiveKeyRestoreOperation with all parameters and request content.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -796,13 +433,16 @@ using RequestContent content = RequestContent.Create(new
 {
     sasTokenParameters = new
     {
-        storageResourceUri = "<storageResourceUri>",
-        token = "<token>",
-        useManagedIdentity = true,
+        storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+        token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
     },
-    folder = "<folder>",
+    folder = "mhsm-mypool-20200303062926785",
 });
-Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", content);
+Operation<BinaryData> operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "hsm-mail-key", content);
+BinaryData responseData = operation.Value;
+
+JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+Console.WriteLine(result.ToString());
 ]]></code></example>
     </member>
   </members>

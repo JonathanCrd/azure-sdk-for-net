@@ -19,13 +19,13 @@ namespace Azure.Security.KeyVault.Administration.Samples
     {
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullBackupStatus_ShortVersion()
+        public void Example_BackupRestoreRestClient_FullBackupStatus_GetTheStatusOfAFullBackupOperation()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response response = client.FullBackupStatus("<jobId>", null);
+            Response response = client.FullBackupStatus("45aacd568ab049a2803861e8dd3ae21f", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -33,13 +33,13 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullBackupStatus_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackupStatus_GetTheStatusOfAFullBackupOperation_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response response = await client.FullBackupStatusAsync("<jobId>", null);
+            Response response = await client.FullBackupStatusAsync("45aacd568ab049a2803861e8dd3ae21f", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -47,100 +47,35 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullBackupStatus_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_FullBackupStatus_GetTheStatusOfAFullBackupOperation_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupDetailsInternal> response = client.FullBackupStatus("<jobId>");
+            Response<FullBackupDetailsInternal> response = client.FullBackupStatus("45aacd568ab049a2803861e8dd3ae21f");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullBackupStatus_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackupStatus_GetTheStatusOfAFullBackupOperation_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupDetailsInternal> response = await client.FullBackupStatusAsync("<jobId>");
+            Response<FullBackupDetailsInternal> response = await client.FullBackupStatusAsync("45aacd568ab049a2803861e8dd3ae21f");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullBackupStatus_AllParameters()
+        public void Example_BackupRestoreRestClient_RestoreStatus_GetTheStatusOfRestoreOperation()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response response = client.FullBackupStatus("<jobId>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("status").ToString());
-            Console.WriteLine(result.GetProperty("statusDetails").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-            Console.WriteLine(result.GetProperty("startTime").ToString());
-            Console.WriteLine(result.GetProperty("endTime").ToString());
-            Console.WriteLine(result.GetProperty("jobId").ToString());
-            Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullBackupStatus_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Response response = await client.FullBackupStatusAsync("<jobId>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("status").ToString());
-            Console.WriteLine(result.GetProperty("statusDetails").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-            Console.WriteLine(result.GetProperty("startTime").ToString());
-            Console.WriteLine(result.GetProperty("endTime").ToString());
-            Console.WriteLine(result.GetProperty("jobId").ToString());
-            Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullBackupStatus_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Response<FullBackupDetailsInternal> response = client.FullBackupStatus("<jobId>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullBackupStatus_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Response<FullBackupDetailsInternal> response = await client.FullBackupStatusAsync("<jobId>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_PreFullBackup_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = null;
-            Response response = client.PreFullBackup(content);
+            Response response = client.RestoreStatus("45aacd568ab049a2803861e8dd3ae21f", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -148,14 +83,13 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_PreFullBackup_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_RestoreStatus_GetTheStatusOfRestoreOperation_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            using RequestContent content = null;
-            Response response = await client.PreFullBackupAsync(content);
+            Response response = await client.RestoreStatusAsync("45aacd568ab049a2803861e8dd3ae21f", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.ToString());
@@ -163,285 +97,159 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_PreFullBackup_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_RestoreStatus_GetTheStatusOfRestoreOperation_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupDetailsInternal> response = client.PreFullBackup();
+            Response<RestoreDetailsInternal> response = client.RestoreStatus("45aacd568ab049a2803861e8dd3ae21f");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_PreFullBackup_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_RestoreStatus_GetTheStatusOfRestoreOperation_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<FullBackupDetailsInternal> response = await client.PreFullBackupAsync();
+            Response<RestoreDetailsInternal> response = await client.RestoreStatusAsync("45aacd568ab049a2803861e8dd3ae21f");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_PreFullBackup_AllParameters()
+        public void Example_BackupRestoreRestClient_FullBackup_CreateAFullBackup()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
-                storageResourceUri = "<storageResourceUri>",
-                token = "<token>",
-                useManagedIdentity = true,
+                storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
             });
-            Response response = client.PreFullBackup(content);
+            Operation<BinaryData> operation = client.FullBackup(WaitUntil.Completed, content);
+            BinaryData responseData = operation.Value;
 
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("status").ToString());
-            Console.WriteLine(result.GetProperty("statusDetails").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-            Console.WriteLine(result.GetProperty("startTime").ToString());
-            Console.WriteLine(result.GetProperty("endTime").ToString());
-            Console.WriteLine(result.GetProperty("jobId").ToString());
-            Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_PreFullBackup_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                storageResourceUri = "<storageResourceUri>",
-                token = "<token>",
-                useManagedIdentity = true,
-            });
-            Response response = await client.PreFullBackupAsync(content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("status").ToString());
-            Console.WriteLine(result.GetProperty("statusDetails").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-            Console.WriteLine(result.GetProperty("startTime").ToString());
-            Console.WriteLine(result.GetProperty("endTime").ToString());
-            Console.WriteLine(result.GetProperty("jobId").ToString());
-            Console.WriteLine(result.GetProperty("azureStorageBlobContainerUri").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_PreFullBackup_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            PreBackupOperationParameters preBackupOperationParameters = new PreBackupOperationParameters
-            {
-                StorageResourceUri = "<storageResourceUri>",
-                Token = "<token>",
-                UseManagedIdentity = true,
-            };
-            Response<FullBackupDetailsInternal> response = client.PreFullBackup(preBackupOperationParameters: preBackupOperationParameters);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_PreFullBackup_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            PreBackupOperationParameters preBackupOperationParameters = new PreBackupOperationParameters
-            {
-                StorageResourceUri = "<storageResourceUri>",
-                Token = "<token>",
-                UseManagedIdentity = true,
-            };
-            Response<FullBackupDetailsInternal> response = await client.PreFullBackupAsync(preBackupOperationParameters: preBackupOperationParameters);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_RestoreStatus_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Response response = client.RestoreStatus("<jobId>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
             Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_RestoreStatus_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackup_CreateAFullBackup_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response response = await client.RestoreStatusAsync("<jobId>", null);
+            using RequestContent content = RequestContent.Create(new
+            {
+                storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
+            });
+            Operation<BinaryData> operation = await client.FullBackupAsync(WaitUntil.Completed, content);
+            BinaryData responseData = operation.Value;
 
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
             Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_RestoreStatus_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_FullBackup_CreateAFullBackup_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<RestoreDetailsInternal> response = client.RestoreStatus("<jobId>");
+            Operation<FullBackupDetailsInternal> operation = client.FullBackup(WaitUntil.Completed);
+            FullBackupDetailsInternal responseData = operation.Value;
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_RestoreStatus_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_FullBackup_CreateAFullBackup_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response<RestoreDetailsInternal> response = await client.RestoreStatusAsync("<jobId>");
+            Operation<FullBackupDetailsInternal> operation = await client.FullBackupAsync(WaitUntil.Completed);
+            FullBackupDetailsInternal responseData = operation.Value;
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_RestoreStatus_AllParameters()
+        public void Example_BackupRestoreRestClient_PreFullBackup_CheckWhetherTheCustomerCanPerformAFullBackupOperation()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            Response response = client.RestoreStatus("<jobId>", null);
+            using RequestContent content = RequestContent.Create(new
+            {
+                storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
+            });
+            Operation<BinaryData> operation = client.PreFullBackup(WaitUntil.Completed, content);
+            BinaryData responseData = operation.Value;
 
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("status").ToString());
-            Console.WriteLine(result.GetProperty("statusDetails").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-            Console.WriteLine(result.GetProperty("jobId").ToString());
-            Console.WriteLine(result.GetProperty("startTime").ToString());
-            Console.WriteLine(result.GetProperty("endTime").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_RestoreStatus_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Response response = await client.RestoreStatusAsync("<jobId>", null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("status").ToString());
-            Console.WriteLine(result.GetProperty("statusDetails").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-            Console.WriteLine(result.GetProperty("jobId").ToString());
-            Console.WriteLine(result.GetProperty("startTime").ToString());
-            Console.WriteLine(result.GetProperty("endTime").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_RestoreStatus_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Response<RestoreDetailsInternal> response = client.RestoreStatus("<jobId>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_RestoreStatus_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Response<RestoreDetailsInternal> response = await client.RestoreStatusAsync("<jobId>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new object());
-            Response response = client.PreFullRestoreOperation(content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
             Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullBackup_CheckWhetherTheCustomerCanPerformAFullBackupOperation_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            using RequestContent content = RequestContent.Create(new object());
-            Response response = await client.PreFullRestoreOperationAsync(content);
+            using RequestContent content = RequestContent.Create(new
+            {
+                storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
+            });
+            Operation<BinaryData> operation = await client.PreFullBackupAsync(WaitUntil.Completed, content);
+            BinaryData responseData = operation.Value;
 
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
             Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_PreFullBackup_CheckWhetherTheCustomerCanPerformAFullBackupOperation_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters();
-            Response<RestoreDetailsInternal> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
+            Operation<FullBackupDetailsInternal> operation = client.PreFullBackup(WaitUntil.Completed);
+            FullBackupDetailsInternal responseData = operation.Value;
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullBackup_CheckWhetherTheCustomerCanPerformAFullBackupOperation_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters();
-            Response<RestoreDetailsInternal> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
+            Operation<FullBackupDetailsInternal> operation = await client.PreFullBackupAsync(WaitUntil.Completed);
+            FullBackupDetailsInternal responseData = operation.Value;
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_AllParameters()
+        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_CheckWhetherTheCustomerCanPerformAFullRestoreOperation()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -449,29 +257,23 @@ namespace Azure.Security.KeyVault.Administration.Samples
             {
                 sasTokenParameters = new
                 {
-                    storageResourceUri = "<storageResourceUri>",
-                    token = "<token>",
-                    useManagedIdentity = true,
+                    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
                 },
-                folderToRestore = "<folderToRestore>",
+                folderToRestore = "mhsm-mypool-20200303062926785",
             });
-            Response response = client.PreFullRestoreOperation(content);
+            Operation<BinaryData> operation = client.PreFullRestoreOperation(WaitUntil.Completed, content);
+            BinaryData responseData = operation.Value;
 
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("status").ToString());
-            Console.WriteLine(result.GetProperty("statusDetails").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-            Console.WriteLine(result.GetProperty("jobId").ToString());
-            Console.WriteLine(result.GetProperty("startTime").ToString());
-            Console.WriteLine(result.GetProperty("endTime").ToString());
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+            Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_AllParameters_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_CheckWhetherTheCustomerCanPerformAFullRestoreOperation_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -479,181 +281,47 @@ namespace Azure.Security.KeyVault.Administration.Samples
             {
                 sasTokenParameters = new
                 {
-                    storageResourceUri = "<storageResourceUri>",
-                    token = "<token>",
-                    useManagedIdentity = true,
+                    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
                 },
-                folderToRestore = "<folderToRestore>",
+                folderToRestore = "mhsm-mypool-20200303062926785",
             });
-            Response response = await client.PreFullRestoreOperationAsync(content);
+            Operation<BinaryData> operation = await client.PreFullRestoreOperationAsync(WaitUntil.Completed, content);
+            BinaryData responseData = operation.Value;
 
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("status").ToString());
-            Console.WriteLine(result.GetProperty("statusDetails").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("code").ToString());
-            Console.WriteLine(result.GetProperty("error").GetProperty("message").ToString());
-            Console.WriteLine(result.GetProperty("jobId").ToString());
-            Console.WriteLine(result.GetProperty("startTime").ToString());
-            Console.WriteLine(result.GetProperty("endTime").ToString());
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+            Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_AllParameters_Convenience()
+        public void Example_BackupRestoreRestClient_PreFullRestoreOperation_CheckWhetherTheCustomerCanPerformAFullRestoreOperation_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters
-            {
-                SasTokenParameters = new SASTokenParameter("<storageResourceUri>")
-                {
-                    Token = "<token>",
-                    UseManagedIdentity = true,
-                },
-                FolderToRestore = "<folderToRestore>",
-            };
-            Response<RestoreDetailsInternal> response = client.PreFullRestoreOperation(preRestoreOperationParameters);
+            Operation<RestoreDetailsInternal> operation = client.PreFullRestoreOperation(WaitUntil.Completed);
+            RestoreDetailsInternal responseData = operation.Value;
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_AllParameters_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_PreFullRestoreOperation_CheckWhetherTheCustomerCanPerformAFullRestoreOperation_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            PreRestoreOperationParameters preRestoreOperationParameters = new PreRestoreOperationParameters
-            {
-                SasTokenParameters = new SASTokenParameter("<storageResourceUri>")
-                {
-                    Token = "<token>",
-                    UseManagedIdentity = true,
-                },
-                FolderToRestore = "<folderToRestore>",
-            };
-            Response<RestoreDetailsInternal> response = await client.PreFullRestoreOperationAsync(preRestoreOperationParameters);
+            Operation<RestoreDetailsInternal> operation = await client.PreFullRestoreOperationAsync(WaitUntil.Completed);
+            RestoreDetailsInternal responseData = operation.Value;
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullBackup_ShortVersion()
+        public void Example_BackupRestoreRestClient_FullRestoreOperation_RestoreAllKeyMaterialsFromAPreviouslyStoredAzureBlobStorageBackup()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = null;
-            Operation operation = client.FullBackup(WaitUntil.Completed, content);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullBackup_ShortVersion_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = null;
-            Operation operation = await client.FullBackupAsync(WaitUntil.Completed, content);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullBackup_ShortVersion_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Operation operation = client.FullBackup(WaitUntil.Completed);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullBackup_ShortVersion_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Operation operation = await client.FullBackupAsync(WaitUntil.Completed);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullBackup_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                storageResourceUri = "<storageResourceUri>",
-                token = "<token>",
-                useManagedIdentity = true,
-            });
-            Operation operation = client.FullBackup(WaitUntil.Completed, content);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullBackup_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                storageResourceUri = "<storageResourceUri>",
-                token = "<token>",
-                useManagedIdentity = true,
-            });
-            Operation operation = await client.FullBackupAsync(WaitUntil.Completed, content);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullBackup_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            SASTokenParameter azureStorageBlobContainerUri = new SASTokenParameter("<storageResourceUri>")
-            {
-                Token = "<token>",
-                UseManagedIdentity = true,
-            };
-            Operation operation = client.FullBackup(WaitUntil.Completed, azureStorageBlobContainerUri: azureStorageBlobContainerUri);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullBackup_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            SASTokenParameter azureStorageBlobContainerUri = new SASTokenParameter("<storageResourceUri>")
-            {
-                Token = "<token>",
-                UseManagedIdentity = true,
-            };
-            Operation operation = await client.FullBackupAsync(WaitUntil.Completed, azureStorageBlobContainerUri: azureStorageBlobContainerUri);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullRestoreOperation_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -661,18 +329,23 @@ namespace Azure.Security.KeyVault.Administration.Samples
             {
                 sasTokenParameters = new
                 {
-                    storageResourceUri = "<storageResourceUri>",
+                    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
                 },
-                folderToRestore = "<folderToRestore>",
+                folderToRestore = "mhsm-mypool-20200303062926785",
             });
-            Operation operation = client.FullRestoreOperation(WaitUntil.Completed, content);
+            Operation<BinaryData> operation = client.FullRestoreOperation(WaitUntil.Completed, content);
+            BinaryData responseData = operation.Value;
+
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+            Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_ShortVersion_Async()
+        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_RestoreAllKeyMaterialsFromAPreviouslyStoredAzureBlobStorageBackup_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -680,42 +353,47 @@ namespace Azure.Security.KeyVault.Administration.Samples
             {
                 sasTokenParameters = new
                 {
-                    storageResourceUri = "<storageResourceUri>",
+                    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
                 },
-                folderToRestore = "<folderToRestore>",
+                folderToRestore = "mhsm-mypool-20200303062926785",
             });
-            Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, content);
+            Operation<BinaryData> operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, content);
+            BinaryData responseData = operation.Value;
+
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+            Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullRestoreOperation_ShortVersion_Convenience()
+        public void Example_BackupRestoreRestClient_FullRestoreOperation_RestoreAllKeyMaterialsFromAPreviouslyStoredAzureBlobStorageBackup_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>"), "<folderToRestore>");
-            Operation operation = client.FullRestoreOperation(WaitUntil.Completed, restoreBlobDetails);
+            Operation<RestoreDetailsInternal> operation = client.FullRestoreOperation(WaitUntil.Completed);
+            RestoreDetailsInternal responseData = operation.Value;
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_ShortVersion_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_RestoreAllKeyMaterialsFromAPreviouslyStoredAzureBlobStorageBackup_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>"), "<folderToRestore>");
-            Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, restoreBlobDetails);
+            Operation<RestoreDetailsInternal> operation = await client.FullRestoreOperationAsync(WaitUntil.Completed);
+            RestoreDetailsInternal responseData = operation.Value;
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullRestoreOperation_AllParameters()
+        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_RestoresAllKeyVersionsOfAGivenKey()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -723,20 +401,23 @@ namespace Azure.Security.KeyVault.Administration.Samples
             {
                 sasTokenParameters = new
                 {
-                    storageResourceUri = "<storageResourceUri>",
-                    token = "<token>",
-                    useManagedIdentity = true,
+                    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
                 },
-                folderToRestore = "<folderToRestore>",
+                folder = "mhsm-mypool-20200303062926785",
             });
-            Operation operation = client.FullRestoreOperation(WaitUntil.Completed, content);
+            Operation<BinaryData> operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "hsm-mail-key", content);
+            BinaryData responseData = operation.Value;
+
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+            Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_AllParameters_Async()
+        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_RestoresAllKeyVersionsOfAGivenKey_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
@@ -744,165 +425,40 @@ namespace Azure.Security.KeyVault.Administration.Samples
             {
                 sasTokenParameters = new
                 {
-                    storageResourceUri = "<storageResourceUri>",
-                    token = "<token>",
-                    useManagedIdentity = true,
+                    storageResourceUri = "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+                    token = "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=REDACTED",
                 },
-                folderToRestore = "<folderToRestore>",
+                folder = "mhsm-mypool-20200303062926785",
             });
-            Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, content);
+            Operation<BinaryData> operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "hsm-mail-key", content);
+            BinaryData responseData = operation.Value;
+
+            JsonElement result = JsonDocument.Parse(responseData.ToStream()).RootElement;
+            Console.WriteLine(result.ToString());
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_FullRestoreOperation_AllParameters_Convenience()
+        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_RestoresAllKeyVersionsOfAGivenKey_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
-            {
-                Token = "<token>",
-                UseManagedIdentity = true,
-            }, "<folderToRestore>");
-            Operation operation = client.FullRestoreOperation(WaitUntil.Completed, restoreBlobDetails);
+            Operation<RestoreDetailsInternal> operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "hsm-mail-key");
+            RestoreDetailsInternal responseData = operation.Value;
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_FullRestoreOperation_AllParameters_Convenience_Async()
+        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_RestoresAllKeyVersionsOfAGivenKey_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
 
-            RestoreOperationParameters restoreBlobDetails = new RestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
-            {
-                Token = "<token>",
-                UseManagedIdentity = true,
-            }, "<folderToRestore>");
-            Operation operation = await client.FullRestoreOperationAsync(WaitUntil.Completed, restoreBlobDetails);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_ShortVersion()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = null;
-            Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", content);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_ShortVersion_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = null;
-            Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", content);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_ShortVersion_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_ShortVersion_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>");
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                sasTokenParameters = new
-                {
-                    storageResourceUri = "<storageResourceUri>",
-                    token = "<token>",
-                    useManagedIdentity = true,
-                },
-                folder = "<folder>",
-            });
-            Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", content);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                sasTokenParameters = new
-                {
-                    storageResourceUri = "<storageResourceUri>",
-                    token = "<token>",
-                    useManagedIdentity = true,
-                },
-                folder = "<folder>",
-            });
-            Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", content);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            SelectiveKeyRestoreOperationParameters restoreBlobDetails = new SelectiveKeyRestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
-            {
-                Token = "<token>",
-                UseManagedIdentity = true,
-            }, "<folder>");
-            Operation operation = client.SelectiveKeyRestoreOperation(WaitUntil.Completed, "<keyName>", restoreBlobDetails: restoreBlobDetails);
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_BackupRestoreRestClient_SelectiveKeyRestoreOperation_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            BackupRestoreRestClient client = new BackupRestoreRestClient(endpoint, credential);
-
-            SelectiveKeyRestoreOperationParameters restoreBlobDetails = new SelectiveKeyRestoreOperationParameters(new SASTokenParameter("<storageResourceUri>")
-            {
-                Token = "<token>",
-                UseManagedIdentity = true,
-            }, "<folder>");
-            Operation operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "<keyName>", restoreBlobDetails: restoreBlobDetails);
+            Operation<RestoreDetailsInternal> operation = await client.SelectiveKeyRestoreOperationAsync(WaitUntil.Completed, "hsm-mail-key");
+            RestoreDetailsInternal responseData = operation.Value;
         }
     }
 }

@@ -18,8 +18,10 @@ namespace Azure.Security.KeyVault.Administration
         /// <summary> The version of the service to use. </summary>
         public enum ServiceVersion
         {
+            /// <summary> Service version "7.5". </summary>
+            V7_5 = 1,
             /// <summary> Service version "7.6-preview.1". </summary>
-            V7_6_Preview_1 = 1,
+            V7_6_Preview_1 = 2,
         }
 
         internal string Version { get; }
@@ -29,6 +31,7 @@ namespace Azure.Security.KeyVault.Administration
         {
             Version = version switch
             {
+                ServiceVersion.V7_5 => "7.5",
                 ServiceVersion.V7_6_Preview_1 => "7.6-preview.1",
                 _ => throw new NotSupportedException()
             };

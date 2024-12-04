@@ -18,17 +18,17 @@ namespace Azure.Security.KeyVault.Administration.Samples
     {
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_SettingsRestClient_UpdateSetting_ShortVersion()
+        public void Example_SettingsRestClient_UpdateSetting_UpdateKeyVaultAccountSetting()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
-                value = "<value>",
+                value = "true",
             });
-            Response response = client.UpdateSetting("<settingName>", content);
+            Response response = client.UpdateSetting("AllowKeyManagementOperationsThroughARM", content);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.GetProperty("name").ToString());
@@ -37,61 +37,21 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_SettingsRestClient_UpdateSetting_ShortVersion_Async()
+        public async Task Example_SettingsRestClient_UpdateSetting_UpdateKeyVaultAccountSetting_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
             using RequestContent content = RequestContent.Create(new
             {
-                value = "<value>",
+                value = "true",
             });
-            Response response = await client.UpdateSettingAsync("<settingName>", content);
+            Response response = await client.UpdateSettingAsync("AllowKeyManagementOperationsThroughARM", content);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.GetProperty("name").ToString());
             Console.WriteLine(result.GetProperty("value").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_SettingsRestClient_UpdateSetting_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                value = "<value>",
-            });
-            Response response = client.UpdateSetting("<settingName>", content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_SettingsRestClient_UpdateSetting_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-            using RequestContent content = RequestContent.Create(new
-            {
-                value = "<value>",
-            });
-            Response response = await client.UpdateSettingAsync("<settingName>", content);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("type").ToString());
         }
 
         [Test]
@@ -102,7 +62,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-            Response response = client.GetSetting("<settingName>", null);
+            Response response = client.GetSetting("<setting-name>", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.GetProperty("name").ToString());
@@ -117,7 +77,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-            Response response = await client.GetSettingAsync("<settingName>", null);
+            Response response = await client.GetSettingAsync("<setting-name>", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.GetProperty("name").ToString());
@@ -132,7 +92,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-            Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
+            Response<KeyVaultSetting> response = client.GetSetting("<setting-name>");
         }
 
         [Test]
@@ -143,7 +103,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-            Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
+            Response<KeyVaultSetting> response = await client.GetSettingAsync("<setting-name>");
         }
 
         [Test]
@@ -154,7 +114,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-            Response response = client.GetSetting("<settingName>", null);
+            Response response = client.GetSetting("<setting-name>", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.GetProperty("name").ToString());
@@ -170,7 +130,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-            Response response = await client.GetSettingAsync("<settingName>", null);
+            Response response = await client.GetSettingAsync("<setting-name>", null);
 
             JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
             Console.WriteLine(result.GetProperty("name").ToString());
@@ -186,7 +146,7 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-            Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
+            Response<KeyVaultSetting> response = client.GetSetting("<setting-name>");
         }
 
         [Test]
@@ -197,14 +157,14 @@ namespace Azure.Security.KeyVault.Administration.Samples
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-            Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
+            Response<KeyVaultSetting> response = await client.GetSettingAsync("<setting-name>");
         }
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_SettingsRestClient_GetSettings_ShortVersion()
+        public void Example_SettingsRestClient_GetSettings_ListAccountSettings()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
@@ -216,9 +176,9 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_SettingsRestClient_GetSettings_ShortVersion_Async()
+        public async Task Example_SettingsRestClient_GetSettings_ListAccountSettings_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
@@ -230,9 +190,9 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public void Example_SettingsRestClient_GetSettings_ShortVersion_Convenience()
+        public void Example_SettingsRestClient_GetSettings_ListAccountSettings_Convenience()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
@@ -241,63 +201,9 @@ namespace Azure.Security.KeyVault.Administration.Samples
 
         [Test]
         [Ignore("Only validating compilation of examples")]
-        public async Task Example_SettingsRestClient_GetSettings_ShortVersion_Convenience_Async()
+        public async Task Example_SettingsRestClient_GetSettings_ListAccountSettings_Convenience_Async()
         {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-            Response<GetSettingsResult> response = await client.GetSettingsAsync();
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_SettingsRestClient_GetSettings_AllParameters()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-            Response response = client.GetSettings(null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("type").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_SettingsRestClient_GetSettings_AllParameters_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-            Response response = await client.GetSettingsAsync(null);
-
-            JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("name").ToString());
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("value").ToString());
-            Console.WriteLine(result.GetProperty("settings")[0].GetProperty("type").ToString());
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public void Example_SettingsRestClient_GetSettings_AllParameters_Convenience()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
-            TokenCredential credential = new DefaultAzureCredential();
-            SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-            Response<GetSettingsResult> response = client.GetSettings();
-        }
-
-        [Test]
-        [Ignore("Only validating compilation of examples")]
-        public async Task Example_SettingsRestClient_GetSettings_AllParameters_Convenience_Async()
-        {
-            Uri endpoint = new Uri("<https://my-service.azure.com>");
+            Uri endpoint = new Uri("<endpoint>");
             TokenCredential credential = new DefaultAzureCredential();
             SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 

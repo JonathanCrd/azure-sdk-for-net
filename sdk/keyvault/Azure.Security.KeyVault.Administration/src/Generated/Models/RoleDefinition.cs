@@ -48,20 +48,30 @@ namespace Azure.Security.KeyVault.Administration.Models
         /// <summary> Initializes a new instance of <see cref="RoleDefinition"/>. </summary>
         internal RoleDefinition()
         {
+            Permissions = new ChangeTrackingList<KeyVaultPermission>();
+            AssignableScopes = new ChangeTrackingList<KeyVaultRoleScope>();
         }
 
         /// <summary> Initializes a new instance of <see cref="RoleDefinition"/>. </summary>
         /// <param name="id"> The role definition ID. </param>
         /// <param name="name"> The role definition name. </param>
         /// <param name="type"> The role definition type. </param>
-        /// <param name="properties"> Role definition properties. </param>
+        /// <param name="roleName"> The role name. </param>
+        /// <param name="description"> The role definition description. </param>
+        /// <param name="roleType"> The role type. </param>
+        /// <param name="permissions"> Role definition permissions. </param>
+        /// <param name="assignableScopes"> Role definition assignable scopes. </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal RoleDefinition(string id, string name, KeyVaultRoleDefinitionType? type, RoleDefinitionProperties properties, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal RoleDefinition(string id, string name, KeyVaultRoleDefinitionType? type, string roleName, string description, KeyVaultRoleType? roleType, IReadOnlyList<KeyVaultPermission> permissions, IReadOnlyList<KeyVaultRoleScope> assignableScopes, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
             Id = id;
             Name = name;
             Type = type;
-            Properties = properties;
+            RoleName = roleName;
+            Description = description;
+            RoleType = roleType;
+            Permissions = permissions;
+            AssignableScopes = assignableScopes;
             _serializedAdditionalRawData = serializedAdditionalRawData;
         }
 
@@ -71,7 +81,15 @@ namespace Azure.Security.KeyVault.Administration.Models
         public string Name { get; }
         /// <summary> The role definition type. </summary>
         public KeyVaultRoleDefinitionType? Type { get; }
-        /// <summary> Role definition properties. </summary>
-        public RoleDefinitionProperties Properties { get; }
+        /// <summary> The role name. </summary>
+        public string RoleName { get; }
+        /// <summary> The role definition description. </summary>
+        public string Description { get; }
+        /// <summary> The role type. </summary>
+        public KeyVaultRoleType? RoleType { get; }
+        /// <summary> Role definition permissions. </summary>
+        public IReadOnlyList<KeyVaultPermission> Permissions { get; }
+        /// <summary> Role definition assignable scopes. </summary>
+        public IReadOnlyList<KeyVaultRoleScope> AssignableScopes { get; }
     }
 }

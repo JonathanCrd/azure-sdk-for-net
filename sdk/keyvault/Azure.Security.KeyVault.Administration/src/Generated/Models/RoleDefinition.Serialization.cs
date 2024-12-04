@@ -41,11 +41,44 @@ namespace Azure.Security.KeyVault.Administration.Models
                 writer.WritePropertyName("type"u8);
                 writer.WriteStringValue(Type.Value.ToString());
             }
-            if (Optional.IsDefined(Properties))
+            writer.WritePropertyName("properties"u8);
+            writer.WriteStartObject();
+            if (Optional.IsDefined(RoleName))
             {
-                writer.WritePropertyName("properties"u8);
-                writer.WriteObjectValue(Properties, options);
+                writer.WritePropertyName("roleName"u8);
+                writer.WriteStringValue(RoleName);
             }
+            if (Optional.IsDefined(Description))
+            {
+                writer.WritePropertyName("description"u8);
+                writer.WriteStringValue(Description);
+            }
+            if (Optional.IsDefined(RoleType))
+            {
+                writer.WritePropertyName("type"u8);
+                writer.WriteStringValue(RoleType.Value.ToString());
+            }
+            if (Optional.IsCollectionDefined(Permissions))
+            {
+                writer.WritePropertyName("permissions"u8);
+                writer.WriteStartArray();
+                foreach (var item in Permissions)
+                {
+                    writer.WriteObjectValue(item, options);
+                }
+                writer.WriteEndArray();
+            }
+            if (Optional.IsCollectionDefined(AssignableScopes))
+            {
+                writer.WritePropertyName("assignableScopes"u8);
+                writer.WriteStartArray();
+                foreach (var item in AssignableScopes)
+                {
+                    writer.WriteStringValue(item.ToString());
+                }
+                writer.WriteEndArray();
+            }
+            writer.WriteEndObject();
             if (options.Format != "W" && _serializedAdditionalRawData != null)
             {
                 foreach (var item in _serializedAdditionalRawData)
@@ -87,7 +120,11 @@ namespace Azure.Security.KeyVault.Administration.Models
             string id = default;
             string name = default;
             KeyVaultRoleDefinitionType? type = default;
-            RoleDefinitionProperties properties = default;
+            string roleName = default;
+            string description = default;
+            KeyVaultRoleType? type0 = default;
+            IReadOnlyList<KeyVaultPermission> permissions = default;
+            IReadOnlyList<KeyVaultRoleScope> assignableScopes = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
             foreach (var property in element.EnumerateObject())
@@ -115,9 +152,59 @@ namespace Azure.Security.KeyVault.Administration.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    properties = RoleDefinitionProperties.DeserializeRoleDefinitionProperties(property.Value, options);
+                    foreach (var property0 in property.Value.EnumerateObject())
+                    {
+                        if (property0.NameEquals("roleName"u8))
+                        {
+                            roleName = property0.Value.GetString();
+                            continue;
+                        }
+                        if (property0.NameEquals("description"u8))
+                        {
+                            description = property0.Value.GetString();
+                            continue;
+                        }
+                        if (property0.NameEquals("type"u8))
+                        {
+                            if (property0.Value.ValueKind == JsonValueKind.Null)
+                            {
+                                continue;
+                            }
+                            type0 = new KeyVaultRoleType(property0.Value.GetString());
+                            continue;
+                        }
+                        if (property0.NameEquals("permissions"u8))
+                        {
+                            if (property0.Value.ValueKind == JsonValueKind.Null)
+                            {
+                                continue;
+                            }
+                            List<KeyVaultPermission> array = new List<KeyVaultPermission>();
+                            foreach (var item in property0.Value.EnumerateArray())
+                            {
+                                array.Add(KeyVaultPermission.DeserializeKeyVaultPermission(item, options));
+                            }
+                            permissions = array;
+                            continue;
+                        }
+                        if (property0.NameEquals("assignableScopes"u8))
+                        {
+                            if (property0.Value.ValueKind == JsonValueKind.Null)
+                            {
+                                continue;
+                            }
+                            List<KeyVaultRoleScope> array = new List<KeyVaultRoleScope>();
+                            foreach (var item in property0.Value.EnumerateArray())
+                            {
+                                array.Add(new KeyVaultRoleScope(item.GetString()));
+                            }
+                            assignableScopes = array;
+                            continue;
+                        }
+                    }
                     continue;
                 }
                 if (options.Format != "W")
@@ -126,7 +213,16 @@ namespace Azure.Security.KeyVault.Administration.Models
                 }
             }
             serializedAdditionalRawData = rawDataDictionary;
-            return new RoleDefinition(id, name, type, properties, serializedAdditionalRawData);
+            return new RoleDefinition(
+                id,
+                name,
+                type,
+                roleName,
+                description,
+                type0,
+                permissions ?? new ChangeTrackingList<KeyVaultPermission>(),
+                assignableScopes ?? new ChangeTrackingList<KeyVaultRoleScope>(),
+                serializedAdditionalRawData);
         }
 
         BinaryData IPersistableModel<RoleDefinition>.Write(ModelReaderWriterOptions options)

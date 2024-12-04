@@ -5,72 +5,38 @@
       <example>
 This sample shows how to call UpdateSettingAsync and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
 using RequestContent content = RequestContent.Create(new
 {
-    value = "<value>",
+    value = "true",
 });
-Response response = await client.UpdateSettingAsync("<settingName>", content);
+Response response = await client.UpdateSettingAsync("AllowKeyManagementOperationsThroughARM", content);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.GetProperty("name").ToString());
 Console.WriteLine(result.GetProperty("value").ToString());
-]]></code>
-This sample shows how to call UpdateSettingAsync with all parameters and request content and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-using RequestContent content = RequestContent.Create(new
-{
-    value = "<value>",
-});
-Response response = await client.UpdateSettingAsync("<settingName>", content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("name").ToString());
-Console.WriteLine(result.GetProperty("value").ToString());
-Console.WriteLine(result.GetProperty("type").ToString());
 ]]></code></example>
     </member>
     <member name="UpdateSetting(string,RequestContent,RequestContext)">
       <example>
 This sample shows how to call UpdateSetting and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
 using RequestContent content = RequestContent.Create(new
 {
-    value = "<value>",
+    value = "true",
 });
-Response response = client.UpdateSetting("<settingName>", content);
+Response response = client.UpdateSetting("AllowKeyManagementOperationsThroughARM", content);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.GetProperty("name").ToString());
 Console.WriteLine(result.GetProperty("value").ToString());
-]]></code>
-This sample shows how to call UpdateSetting with all parameters and request content and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-using RequestContent content = RequestContent.Create(new
-{
-    value = "<value>",
-});
-Response response = client.UpdateSetting("<settingName>", content);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("name").ToString());
-Console.WriteLine(result.GetProperty("value").ToString());
-Console.WriteLine(result.GetProperty("type").ToString());
 ]]></code></example>
     </member>
     <member name="GetSettingAsync(string,CancellationToken)">
@@ -81,7 +47,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
+Response<KeyVaultSetting> response = await client.GetSettingAsync("<setting-name>");
 ]]></code>
 This sample shows how to call GetSettingAsync with all parameters.
 <code><![CDATA[
@@ -89,7 +55,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-Response<KeyVaultSetting> response = await client.GetSettingAsync("<settingName>");
+Response<KeyVaultSetting> response = await client.GetSettingAsync("<setting-name>");
 ]]></code></example>
     </member>
     <member name="GetSetting(string,CancellationToken)">
@@ -100,7 +66,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
+Response<KeyVaultSetting> response = client.GetSetting("<setting-name>");
 ]]></code>
 This sample shows how to call GetSetting with all parameters.
 <code><![CDATA[
@@ -108,7 +74,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-Response<KeyVaultSetting> response = client.GetSetting("<settingName>");
+Response<KeyVaultSetting> response = client.GetSetting("<setting-name>");
 ]]></code></example>
     </member>
     <member name="GetSettingAsync(string,RequestContext)">
@@ -119,7 +85,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-Response response = await client.GetSettingAsync("<settingName>", null);
+Response response = await client.GetSettingAsync("<setting-name>", null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.GetProperty("name").ToString());
@@ -131,7 +97,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-Response response = await client.GetSettingAsync("<settingName>", null);
+Response response = await client.GetSettingAsync("<setting-name>", null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.GetProperty("name").ToString());
@@ -147,7 +113,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-Response response = client.GetSetting("<settingName>", null);
+Response response = client.GetSetting("<setting-name>", null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.GetProperty("name").ToString());
@@ -159,7 +125,7 @@ Uri endpoint = new Uri("<https://my-service.azure.com>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
-Response response = client.GetSetting("<settingName>", null);
+Response response = client.GetSetting("<setting-name>", null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.GetProperty("name").ToString());
@@ -171,15 +137,7 @@ Console.WriteLine(result.GetProperty("type").ToString());
       <example>
 This sample shows how to call GetSettingsAsync.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-Response<GetSettingsResult> response = await client.GetSettingsAsync();
-]]></code>
-This sample shows how to call GetSettingsAsync with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
@@ -190,15 +148,7 @@ Response<GetSettingsResult> response = await client.GetSettingsAsync();
       <example>
 This sample shows how to call GetSettings.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-Response<GetSettingsResult> response = client.GetSettings();
-]]></code>
-This sample shows how to call GetSettings with all parameters.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
@@ -209,7 +159,7 @@ Response<GetSettingsResult> response = client.GetSettings();
       <example>
 This sample shows how to call GetSettingsAsync and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
@@ -217,26 +167,13 @@ Response response = await client.GetSettingsAsync(null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call GetSettingsAsync with all parameters and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-Response response = await client.GetSettingsAsync(null);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("settings")[0].GetProperty("name").ToString());
-Console.WriteLine(result.GetProperty("settings")[0].GetProperty("value").ToString());
-Console.WriteLine(result.GetProperty("settings")[0].GetProperty("type").ToString());
 ]]></code></example>
     </member>
     <member name="GetSettings(RequestContext)">
       <example>
 This sample shows how to call GetSettings and parse the result.
 <code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
+Uri endpoint = new Uri("<endpoint>");
 TokenCredential credential = new DefaultAzureCredential();
 SettingsRestClient client = new SettingsRestClient(endpoint, credential);
 
@@ -244,19 +181,6 @@ Response response = client.GetSettings(null);
 
 JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
 Console.WriteLine(result.ToString());
-]]></code>
-This sample shows how to call GetSettings with all parameters and parse the result.
-<code><![CDATA[
-Uri endpoint = new Uri("<https://my-service.azure.com>");
-TokenCredential credential = new DefaultAzureCredential();
-SettingsRestClient client = new SettingsRestClient(endpoint, credential);
-
-Response response = client.GetSettings(null);
-
-JsonElement result = JsonDocument.Parse(response.ContentStream).RootElement;
-Console.WriteLine(result.GetProperty("settings")[0].GetProperty("name").ToString());
-Console.WriteLine(result.GetProperty("settings")[0].GetProperty("value").ToString());
-Console.WriteLine(result.GetProperty("settings")[0].GetProperty("type").ToString());
 ]]></code></example>
     </member>
   </members>

@@ -36,6 +36,33 @@ namespace Azure.Security.KeyVault.Administration
             return new KeyVaultRoleAssignmentProperties(scope, roleDefinitionId, principalId, serializedAdditionalRawData: null);
         }
 
+        /// <summary> Initializes a new instance of <see cref="Models.RoleDefinition"/>. </summary>
+        /// <param name="id"> The role definition ID. </param>
+        /// <param name="name"> The role definition name. </param>
+        /// <param name="type"> The role definition type. </param>
+        /// <param name="roleName"> The role name. </param>
+        /// <param name="description"> The role definition description. </param>
+        /// <param name="roleType"> The role type. </param>
+        /// <param name="permissions"> Role definition permissions. </param>
+        /// <param name="assignableScopes"> Role definition assignable scopes. </param>
+        /// <returns> A new <see cref="Models.RoleDefinition"/> instance for mocking. </returns>
+        public static RoleDefinition RoleDefinition(string id = null, string name = null, KeyVaultRoleDefinitionType? type = null, string roleName = null, string description = null, KeyVaultRoleType? roleType = null, IEnumerable<KeyVaultPermission> permissions = null, IEnumerable<KeyVaultRoleScope> assignableScopes = null)
+        {
+            permissions ??= new List<KeyVaultPermission>();
+            assignableScopes ??= new List<KeyVaultRoleScope>();
+
+            return new RoleDefinition(
+                id,
+                name,
+                type,
+                roleName,
+                description,
+                roleType,
+                permissions?.ToList(),
+                assignableScopes?.ToList(),
+                serializedAdditionalRawData: null);
+        }
+
         /// <summary> Initializes a new instance of <see cref="Administration.KeyVaultSetting"/>. </summary>
         /// <param name="name"> The account setting to be updated. </param>
         /// <param name="content"> The value of the pool setting. </param>
