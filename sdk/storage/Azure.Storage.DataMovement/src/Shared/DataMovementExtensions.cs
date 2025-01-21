@@ -21,15 +21,12 @@ namespace Azure.Storage.DataMovement
                 properties: properties);
         }
 
-        public static StreamToUriJobPart ToJobPartAsync(
-            this StreamToUriTransferJob baseJob,
-            Stream planFileStream,
+        public static StreamToUriJobPart ToStreamToUriJobPartAsync(
+            this TransferJobInternal baseJob,
+            JobPartPlanHeader header,
             StorageResourceItem sourceResource,
             StorageResourceItem destinationResource)
         {
-            // Convert stream to job plan header
-            JobPartPlanHeader header = JobPartPlanHeader.Deserialize(planFileStream);
-
             // Override header values if options were specified by user.
             long initialTransferSize = baseJob._initialTransferSize ?? header.InitialTransferSize;
             long transferChunkSize = baseJob._maximumTransferChunkSize ?? header.ChunkSize;
@@ -53,15 +50,12 @@ namespace Azure.Storage.DataMovement
             return jobPart;
         }
 
-        public static ServiceToServiceJobPart ToJobPartAsync(
-            this ServiceToServiceTransferJob baseJob,
-            Stream planFileStream,
+        public static ServiceToServiceJobPart ToServiceToServiceJobPartAsync(
+            this TransferJobInternal baseJob,
+            JobPartPlanHeader header,
             StorageResourceItem sourceResource,
             StorageResourceItem destinationResource)
         {
-            // Convert stream to job plan header
-            JobPartPlanHeader header = JobPartPlanHeader.Deserialize(planFileStream);
-
             // Override header values if options were specified by user.
             long initialTransferSize = baseJob._initialTransferSize ?? header.InitialTransferSize;
             long transferChunkSize = baseJob._maximumTransferChunkSize ?? header.ChunkSize;
@@ -85,15 +79,12 @@ namespace Azure.Storage.DataMovement
             return jobPart;
         }
 
-        public static UriToStreamJobPart ToJobPartAsync(
-            this UriToStreamTransferJob baseJob,
-            Stream planFileStream,
+        public static UriToStreamJobPart ToUriToStreamJobPartAsync(
+            this TransferJobInternal baseJob,
+            JobPartPlanHeader header,
             StorageResourceItem sourceResource,
             StorageResourceItem destinationResource)
         {
-            // Convert stream to job plan header
-            JobPartPlanHeader header = JobPartPlanHeader.Deserialize(planFileStream);
-
             // Override header values if options were specified by user.
             long initialTransferSize = baseJob._initialTransferSize ?? header.InitialTransferSize;
             long transferChunkSize = baseJob._maximumTransferChunkSize ?? header.ChunkSize;
@@ -117,15 +108,12 @@ namespace Azure.Storage.DataMovement
             return jobPart;
         }
 
-        public static StreamToUriJobPart ToJobPartAsync(
-            this StreamToUriTransferJob baseJob,
-            Stream planFileStream,
+        public static StreamToUriJobPart ToStreamToUriJobPartAsync(
+            this TransferJobInternal baseJob,
+            JobPartPlanHeader header,
             StorageResourceContainer sourceResource,
             StorageResourceContainer destinationResource)
         {
-            // Convert stream to job plan header
-            JobPartPlanHeader header = JobPartPlanHeader.Deserialize(planFileStream);
-
             string childSourcePath = header.SourcePath;
             string childSourceName = childSourcePath.Substring(sourceResource.Uri.AbsoluteUri.Length + 1);
             string childDestinationPath = header.DestinationPath;
@@ -153,15 +141,12 @@ namespace Azure.Storage.DataMovement
             return jobPart;
         }
 
-        public static ServiceToServiceJobPart ToJobPartAsync(
-            this ServiceToServiceTransferJob baseJob,
-            Stream planFileStream,
+        public static ServiceToServiceJobPart ToServiceToServiceJobPartAsync(
+            this TransferJobInternal baseJob,
+            JobPartPlanHeader header,
             StorageResourceContainer sourceResource,
             StorageResourceContainer destinationResource)
         {
-            // Convert stream to job plan header
-            JobPartPlanHeader header = JobPartPlanHeader.Deserialize(planFileStream);
-
             string childSourcePath = header.SourcePath;
             string childDestinationPath = header.DestinationPath;
             // Override header values if options were specified by user.
@@ -187,15 +172,12 @@ namespace Azure.Storage.DataMovement
             return jobPart;
         }
 
-        public static UriToStreamJobPart ToJobPartAsync(
-            this UriToStreamTransferJob baseJob,
-            Stream planFileStream,
+        public static UriToStreamJobPart ToUriToStreamJobPartAsync(
+            this TransferJobInternal baseJob,
+            JobPartPlanHeader header,
             StorageResourceContainer sourceResource,
             StorageResourceContainer destinationResource)
         {
-            // Convert stream to job plan header
-            JobPartPlanHeader header = JobPartPlanHeader.Deserialize(planFileStream);
-
             // Apply credentials to the saved transfer job path
             string childSourcePath = header.SourcePath;
             string childSourceName = childSourcePath.Substring(sourceResource.Uri.AbsoluteUri.Length + 1);
@@ -234,7 +216,7 @@ namespace Azure.Storage.DataMovement
 
             return new JobPartPlanHeader(
                 version: DataMovementConstants.JobPartPlanFile.SchemaVersion,
-                transferId: jobPart._dataTransfer.Id,
+                transferId: jobPart._transferOperation.Id,
                 partNumber: jobPart.PartNumber,
                 createTime: DateTimeOffset.UtcNow,
                 sourceTypeId: jobPart._sourceResource.ResourceId,
@@ -257,9 +239,9 @@ namespace Azure.Storage.DataMovement
         internal static void VerifyJobPartPlanHeader(this JobPartInternal jobPart, JobPartPlanHeader header)
         {
             // Check transfer id
-            if (!header.TransferId.Equals(jobPart._dataTransfer.Id))
+            if (!header.TransferId.Equals(jobPart._transferOperation.Id))
             {
-                throw Errors.MismatchTransferId(jobPart._dataTransfer.Id, header.TransferId);
+                throw Errors.MismatchTransferId(jobPart._transferOperation.Id, header.TransferId);
             }
 
             // Check source path

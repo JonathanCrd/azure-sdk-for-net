@@ -26,7 +26,9 @@ namespace Azure.Storage.DataMovement.Files.Shares
 
         protected override string ResourceId => "ShareFile";
 
-        protected override DataTransferOrder TransferType => DataTransferOrder.Unordered;
+        protected override TransferOrder TransferType => TransferOrder.Unordered;
+
+        protected override long MaxSupportedSingleTransferSize => DataMovementShareConstants.MaxRange;
 
         protected override long MaxSupportedChunkSize => DataMovementShareConstants.MaxRange;
 

@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Azure.Core;
 using Azure.Storage.Files.Shares;
+using Azure.Storage.Files.Shares.Models;
 
 namespace Azure.Storage.DataMovement.Files.Shares
 {
@@ -224,7 +225,7 @@ namespace Azure.Storage.DataMovement.Files.Shares
 
         #region Abstract Class Implementation
         /// <inheritdoc/>
-        protected override Task<StorageResource> FromSourceAsync(DataTransferProperties properties, CancellationToken cancellationToken)
+        protected override Task<StorageResource> FromSourceAsync(TransferProperties properties, CancellationToken cancellationToken)
         {
             // Source share file data currently empty, so no specific properties to grab
 
@@ -234,7 +235,7 @@ namespace Azure.Storage.DataMovement.Files.Shares
         }
 
         /// <inheritdoc/>
-        protected override Task<StorageResource> FromDestinationAsync(DataTransferProperties properties, CancellationToken cancellationToken)
+        protected override Task<StorageResource> FromDestinationAsync(TransferProperties properties, CancellationToken cancellationToken)
         {
             ShareFileDestinationCheckpointData checkpointData;
             using (MemoryStream stream = new(properties.DestinationCheckpointData))
@@ -264,19 +265,19 @@ namespace Azure.Storage.DataMovement.Files.Shares
 
         /// <summary>
         /// For use in testing. Internal wrapper for protected member
-        /// <see cref="StorageResourceProvider.FromSourceAsync(DataTransferProperties, CancellationToken)"/>.
+        /// <see cref="StorageResourceProvider.FromSourceAsync(TransferProperties, CancellationToken)"/>.
         /// </summary>
         internal async Task<StorageResource> FromSourceInternalHookAsync(
-            DataTransferProperties props,
+            TransferProperties props,
             CancellationToken cancellationToken = default)
             => await FromSourceAsync(props, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// For use in testing. Internal wrapper for protected member
-        /// <see cref="StorageResourceProvider.FromDestinationAsync(DataTransferProperties, CancellationToken)"/>.
+        /// <see cref="StorageResourceProvider.FromDestinationAsync(TransferProperties, CancellationToken)"/>.
         /// </summary>
         internal async Task<StorageResource> FromDestinationInternalHookAsync(
-            DataTransferProperties props,
+            TransferProperties props,
             CancellationToken cancellationToken = default)
             => await FromDestinationAsync(props, cancellationToken).ConfigureAwait(false);
         #endregion
@@ -300,7 +301,10 @@ namespace Azure.Storage.DataMovement.Files.Shares
             {
                 CredentialType.None => new ShareDirectoryClient(directoryUri),
                 CredentialType.SharedKey => new ShareDirectoryClient(directoryUri, _getStorageSharedKeyCredential(directoryUri, false)),
-                CredentialType.Token => new ShareDirectoryClient(directoryUri, _getTokenCredential(directoryUri, false)),
+                CredentialType.Token => new ShareDirectoryClient(
+                    directoryUri,
+                    _getTokenCredential(directoryUri, false),
+                    new ShareClientOptions { ShareTokenIntent = ShareTokenIntent.Backup }),
                 CredentialType.Sas => new ShareDirectoryClient(directoryUri, _getAzureSasCredential(directoryUri, false)),
                 _ => throw BadCredentialTypeException(_credentialType),
             };
@@ -327,7 +331,10 @@ namespace Azure.Storage.DataMovement.Files.Shares
             {
                 CredentialType.None => new ShareFileClient(fileUri),
                 CredentialType.SharedKey => new ShareFileClient(fileUri, _getStorageSharedKeyCredential(fileUri, false)),
-                CredentialType.Token => new ShareFileClient(fileUri, _getTokenCredential(fileUri, false)),
+                CredentialType.Token => new ShareFileClient(
+                    fileUri,
+                    _getTokenCredential(fileUri, false),
+                    new ShareClientOptions { ShareTokenIntent = ShareTokenIntent.Backup }),
                 CredentialType.Sas => new ShareFileClient(fileUri, _getAzureSasCredential(fileUri, false)),
                 _ => throw BadCredentialTypeException(_credentialType),
             };
@@ -341,6 +348,8 @@ namespace Azure.Storage.DataMovement.Files.Shares
         /// </summary>
         /// <param name="client">
         /// Target resource presented within an Azure SDK client.
+        /// Note: It is NOT guaranteed that properties set within the client's <see cref="ShareClientOptions"/>
+        /// will be respected when resuming a transfer.
         /// </param>
         /// <param name="options">
         /// Options for creating the storage resource.
@@ -360,6 +369,8 @@ namespace Azure.Storage.DataMovement.Files.Shares
         /// </summary>
         /// <param name="client">
         /// Target resource presented within an Azure SDK client.
+        /// Note: It is NOT guaranteed that properties set within the client's <see cref="ShareClientOptions"/>
+        /// will be respected when resuming a transfer.
         /// </param>
         /// <param name="options">
         /// Options for creating the storage resource.

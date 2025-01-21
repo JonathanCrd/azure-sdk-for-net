@@ -19,7 +19,9 @@ namespace Azure.Storage.DataMovement.Tests
 
         protected internal override string ResourceId => "MemoryBuffer";
 
-        protected internal override DataTransferOrder TransferType => DataTransferOrder.Unordered;
+        protected internal override TransferOrder TransferType => TransferOrder.Unordered;
+
+        protected internal override long MaxSupportedSingleTransferSize => long.MaxValue;
 
         protected internal override long MaxSupportedChunkSize => long.MaxValue;
 

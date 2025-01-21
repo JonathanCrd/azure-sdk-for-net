@@ -110,13 +110,15 @@ namespace Azure.Storage.DataMovement.Blobs.Tests
                 It.IsAny<StorageResourceContainer>(),
                 It.IsAny<CancellationToken>()))
                 .Returns(GetStorageResourceItemsAsyncEnumerable(blobItems));
-            ServiceToServiceTransferJob transferJob = new ServiceToServiceTransferJob(
-                new DataTransfer(id: transferId),
+            TransferJobInternal transferJob = new(
+                new TransferOperation(id: transferId),
                 sourceMock.Object,
                 destinationMock.Object,
-                new DataTransferOptions(),
+                ServiceToServiceJobPart.CreateJobPartAsync,
+                ServiceToServiceJobPart.CreateJobPartAsync,
+                new TransferOptions(),
                 checkpointer,
-                DataTransferErrorMode.StopOnAnyFailure,
+                TransferErrorMode.StopOnAnyFailure,
                 ArrayPool<byte>.Shared,
                 new ClientDiagnostics(ClientOptions.Default));
 
@@ -164,13 +166,15 @@ namespace Azure.Storage.DataMovement.Blobs.Tests
                 It.IsAny<StorageResourceContainer>(),
                 It.IsAny<CancellationToken>()))
                 .Returns(GetStorageResourceItemsAsyncEnumerable(blobItems));
-            ServiceToServiceTransferJob transferJob = new ServiceToServiceTransferJob(
-                new DataTransfer(id: transferId),
+            TransferJobInternal transferJob = new(
+                new TransferOperation(id: transferId),
                 sourceMock.Object,
                 destinationMock.Object,
-                new DataTransferOptions(),
+                ServiceToServiceJobPart.CreateJobPartAsync,
+                ServiceToServiceJobPart.CreateJobPartAsync,
+                new TransferOptions(),
                 checkpointer,
-                DataTransferErrorMode.StopOnAnyFailure,
+                TransferErrorMode.StopOnAnyFailure,
                 ArrayPool<byte>.Shared,
                 new ClientDiagnostics(ClientOptions.Default));
 

@@ -129,6 +129,11 @@ namespace Azure.ResourceManager.NetApp
                 writer.WritePropertyName("networkFeatures"u8);
                 writer.WriteStringValue(NetworkFeatures.Value.ToString());
             }
+            if (options.Format != "W" && Optional.IsDefined(EffectiveNetworkFeatures))
+            {
+                writer.WritePropertyName("effectiveNetworkFeatures"u8);
+                writer.WriteStringValue(EffectiveNetworkFeatures.Value.ToString());
+            }
             if (options.Format != "W" && Optional.IsDefined(NetworkSiblingSetId))
             {
                 writer.WritePropertyName("networkSiblingSetId"u8);
@@ -158,6 +163,11 @@ namespace Azure.ResourceManager.NetApp
             {
                 writer.WritePropertyName("dataProtection"u8);
                 writer.WriteObjectValue(DataProtection, options);
+            }
+            if (Optional.IsDefined(AcceptGrowCapacityPoolForShortTermCloneSplit))
+            {
+                writer.WritePropertyName("acceptGrowCapacityPoolForShortTermCloneSplit"u8);
+                writer.WriteStringValue(AcceptGrowCapacityPoolForShortTermCloneSplit.Value.ToString());
             }
             if (Optional.IsDefined(IsRestoring))
             {
@@ -396,6 +406,30 @@ namespace Azure.ResourceManager.NetApp
                     writer.WriteNull("originatingResourceId");
                 }
             }
+            if (options.Format != "W" && Optional.IsDefined(InheritedSizeInBytes))
+            {
+                if (InheritedSizeInBytes != null)
+                {
+                    writer.WritePropertyName("inheritedSizeInBytes"u8);
+                    writer.WriteNumberValue(InheritedSizeInBytes.Value);
+                }
+                else
+                {
+                    writer.WriteNull("inheritedSizeInBytes");
+                }
+            }
+            if (Optional.IsDefined(Language))
+            {
+                if (Language != null)
+                {
+                    writer.WritePropertyName("language"u8);
+                    writer.WriteStringValue(Language.Value.ToString());
+                }
+                else
+                {
+                    writer.WriteNull("language");
+                }
+            }
             writer.WriteEndObject();
         }
 
@@ -440,11 +474,13 @@ namespace Azure.ResourceManager.NetApp
             string baremetalTenantId = default;
             ResourceIdentifier subnetId = default;
             NetAppNetworkFeature? networkFeatures = default;
+            NetAppNetworkFeature? effectiveNetworkFeatures = default;
             Guid? networkSiblingSetId = default;
             NetAppVolumeStorageToNetworkProximity? storageToNetworkProximity = default;
             IReadOnlyList<NetAppVolumeMountTarget> mountTargets = default;
             string volumeType = default;
             NetAppVolumeDataProtection dataProtection = default;
+            AcceptGrowCapacityPoolForShortTermCloneSplit? acceptGrowCapacityPoolForShortTermCloneSplit = default;
             bool? isRestoring = default;
             bool? snapshotDirectoryVisible = default;
             bool? kerberosEnabled = default;
@@ -481,6 +517,8 @@ namespace Azure.ResourceManager.NetApp
             string provisionedAvailabilityZone = default;
             bool? isLargeVolume = default;
             ResourceIdentifier originatingResourceId = default;
+            long? inheritedSizeInBytes = default;
+            NetAppVolumeLanguage? language = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
             foreach (var property in element.EnumerateObject())
@@ -664,6 +702,15 @@ namespace Azure.ResourceManager.NetApp
                             networkFeatures = new NetAppNetworkFeature(property0.Value.GetString());
                             continue;
                         }
+                        if (property0.NameEquals("effectiveNetworkFeatures"u8))
+                        {
+                            if (property0.Value.ValueKind == JsonValueKind.Null)
+                            {
+                                continue;
+                            }
+                            effectiveNetworkFeatures = new NetAppNetworkFeature(property0.Value.GetString());
+                            continue;
+                        }
                         if (property0.NameEquals("networkSiblingSetId"u8))
                         {
                             if (property0.Value.ValueKind == JsonValueKind.Null)
@@ -708,6 +755,15 @@ namespace Azure.ResourceManager.NetApp
                                 continue;
                             }
                             dataProtection = NetAppVolumeDataProtection.DeserializeNetAppVolumeDataProtection(property0.Value, options);
+                            continue;
+                        }
+                        if (property0.NameEquals("acceptGrowCapacityPoolForShortTermCloneSplit"u8))
+                        {
+                            if (property0.Value.ValueKind == JsonValueKind.Null)
+                            {
+                                continue;
+                            }
+                            acceptGrowCapacityPoolForShortTermCloneSplit = new AcceptGrowCapacityPoolForShortTermCloneSplit(property0.Value.GetString());
                             continue;
                         }
                         if (property0.NameEquals("isRestoring"u8))
@@ -1045,6 +1101,26 @@ namespace Azure.ResourceManager.NetApp
                             originatingResourceId = new ResourceIdentifier(property0.Value.GetString());
                             continue;
                         }
+                        if (property0.NameEquals("inheritedSizeInBytes"u8))
+                        {
+                            if (property0.Value.ValueKind == JsonValueKind.Null)
+                            {
+                                inheritedSizeInBytes = null;
+                                continue;
+                            }
+                            inheritedSizeInBytes = property0.Value.GetInt64();
+                            continue;
+                        }
+                        if (property0.NameEquals("language"u8))
+                        {
+                            if (property0.Value.ValueKind == JsonValueKind.Null)
+                            {
+                                language = null;
+                                continue;
+                            }
+                            language = new NetAppVolumeLanguage(property0.Value.GetString());
+                            continue;
+                        }
                     }
                     continue;
                 }
@@ -1076,11 +1152,13 @@ namespace Azure.ResourceManager.NetApp
                 baremetalTenantId,
                 subnetId,
                 networkFeatures,
+                effectiveNetworkFeatures,
                 networkSiblingSetId,
                 storageToNetworkProximity,
                 mountTargets ?? new ChangeTrackingList<NetAppVolumeMountTarget>(),
                 volumeType,
                 dataProtection,
+                acceptGrowCapacityPoolForShortTermCloneSplit,
                 isRestoring,
                 snapshotDirectoryVisible,
                 kerberosEnabled,
@@ -1117,6 +1195,8 @@ namespace Azure.ResourceManager.NetApp
                 provisionedAvailabilityZone,
                 isLargeVolume,
                 originatingResourceId,
+                inheritedSizeInBytes,
+                language,
                 serializedAdditionalRawData);
         }
 

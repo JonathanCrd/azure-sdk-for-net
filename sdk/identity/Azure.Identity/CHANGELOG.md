@@ -8,9 +8,23 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where setting `DefaultAzureCredentialOptions.TenantId` twice throws an `InvalidOperationException` ([#47035](https://github.com/Azure/azure-sdk-for-net/issues/47035))
+- Fixed an issue where `ManagedIdentityCredential` does not honor the `CancellationToken` passed to `GetToken` and `GetTokenAsync`. ([#47156](https://github.com/Azure/azure-sdk-for-net/issues/47156))
+- Fixed an issue where some credentials in `DefaultAzureCredential` would not fall through to the next credential in the chain under certain exception conditions.
+
 ### Other Changes
 
+## 1.13.1 (2024-10-24)
+
+### Bugs Fixed
+- Fixed a regression that prevented `ManagedIdentityCredential` from attempting to detect if Workload Identity is enabled in the current environment. [#46653](https://github.com/Azure/azure-sdk-for-net/issues/46653)
+- Fixed a regression that prevented `DefaultAzureCredential` from progressing past `ManagedIdentityCredential` in some scenarios where the identity was not available. [#46709](https://github.com/Azure/azure-sdk-for-net/issues/46709)
+
 ## 1.13.0 (2024-10-14)
+
+### Breaking Changes
+- Previously, if a clientID or ResourceID was specified for Cloud Shell managed identity, which is not supported, the clientID or resourceID would be silently ignored. Now, an exception will be thrown if a clientID or resourceID is specified for Cloud Shell managed identity.
+- Previously, if a clientID or ResourceID was specified for Service Fabric managed identity, which is not supported, the clientID or resourceID would be silently ignored. Now, an exception will be thrown if a clientID or resourceID is specified for Service Fabric managed identity.
 
 ### Features Added
 - `ManagedIdentityCredential` now supports specifying a user-assigned managed identity by object ID.
