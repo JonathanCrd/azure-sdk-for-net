@@ -521,12 +521,14 @@ namespace Azure.Identity.Tests
                 var callback = innerHandlerWithCa.ServerCertificateCustomValidationCallback;
 
                 // Test normal case - no SSL errors
+                // The callback creates its own X509Chain internally to avoid Linux/OpenSSL issues,
+                // so the passed-in chain should NOT be modified
                 using (var chain = new X509Chain())
                 {
-                    Assert.DoesNotThrow(() => callback(null, testCert, chain, System.Net.Security.SslPolicyErrors.None));
-                    Assert.IsTrue(chain.ChainPolicy.ExtraStore.Count > 0, "CA should be added to ExtraStore");
-                    Assert.AreEqual(X509RevocationMode.NoCheck, chain.ChainPolicy.RevocationMode);
-                    Assert.AreEqual(X509VerificationFlags.AllowUnknownCertificateAuthority, chain.ChainPolicy.VerificationFlags);
+                    var result = callback(null, testCert, chain, System.Net.Security.SslPolicyErrors.None);
+                    Assert.IsTrue(result, "Should return true for valid certificate signed by custom CA");
+                    // The passed-in chain should NOT be modified - the callback uses its own internal chain
+                    Assert.AreEqual(0, chain.ChainPolicy.ExtraStore.Count, "Passed-in chain should not be modified");
                 }
 
                 // Test null certificate case
