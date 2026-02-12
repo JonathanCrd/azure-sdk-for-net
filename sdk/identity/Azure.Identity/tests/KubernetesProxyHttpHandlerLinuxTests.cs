@@ -28,7 +28,7 @@ namespace Azure.Identity.Tests
     [RunOnlyOnPlatforms(Linux = true)]
     public class KubernetesProxyHttpHandlerLinuxTests
     {
-        private TestTempFileHandler _tempFiles = new TestTempFileHandler();
+        private TestTempFileHandler _tempFiles;
         private X509Certificate2 _serverCertificate;
         private X509Certificate2 _caCertificate;
         private SimpleHttpsServer _httpsServer;
@@ -36,94 +36,36 @@ namespace Azure.Identity.Tests
         [SetUp]
         public void Setup()
         {
-            // Generate a self-signed CA certificate and server certificate for testing
+            _tempFiles = new TestTempFileHandler();
             (_caCertificate, _serverCertificate) = GenerateTestCertificates();
         }
 
         [TearDown]
         public void Cleanup()
         {
-            _tempFiles.CleanupTempFiles();
+            _tempFiles?.CleanupTempFiles();
             _httpsServer?.Dispose();
+            _httpsServer = null;
             _serverCertificate?.Dispose();
+            _serverCertificate = null;
             _caCertificate?.Dispose();
+            _caCertificate = null;
         }
 
         /// <summary>
-        /// This test verifies that the X509Chain fix works on Linux.
-        /// The original bug caused a NullReferenceException when the ServerCertificateCustomValidationCallback
-        /// tried to reuse the X509Chain passed from SSL validation and call Build() on it again.
-        /// On Linux with OpenSSL, this fails because the chain is already in a partially built state.
+        /// Verifies that HTTPS requests with a custom CA certificate succeed on Linux.
+        /// This is the primary regression test for the X509Chain fix.
+        /// Bug: Reusing the passed-in X509Chain and calling Build() caused NullReferenceException
+        /// in OpenSslX509ChainProcessor.FindFirstChain on Linux with OpenSSL.
+        /// Fix: Create a new X509Chain instance in the validation callback.
         /// </summary>
         [Test]
         public async Task SendAsync_WithCustomCa_SucceedsOnLinux()
         {
-            // Arrange - Start a local HTTPS server with our test certificate
-            _httpsServer = new SimpleHttpsServer(_serverCertificate);
-            var serverPort = await _httpsServer.StartAsync();
-
-            var caPem = ExportCertificateToPem(_caCertificate);
-            var caFilePath = _tempFiles.GetTempFilePath();
-            File.WriteAllText(caFilePath, caPem);
-
-            var config = new KubernetesProxyConfig
-            {
-                ProxyUrl = new Uri($"https://localhost:{serverPort}"),
-                SniName = "localhost",
-                CaFilePath = caFilePath
-            };
-
-            var handler = new KubernetesProxyHttpHandler(config);
-            var httpClient = new HttpClient(handler);
-
-            // Act - This would throw NullReferenceException on Linux before the fix
-            // because the callback reused the passed-in X509Chain and called Build() on it
-            HttpResponseMessage response = null;
-            Exception caughtException = null;
-
-            try
-            {
-                response = await httpClient.GetAsync($"https://login.microsoftonline.com/test");
-            }
-            catch (Exception ex)
-            {
-                caughtException = ex;
-            }
-
-            // Assert
-            if (caughtException != null)
-            {
-                // Check if it's the specific bug we're testing for
-                if (caughtException.ToString().Contains("OpenSslX509ChainProcessor") ||
-                    caughtException.ToString().Contains("FindFirstChain"))
-                {
-                    Assert.Fail($"The X509Chain bug on Linux is still present: {caughtException}");
-                }
-
-                // Other exceptions might be expected (e.g., connection refused if something else is wrong)
-                // but shouldn't be the NullReferenceException from OpenSSL chain processing
-                Assert.That(caughtException, Is.Not.InstanceOf<NullReferenceException>(),
-                    $"Should not throw NullReferenceException from X509Chain processing: {caughtException}");
-            }
-
-            Assert.IsNotNull(response, "Response should not be null");
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-        }
-
-        /// <summary>
-        /// Tests that multiple concurrent SSL connections work correctly on Linux.
-        /// This ensures the fix handles concurrent chain validation properly.
-        /// </summary>
-        [Test]
-        public async Task SendAsync_WithCustomCa_ConcurrentRequestsSucceedOnLinux()
-        {
             // Arrange
             _httpsServer = new SimpleHttpsServer(_serverCertificate);
-            var serverPort = await _httpsServer.StartAsync();
-
-            var caPem = ExportCertificateToPem(_caCertificate);
-            var caFilePath = _tempFiles.GetTempFilePath();
-            File.WriteAllText(caFilePath, caPem);
+            int serverPort = await _httpsServer.StartAsync();
+            string caFilePath = WriteCaToPemFile(_caCertificate);
 
             var config = new KubernetesProxyConfig
             {
@@ -132,156 +74,165 @@ namespace Azure.Identity.Tests
                 CaFilePath = caFilePath
             };
 
-            var handler = new KubernetesProxyHttpHandler(config);
-            var httpClient = new HttpClient(handler);
+            using var handler = new KubernetesProxyHttpHandler(config);
+            using var httpClient = new HttpClient(handler);
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
 
-            // Act - Make multiple concurrent requests
-            var tasks = new Task<HttpResponseMessage>[5];
-            for (int i = 0; i < 5; i++)
-            {
-                tasks[i] = httpClient.GetAsync($"https://login.microsoftonline.com/test{i}");
-            }
+            // Act & Assert
+            using HttpResponseMessage response = await httpClient.GetAsync("https://login.microsoftonline.com/test");
 
-            HttpResponseMessage[] responses = null;
-            Exception caughtException = null;
-
-            try
-            {
-                responses = await Task.WhenAll(tasks);
-            }
-            catch (Exception ex)
-            {
-                caughtException = ex;
-            }
-
-            // Assert
-            if (caughtException != null)
-            {
-                Assert.That(caughtException.ToString(), Does.Not.Contain("OpenSslX509ChainProcessor"),
-                    $"Should not have OpenSSL chain processing errors: {caughtException}");
-                Assert.That(caughtException, Is.Not.InstanceOf<NullReferenceException>(),
-                    $"Should not throw NullReferenceException: {caughtException}");
-            }
-
-            Assert.IsNotNull(responses, "Responses should not be null");
-            foreach (var response in responses)
-            {
-                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            }
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Request should succeed with custom CA");
         }
 
         /// <summary>
-        /// Tests the X509Chain building behavior directly to verify the fix.
-        /// This simulates what happens in the SSL validation callback.
-        /// </summary>
-        [Test]
-        public void X509Chain_NewInstance_BuildSucceedsOnLinux()
-        {
-            // Arrange - This tests the fix pattern directly
-            // Use the generated certificates directly instead of PEM parsing
-            var caCert = _caCertificate;
-            var serverCert = _serverCertificate;
-
-            // Act - Using a NEW X509Chain instance (the fix pattern)
-            using (var chain = new X509Chain())
-            {
-                chain.ChainPolicy.ExtraStore.Add(caCert);
-                chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
-                chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
-
-                // This should succeed on all platforms including Linux
-                var buildResult = chain.Build(serverCert);
-
-                // Assert
-                Assert.IsTrue(buildResult || chain.ChainElements.Count > 0,
-                    $"Chain build should succeed or have elements. Status: {string.Join(", ", GetChainStatus(chain))}");
-            }
-        }
-
-        /// <summary>
-        /// Demonstrates the original bug - calling Build() on a pre-built chain fails on Linux.
-        /// This test documents the behavior we're fixing.
-        /// </summary>
-        [Test]
-        public void X509Chain_ReusedInstance_DemonstratesLinuxBehavior()
-        {
-            // Arrange - Use the generated certificates directly
-            var caCert = _caCertificate;
-            var serverCert = _serverCertificate;
-
-            // First build with a chain
-            using (var chain = new X509Chain())
-            {
-                chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
-                chain.Build(serverCert);
-
-                // Now try to "reuse" the chain by modifying policy and building again
-                // This simulates what would happen if we reused the callback's chain parameter
-                chain.ChainPolicy.ExtraStore.Add(caCert);
-                chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
-
-                // On Linux with OpenSSL, this second Build() call may fail or behave unexpectedly
-                // The fix is to always use a fresh X509Chain instance
-                bool secondBuildResult = false;
-                Exception secondBuildException = null;
-
-                try
-                {
-                    secondBuildResult = chain.Build(serverCert);
-                }
-                catch (Exception ex)
-                {
-                    secondBuildException = ex;
-                }
-
-                // Document the behavior - on Linux this may throw or return unexpected results
-                // The actual behavior depends on the .NET and OpenSSL versions
-                Console.WriteLine($"Second Build result: {secondBuildResult}");
-                if (secondBuildException != null)
-                {
-                    Console.WriteLine($"Second Build exception: {secondBuildException.GetType().Name} - {secondBuildException.Message}");
-                }
-
-                // The key insight: don't rely on reusing X509Chain instances
-                // Always create a new instance for custom validation
-            }
-
-            // This test passes regardless of the second build's outcome
-            // It's primarily for documentation and to verify the platform behavior
-            Assert.Pass("Test documents X509Chain reuse behavior on Linux");
-        }
-
-        /// <summary>
-        /// Tests that inline CA data works correctly for SSL validation on Linux.
+        /// Verifies that inline CA data (CaData property) works correctly on Linux.
         /// </summary>
         [Test]
         public async Task SendAsync_WithInlineCaData_SucceedsOnLinux()
         {
             // Arrange
             _httpsServer = new SimpleHttpsServer(_serverCertificate);
-            var serverPort = await _httpsServer.StartAsync();
-
-            var caPem = ExportCertificateToPem(_caCertificate);
+            int serverPort = await _httpsServer.StartAsync();
+            string caPem = ExportCertificateToPem(_caCertificate);
 
             var config = new KubernetesProxyConfig
             {
                 ProxyUrl = new Uri($"https://localhost:{serverPort}"),
                 SniName = "localhost",
-                CaData = caPem // Inline CA data instead of file
+                CaData = caPem
             };
 
-            var handler = new KubernetesProxyHttpHandler(config);
-            var httpClient = new HttpClient(handler);
+            using var handler = new KubernetesProxyHttpHandler(config);
+            using var httpClient = new HttpClient(handler);
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
 
-            // Act
-            var response = await httpClient.GetAsync($"https://login.microsoftonline.com/test");
+            // Act & Assert
+            using HttpResponseMessage response = await httpClient.GetAsync("https://login.microsoftonline.com/test");
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Request with inline CA data should succeed");
+        }
+
+        /// <summary>
+        /// Verifies that multiple concurrent SSL connections work correctly on Linux.
+        /// Ensures the fix handles concurrent chain validation properly without race conditions.
+        /// </summary>
+        [Test]
+        public async Task SendAsync_WithCustomCa_ConcurrentRequestsSucceedOnLinux()
+        {
+            // Arrange
+            _httpsServer = new SimpleHttpsServer(_serverCertificate);
+            int serverPort = await _httpsServer.StartAsync();
+            string caFilePath = WriteCaToPemFile(_caCertificate);
+
+            var config = new KubernetesProxyConfig
+            {
+                ProxyUrl = new Uri($"https://localhost:{serverPort}"),
+                SniName = "localhost",
+                CaFilePath = caFilePath
+            };
+
+            using var handler = new KubernetesProxyHttpHandler(config);
+            using var httpClient = new HttpClient(handler);
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
+
+            // Act - Fire 5 concurrent requests
+            const int concurrentRequests = 5;
+            var tasks = new Task<HttpResponseMessage>[concurrentRequests];
+            for (int i = 0; i < concurrentRequests; i++)
+            {
+                tasks[i] = httpClient.GetAsync($"https://login.microsoftonline.com/test{i}");
+            }
+
+            HttpResponseMessage[] responses = await Task.WhenAll(tasks);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(concurrentRequests, responses.Length, "Should receive all responses");
+            foreach (var response in responses)
+            {
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Each concurrent request should succeed");
+                response.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Verifies the fixed pattern: creating a new X509Chain instance builds successfully.
+        /// This tests the pattern used in the fix directly without network calls.
+        /// </summary>
+        [Test]
+        public void X509Chain_NewInstance_BuildSucceedsOnLinux()
+        {
+            // Act - Using a NEW X509Chain instance (the fix pattern)
+            using var chain = new X509Chain();
+            chain.ChainPolicy.ExtraStore.Add(_caCertificate);
+            chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+            chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
+
+            bool buildResult = chain.Build(_serverCertificate);
+
+            // Assert
+            Assert.IsTrue(buildResult, $"Chain build should succeed. Status: {FormatChainStatus(chain)}");
+            Assert.Greater(chain.ChainElements.Count, 0, "Chain should have elements after successful build");
+        }
+
+        /// <summary>
+        /// Documents the problematic behavior that the fix addresses.
+        /// Calling Build() twice on the same X509Chain can fail or behave unexpectedly on Linux/OpenSSL.
+        /// This test demonstrates why we must create a new chain instance for each validation.
+        /// </summary>
+        [Test]
+        [Explicit("Diagnostic-only test. Behavior varies across runtime/OpenSSL versions and is documented via test output.")]
+        public void X509Chain_ReusedInstance_MayFailOnLinux()
+        {
+            // Arrange - First build
+            using var chain = new X509Chain();
+            chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+
+            bool firstBuild = chain.Build(_serverCertificate);
+            TestContext.WriteLine($"First Build result: {firstBuild}, Status: {FormatChainStatus(chain)}");
+
+            // Act - Attempt to reuse the chain (the problematic pattern)
+            chain.ChainPolicy.ExtraStore.Add(_caCertificate);
+            chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
+
+            bool secondBuild = false;
+            Exception secondBuildException = null;
+            try
+            {
+                secondBuild = chain.Build(_serverCertificate);
+            }
+            catch (Exception ex)
+            {
+                secondBuildException = ex;
+            }
+
+            // Assert - Document behavior (may vary by .NET/OpenSSL version)
+            TestContext.WriteLine($"Second Build result: {secondBuild}");
+            if (secondBuildException != null)
+            {
+                TestContext.WriteLine($"Second Build exception: {secondBuildException.GetType().Name} - {secondBuildException.Message}");
+            }
+
+            // This test documents the behavior - the key takeaway is:
+            // "Don't reuse X509Chain instances for custom validation"
+            Assert.Pass("Test documents X509Chain reuse behavior - see output for details");
+        }
+
+        #region Helper Methods
+
+        private string WriteCaToPemFile(X509Certificate2 caCert)
+        {
+            string caPem = ExportCertificateToPem(caCert);
+            string caFilePath = _tempFiles.GetTempFilePath();
+            File.WriteAllText(caFilePath, caPem);
+            return caFilePath;
         }
 
         private static (X509Certificate2 Ca, X509Certificate2 Server) GenerateTestCertificates()
         {
+            // Capture dates once to avoid timing race conditions between CA and server cert creation
+            var notBefore = DateTimeOffset.UtcNow.AddDays(-1);
+            var notAfter = DateTimeOffset.UtcNow.AddDays(365);
+
             // Generate CA certificate
             using var caKey = RSA.Create(2048);
             var caRequest = new CertificateRequest(
@@ -295,9 +246,7 @@ namespace Azure.Identity.Tests
             caRequest.CertificateExtensions.Add(
                 new X509KeyUsageExtension(X509KeyUsageFlags.KeyCertSign | X509KeyUsageFlags.CrlSign, true));
 
-            var caCert = caRequest.CreateSelfSigned(
-                DateTimeOffset.UtcNow.AddDays(-1),
-                DateTimeOffset.UtcNow.AddDays(365));
+            var caCert = caRequest.CreateSelfSigned(notBefore, notAfter);
 
             // Generate server certificate signed by CA
             using var serverKey = RSA.Create(2048);
@@ -320,14 +269,14 @@ namespace Azure.Identity.Tests
 
             var serverCertPublic = serverRequest.Create(
                 caCert,
-                DateTimeOffset.UtcNow.AddDays(-1),
-                DateTimeOffset.UtcNow.AddDays(365),
+                notBefore,
+                notAfter,
                 Guid.NewGuid().ToByteArray());
 
             // Combine with private key for server use
             var serverCertWithKey = serverCertPublic.CopyWithPrivateKey(serverKey);
 
-            // Export and re-import to get a usable certificate
+            // Export and re-import to get usable certificates
             var caCertBytes = caCert.Export(X509ContentType.Pfx);
             var serverCertBytes = serverCertWithKey.Export(X509ContentType.Pfx);
 
@@ -348,42 +297,50 @@ namespace Azure.Identity.Tests
             return sb.ToString();
         }
 
-        private static string[] GetChainStatus(X509Chain chain)
+        private static string FormatChainStatus(X509Chain chain)
         {
+            if (chain.ChainStatus.Length == 0)
+            {
+                return "OK";
+            }
+
             var statuses = new string[chain.ChainStatus.Length];
             for (int i = 0; i < chain.ChainStatus.Length; i++)
             {
                 statuses[i] = $"{chain.ChainStatus[i].Status}: {chain.ChainStatus[i].StatusInformation}";
             }
-            return statuses;
+            return string.Join("; ", statuses);
         }
 
+        #endregion
+
+        #region SimpleHttpsServer
+
         /// <summary>
-        /// Simple HTTPS server for testing SSL certificate validation.
+        /// Minimal HTTPS server for testing SSL certificate validation.
+        /// Responds with a simple JSON payload to any request.
         /// </summary>
-        private class SimpleHttpsServer : IDisposable
+        private sealed class SimpleHttpsServer : IDisposable
         {
             private readonly X509Certificate2 _certificate;
             private TcpListener _listener;
             private CancellationTokenSource _cts;
             private Task _serverTask;
+            private bool _disposed;
 
             public SimpleHttpsServer(X509Certificate2 certificate)
             {
-                _certificate = certificate;
+                _certificate = certificate ?? throw new ArgumentNullException(nameof(certificate));
             }
 
             public async Task<int> StartAsync()
             {
                 _listener = new TcpListener(IPAddress.Loopback, 0);
                 _listener.Start();
-                var port = ((IPEndPoint)_listener.LocalEndpoint).Port;
+                int port = ((IPEndPoint)_listener.LocalEndpoint).Port;
 
                 _cts = new CancellationTokenSource();
-                _serverTask = Task.Run(() => AcceptConnectionsAsync(_cts.Token));
-
-                // Give the server a moment to start
-                await Task.Delay(100);
+                _serverTask = AcceptConnectionsAsync(_cts.Token);
 
                 return port;
             }
@@ -394,7 +351,8 @@ namespace Azure.Identity.Tests
                 {
                     try
                     {
-                        var client = await _listener.AcceptTcpClientAsync();
+                        TcpClient client = await _listener.AcceptTcpClientAsync(cancellationToken);
+                        // Handle each client connection without awaiting to allow concurrent connections
                         _ = HandleClientAsync(client, cancellationToken);
                     }
                     catch (OperationCanceledException)
@@ -405,9 +363,10 @@ namespace Azure.Identity.Tests
                     {
                         break;
                     }
-                    catch (Exception)
+                    catch (SocketException)
                     {
-                        // Connection error, continue accepting
+                        // Listener was stopped
+                        break;
                     }
                 }
             }
@@ -425,44 +384,72 @@ namespace Azure.Identity.Tests
                             enabledSslProtocols: SslProtocols.Tls12 | SslProtocols.Tls13,
                             checkCertificateRevocation: false);
 
-                        // Read HTTP request (simplified - just read until we get the headers)
+                        // Read HTTP request headers (simplified - we just need to consume the request)
                         var buffer = new byte[4096];
-                        var bytesRead = await sslStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                        _ = await sslStream.ReadAsync(buffer.AsMemory(), cancellationToken);
 
                         // Send HTTP response
-                        var response = "HTTP/1.1 200 OK\r\n" +
-                                     "Content-Type: application/json\r\n" +
-                                     "Content-Length: 26\r\n" +
-                                     "Connection: close\r\n" +
-                                     "\r\n" +
-                                     "{\"status\":\"ok\",\"test\":true}";
+                        const string jsonBody = "{\"status\":\"ok\"}";
+                        int contentLength = Encoding.UTF8.GetByteCount(jsonBody);
+                        string response = $"HTTP/1.1 200 OK\r\n" +
+                                         $"Content-Type: application/json\r\n" +
+                                         $"Content-Length: {contentLength}\r\n" +
+                                         $"Connection: close\r\n" +
+                                         $"\r\n" +
+                                         jsonBody;
 
-                        var responseBytes = Encoding.UTF8.GetBytes(response);
-                        await sslStream.WriteAsync(responseBytes, 0, responseBytes.Length, cancellationToken);
+                        byte[] responseBytes = Encoding.UTF8.GetBytes(response);
+                        await sslStream.WriteAsync(responseBytes.AsMemory(), cancellationToken);
                         await sslStream.FlushAsync(cancellationToken);
                     }
                 }
-                catch (Exception)
+                catch (AuthenticationException)
                 {
-                    // Client disconnected or SSL error
+                    // SSL handshake failed - expected if client rejects our certificate
+                }
+                catch (IOException)
+                {
+                    // Client disconnected
+                }
+                catch (OperationCanceledException)
+                {
+                    // Server shutting down
                 }
             }
 
             public void Dispose()
             {
-                _cts?.Cancel();
+                if (_disposed)
+                {
+                    return;
+                }
+                _disposed = true;
+
+                try
+                {
+                    _cts?.Cancel();
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Already disposed
+                }
+
                 _listener?.Stop();
+
                 try
                 {
                     _serverTask?.Wait(TimeSpan.FromSeconds(2));
                 }
                 catch (AggregateException)
                 {
-                    // Task was cancelled
+                    // Task was cancelled, expected
                 }
+
                 _cts?.Dispose();
             }
         }
+
+        #endregion
     }
 }
 #endif
