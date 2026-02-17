@@ -29,15 +29,31 @@ namespace Azure.Identity.Tests
     public class KubernetesProxyHttpHandlerLinuxTests
     {
         private TestTempFileHandler _tempFiles;
-        private X509Certificate2 _serverCertificate;
-        private X509Certificate2 _caCertificate;
+        private static X509Certificate2 s_caCertificate;
+        private static X509Certificate2 s_serverCertificate;
         private SimpleHttpsServer _httpsServer;
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            // Generate certificates once for all tests
+            (s_caCertificate, s_serverCertificate) = GenerateTestCertificates();
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeCleanup()
+        {
+            // Dispose certificates after all tests complete
+            s_serverCertificate?.Dispose();
+            s_serverCertificate = null;
+            s_caCertificate?.Dispose();
+            s_caCertificate = null;
+        }
 
         [SetUp]
         public void Setup()
         {
             _tempFiles = new TestTempFileHandler();
-            (_caCertificate, _serverCertificate) = GenerateTestCertificates();
         }
 
         [TearDown]
@@ -46,10 +62,6 @@ namespace Azure.Identity.Tests
             _tempFiles?.CleanupTempFiles();
             _httpsServer?.Dispose();
             _httpsServer = null;
-            _serverCertificate?.Dispose();
-            _serverCertificate = null;
-            _caCertificate?.Dispose();
-            _caCertificate = null;
         }
 
         /// <summary>
@@ -63,9 +75,9 @@ namespace Azure.Identity.Tests
         public async Task SendAsync_WithCustomCa_SucceedsOnLinux()
         {
             // Arrange
-            _httpsServer = new SimpleHttpsServer(_serverCertificate);
+            _httpsServer = new SimpleHttpsServer(s_serverCertificate);
             int serverPort = await _httpsServer.StartAsync();
-            string caFilePath = WriteCaToPemFile(_caCertificate);
+            string caFilePath = WriteCaToPemFile(s_caCertificate);
 
             var config = new KubernetesProxyConfig
             {
@@ -74,7 +86,7 @@ namespace Azure.Identity.Tests
                 CaFilePath = caFilePath
             };
 
-            using var handler = new KubernetesProxyHttpHandler(config);
+            var handler = new KubernetesProxyHttpHandler(config);
             using var httpClient = new HttpClient(handler);
             httpClient.Timeout = TimeSpan.FromSeconds(10);
 
@@ -91,9 +103,9 @@ namespace Azure.Identity.Tests
         public async Task SendAsync_WithInlineCaData_SucceedsOnLinux()
         {
             // Arrange
-            _httpsServer = new SimpleHttpsServer(_serverCertificate);
+            _httpsServer = new SimpleHttpsServer(s_serverCertificate);
             int serverPort = await _httpsServer.StartAsync();
-            string caPem = ExportCertificateToPem(_caCertificate);
+            string caPem = ExportCertificateToPem(s_caCertificate);
 
             var config = new KubernetesProxyConfig
             {
@@ -102,7 +114,7 @@ namespace Azure.Identity.Tests
                 CaData = caPem
             };
 
-            using var handler = new KubernetesProxyHttpHandler(config);
+            var handler = new KubernetesProxyHttpHandler(config);
             using var httpClient = new HttpClient(handler);
             httpClient.Timeout = TimeSpan.FromSeconds(10);
 
@@ -120,9 +132,9 @@ namespace Azure.Identity.Tests
         public async Task SendAsync_WithCustomCa_ConcurrentRequestsSucceedOnLinux()
         {
             // Arrange
-            _httpsServer = new SimpleHttpsServer(_serverCertificate);
+            _httpsServer = new SimpleHttpsServer(s_serverCertificate);
             int serverPort = await _httpsServer.StartAsync();
-            string caFilePath = WriteCaToPemFile(_caCertificate);
+            string caFilePath = WriteCaToPemFile(s_caCertificate);
 
             var config = new KubernetesProxyConfig
             {
@@ -131,7 +143,7 @@ namespace Azure.Identity.Tests
                 CaFilePath = caFilePath
             };
 
-            using var handler = new KubernetesProxyHttpHandler(config);
+            var handler = new KubernetesProxyHttpHandler(config);
             using var httpClient = new HttpClient(handler);
             httpClient.Timeout = TimeSpan.FromSeconds(10);
 
@@ -163,11 +175,11 @@ namespace Azure.Identity.Tests
         {
             // Act - Using a NEW X509Chain instance (the fix pattern)
             using var chain = new X509Chain();
-            chain.ChainPolicy.ExtraStore.Add(_caCertificate);
+            chain.ChainPolicy.ExtraStore.Add(s_caCertificate);
             chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
             chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
 
-            bool buildResult = chain.Build(_serverCertificate);
+            bool buildResult = chain.Build(s_serverCertificate);
 
             // Assert
             Assert.IsTrue(buildResult, $"Chain build should succeed. Status: {FormatChainStatus(chain)}");
@@ -187,18 +199,18 @@ namespace Azure.Identity.Tests
             using var chain = new X509Chain();
             chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
 
-            bool firstBuild = chain.Build(_serverCertificate);
+            bool firstBuild = chain.Build(s_serverCertificate);
             TestContext.WriteLine($"First Build result: {firstBuild}, Status: {FormatChainStatus(chain)}");
 
             // Act - Attempt to reuse the chain (the problematic pattern)
-            chain.ChainPolicy.ExtraStore.Add(_caCertificate);
+            chain.ChainPolicy.ExtraStore.Add(s_caCertificate);
             chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
 
             bool secondBuild = false;
             Exception secondBuildException = null;
             try
             {
-                secondBuild = chain.Build(_serverCertificate);
+                secondBuild = chain.Build(s_serverCertificate);
             }
             catch (Exception ex)
             {
