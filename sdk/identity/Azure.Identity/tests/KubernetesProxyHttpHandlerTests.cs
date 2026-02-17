@@ -560,8 +560,9 @@ namespace Azure.Identity.Tests
         {
             // Generate fresh CA and leaf certificates for testing
             // (Using runtime-generated certs instead of expired cert.pem file)
-            using var caCert = GenerateTestCertificates().Ca;
-            using var leafCert = GenerateTestCertificates().Leaf;
+            var (caCert, leafCert) = GenerateTestCertificates();
+            using var _ = caCert;
+            using var __ = leafCert;
             var caPem = ExportCertificateToPem(caCert);
 
             // Test with CA data - should configure callback
