@@ -45,9 +45,7 @@ namespace Azure.Identity.Tests
         {
             // Dispose certificates after all tests complete
             s_serverCertificate?.Dispose();
-            s_serverCertificate = null;
             s_caCertificate?.Dispose();
-            s_caCertificate = null;
         }
 
         [SetUp]
