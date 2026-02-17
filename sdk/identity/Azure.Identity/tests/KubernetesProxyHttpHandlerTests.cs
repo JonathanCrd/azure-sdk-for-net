@@ -436,6 +436,7 @@ namespace Azure.Identity.Tests
             return File.ReadAllText(certPath);
         }
 
+#if !NET462
         /// <summary>
         /// Generates a fresh CA certificate and leaf certificate signed by that CA.
         /// Used for testing certificate validation with non-expired certificates.
@@ -494,7 +495,9 @@ namespace Azure.Identity.Tests
             );
 #pragma warning restore SYSLIB0057
         }
+#endif
 
+#if !NET462
         /// <summary>
         /// Exports a certificate to PEM format.
         /// </summary>
@@ -506,6 +509,7 @@ namespace Azure.Identity.Tests
             sb.AppendLine("-----END CERTIFICATE-----");
             return sb.ToString();
         }
+#endif
 
         [Test]
         public async Task ConfigureCustomCertificates_ValidatesCorrectly()
@@ -558,6 +562,49 @@ namespace Azure.Identity.Tests
         [Test]
         public void CertificateValidationCallback_ConfiguresCorrectly()
         {
+#if NET462
+            // CertificateRequest is not available in net462
+            // Use the static test certificate instead.
+
+            var validCaPem = GetTestCertificatePem();
+            var testCert = PemReader.LoadCertificate(validCaPem.AsSpan(), allowCertificateOnly: true);
+
+            // Test with CA data - should configure callback
+            var handlerWithCa = new KubernetesProxyHttpHandler(CreateTestConfig(caData: validCaPem));
+            var innerHandlerWithCa = handlerWithCa.InnerHandler as HttpClientHandler;
+            Assert.IsNotNull(innerHandlerWithCa?.ServerCertificateCustomValidationCallback,
+                "Should configure callback when CA data provided");
+
+            // Test without CA data - should not configure callback
+            var handlerNoCa = new KubernetesProxyHttpHandler(CreateTestConfig(caData: null));
+            var innerHandlerNoCa = handlerNoCa.InnerHandler as HttpClientHandler;
+            Assert.IsNull(innerHandlerNoCa?.ServerCertificateCustomValidationCallback,
+                "Should NOT configure callback when no CA data provided");
+
+            // Test callback behavior - verify edge cases are handled correctly
+            var callback = innerHandlerWithCa.ServerCertificateCustomValidationCallback;
+
+            // Test null certificate case
+            using (var chain = new X509Chain())
+            {
+                var result = callback(null, null, chain, System.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors);
+                Assert.IsFalse(result, "Should return false for null certificate");
+            }
+
+            // Test that non-chain SSL errors are rejected immediately (before chain validation)
+            // These errors cannot be fixed by custom CA validation
+            using (var chain = new X509Chain())
+            {
+                var result = callback(null, testCert, chain, System.Net.Security.SslPolicyErrors.RemoteCertificateNameMismatch);
+                Assert.IsFalse(result, "Should reject RemoteCertificateNameMismatch");
+            }
+
+            using (var chain = new X509Chain())
+            {
+                var result = callback(null, testCert, chain, System.Net.Security.SslPolicyErrors.RemoteCertificateNotAvailable);
+                Assert.IsFalse(result, "Should reject RemoteCertificateNotAvailable");
+            }
+#else
             // Generate fresh CA and leaf certificates for testing
             // (Using runtime-generated certs instead of expired cert.pem file)
             var (caCert, leafCert) = GenerateTestCertificates();
@@ -635,6 +682,7 @@ namespace Azure.Identity.Tests
                 caCert?.Dispose();
                 leafCert?.Dispose();
             }
+#endif
         }
 
         [Test]
