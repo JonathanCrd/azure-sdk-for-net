@@ -86,6 +86,7 @@ namespace Azure.Identity.Tests
                 CaFilePath = caFilePath
             };
 
+            // HttpClient takes ownership of the handler and disposes it when the client is disposed
             var handler = new KubernetesProxyHttpHandler(config);
             using var httpClient = new HttpClient(handler);
             httpClient.Timeout = TimeSpan.FromSeconds(10);
@@ -114,6 +115,7 @@ namespace Azure.Identity.Tests
                 CaData = caPem
             };
 
+            // HttpClient takes ownership of the handler and disposes it when the client is disposed
             var handler = new KubernetesProxyHttpHandler(config);
             using var httpClient = new HttpClient(handler);
             httpClient.Timeout = TimeSpan.FromSeconds(10);
@@ -143,6 +145,7 @@ namespace Azure.Identity.Tests
                 CaFilePath = caFilePath
             };
 
+            // HttpClient takes ownership of the handler and disposes it when the client is disposed
             var handler = new KubernetesProxyHttpHandler(config);
             using var httpClient = new HttpClient(handler);
             httpClient.Timeout = TimeSpan.FromSeconds(10);

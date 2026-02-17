@@ -561,73 +561,79 @@ namespace Azure.Identity.Tests
             // Generate fresh CA and leaf certificates for testing
             // (Using runtime-generated certs instead of expired cert.pem file)
             var (caCert, leafCert) = GenerateTestCertificates();
-            using var _ = caCert;
-            using var __ = leafCert;
-            var caPem = ExportCertificateToPem(caCert);
-
-            // Test with CA data - should configure callback
-            var proxyConfig = new KubernetesProxyConfig()
+            try
             {
-                ProxyUrl = new Uri(DefaultProxyUrl),
-                SniName = DefaultSniName,
-                CaData = caPem,
-                Transport = null
-            };
-            var handlerWithCa = new KubernetesProxyHttpHandler(proxyConfig);
-            var innerHandlerWithCa = handlerWithCa.InnerHandler as HttpClientHandler;
-            Assert.IsNotNull(innerHandlerWithCa?.ServerCertificateCustomValidationCallback,
-                "Should configure callback when CA data provided");
+                var caPem = ExportCertificateToPem(caCert);
 
-            // Test without CA data - should not configure callback
-            var proxyConfigNoCa = new KubernetesProxyConfig()
+                // Test with CA data - should configure callback
+                var proxyConfig = new KubernetesProxyConfig()
+                {
+                    ProxyUrl = new Uri(DefaultProxyUrl),
+                    SniName = DefaultSniName,
+                    CaData = caPem,
+                    Transport = null
+                };
+                var handlerWithCa = new KubernetesProxyHttpHandler(proxyConfig);
+                var innerHandlerWithCa = handlerWithCa.InnerHandler as HttpClientHandler;
+                Assert.IsNotNull(innerHandlerWithCa?.ServerCertificateCustomValidationCallback,
+                    "Should configure callback when CA data provided");
+
+                // Test without CA data - should not configure callback
+                var proxyConfigNoCa = new KubernetesProxyConfig()
+                {
+                    ProxyUrl = new Uri(DefaultProxyUrl),
+                    SniName = DefaultSniName,
+                    CaData = null,
+                    Transport = null
+                };
+                var handlerNoCa = new KubernetesProxyHttpHandler(proxyConfigNoCa);
+                var innerHandlerNoCa = handlerNoCa.InnerHandler as HttpClientHandler;
+                Assert.IsNull(innerHandlerNoCa?.ServerCertificateCustomValidationCallback,
+                    "Should NOT configure callback when no CA data provided");
+
+                // Test callback behavior - verify it configures chain policy and handles edge cases
+                if (innerHandlerWithCa?.ServerCertificateCustomValidationCallback != null)
+                {
+                    var callback = innerHandlerWithCa.ServerCertificateCustomValidationCallback;
+
+                    // Test normal case - no SSL errors
+                    // Use the leaf certificate (signed by CA) to test the callback, not the CA itself
+                    // The callback creates its own X509Chain internally to avoid Linux/OpenSSL issues,
+                    // so the passed-in chain should NOT be modified
+                    using (var chain = new X509Chain())
+                    {
+                        var result = callback(null, leafCert, chain, System.Net.Security.SslPolicyErrors.None);
+                        Assert.IsTrue(result, "Should return true for valid certificate signed by custom CA");
+                        // The passed-in chain should NOT be modified - the callback uses its own internal chain
+                        Assert.AreEqual(0, chain.ChainPolicy.ExtraStore.Count, "Passed-in chain should not be modified");
+                    }
+
+                    // Test null certificate case
+                    using (var chain = new X509Chain())
+                    {
+                        var result = callback(null, null, chain, System.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors);
+                        Assert.IsFalse(result, "Should return false for null certificate");
+                    }
+
+                    // Test that non-chain SSL errors are rejected immediately (before chain validation)
+                    // These errors cannot be fixed by custom CA validation
+                    using (var chain = new X509Chain())
+                    {
+                        var result = callback(null, leafCert, chain, System.Net.Security.SslPolicyErrors.RemoteCertificateNameMismatch);
+                        Assert.IsFalse(result, "Should reject RemoteCertificateNameMismatch");
+                    }
+
+                    using (var chain = new X509Chain())
+                    {
+                        var result = callback(null, leafCert, chain, System.Net.Security.SslPolicyErrors.RemoteCertificateNotAvailable);
+                        Assert.IsFalse(result, "Should reject RemoteCertificateNotAvailable");
+                    }
+                }
+            }
+            finally
             {
-                ProxyUrl = new Uri(DefaultProxyUrl),
-                SniName = DefaultSniName,
-                CaData = null,
-                Transport = null
-            };
-            var handlerNoCa = new KubernetesProxyHttpHandler(proxyConfigNoCa);
-            var innerHandlerNoCa = handlerNoCa.InnerHandler as HttpClientHandler;
-            Assert.IsNull(innerHandlerNoCa?.ServerCertificateCustomValidationCallback,
-                "Should NOT configure callback when no CA data provided");
-
-            // Test callback behavior - verify it configures chain policy and handles edge cases
-            if (innerHandlerWithCa?.ServerCertificateCustomValidationCallback != null)
-            {
-                var callback = innerHandlerWithCa.ServerCertificateCustomValidationCallback;
-
-                // Test normal case - no SSL errors
-                // Use the leaf certificate (signed by CA) to test the callback, not the CA itself
-                // The callback creates its own X509Chain internally to avoid Linux/OpenSSL issues,
-                // so the passed-in chain should NOT be modified
-                using (var chain = new X509Chain())
-                {
-                    var result = callback(null, leafCert, chain, System.Net.Security.SslPolicyErrors.None);
-                    Assert.IsTrue(result, "Should return true for valid certificate signed by custom CA");
-                    // The passed-in chain should NOT be modified - the callback uses its own internal chain
-                    Assert.AreEqual(0, chain.ChainPolicy.ExtraStore.Count, "Passed-in chain should not be modified");
-                }
-
-                // Test null certificate case
-                using (var chain = new X509Chain())
-                {
-                    var result = callback(null, null, chain, System.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors);
-                    Assert.IsFalse(result, "Should return false for null certificate");
-                }
-
-                // Test that non-chain SSL errors are rejected immediately (before chain validation)
-                // These errors cannot be fixed by custom CA validation
-                using (var chain = new X509Chain())
-                {
-                    var result = callback(null, leafCert, chain, System.Net.Security.SslPolicyErrors.RemoteCertificateNameMismatch);
-                    Assert.IsFalse(result, "Should reject RemoteCertificateNameMismatch");
-                }
-
-                using (var chain = new X509Chain())
-                {
-                    var result = callback(null, leafCert, chain, System.Net.Security.SslPolicyErrors.RemoteCertificateNotAvailable);
-                    Assert.IsFalse(result, "Should reject RemoteCertificateNotAvailable");
-                }
+                caCert?.Dispose();
+                leafCert?.Dispose();
             }
         }
 
