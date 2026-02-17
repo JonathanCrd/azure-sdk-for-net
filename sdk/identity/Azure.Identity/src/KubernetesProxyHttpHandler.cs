@@ -252,13 +252,13 @@ namespace Azure.Identity
                         if (customChain.ChainElements.Count > 0)
                         {
                             var rootCert = customChain.ChainElements[customChain.ChainElements.Count - 1].Certificate;
-                            if (!rootCert.Thumbprint.Equals(caCertificate.Thumbprint, StringComparison.OrdinalIgnoreCase))
+                            if (rootCert.Thumbprint.Equals(caCertificate.Thumbprint, StringComparison.OrdinalIgnoreCase))
                             {
-                                return false;
+                                return true;
                             }
                         }
 
-                        return true;
+                        return false;
                     }
                 };
             }
