@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed `AzureCliCredential` to not pass both `--tenant` and `--subscription` flags to the Azure CLI when `AzureCliCredentialOptions.Subscription` is set, as the CLI rejects this combination. When subscription is specified, `--tenant` is now omitted since the subscription already implies a specific tenant. ([#58949](https://github.com/Azure/azure-sdk-for-net/issues/58949))
+
 ### Other Changes
 
 ## 1.56.0 (2026-05-14)
