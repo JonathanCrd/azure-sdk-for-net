@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added experimental (`AZID0004`) mTLS Proof-of-Possession token binding support for managed identity scenarios, including dynamic host capability detection via MSAL and transport certificate rotation APIs on `BearerTokenAuthenticationPolicy`.
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -12,6 +14,8 @@
 - Fixed `DiagnosticScope` to mark the parent `ActivityContext` as remote (`IsRemote = true`) when a traceparent is provided via `SetTraceContext` or `AddLink`. The traceparent in these paths is always extracted from an external source (e.g. a messaging broker's application properties), so samplers that distinguish local vs. remote parents — such as the `RateLimitedSampler` used by the Azure Monitor OpenTelemetry exporter — can now make correct decisions for activities started from incoming messages.
 
 ### Other Changes
+
+- Updated `Microsoft.Identity.Client` dependency to `4.84.2`.
 
 ## 1.57.0 (2026-05-21)
 
