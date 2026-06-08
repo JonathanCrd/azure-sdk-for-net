@@ -1,12 +1,10 @@
 # Release History
 
-## 1.58.0-beta.1 (Unreleased)
+## 1.58.0 (2026-06-09)
 
 ### Features Added
 
 - Added experimental (`AZID0004`) mTLS Proof-of-Possession token binding support for managed identity scenarios, including dynamic host capability detection via MSAL and transport certificate rotation APIs on `BearerTokenAuthenticationPolicy`.
-
-### Breaking Changes
 
 ### Bugs Fixed
 
