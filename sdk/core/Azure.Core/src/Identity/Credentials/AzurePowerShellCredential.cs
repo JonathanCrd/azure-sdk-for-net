@@ -186,7 +186,14 @@ namespace Azure.Identity
             }
             catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
             {
-                throw new AuthenticationFailedException(AzurePowerShellTimeoutError);
+                if (_isChainedCredential)
+                {
+                    throw new CredentialUnavailableException(AzurePowerShellTimeoutError);
+                }
+                else
+                {
+                    throw new AuthenticationFailedException(AzurePowerShellTimeoutError);
+                }
             }
             catch (InvalidOperationException exception)
             {

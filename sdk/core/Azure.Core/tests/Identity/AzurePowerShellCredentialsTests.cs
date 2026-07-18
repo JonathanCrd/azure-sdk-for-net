@@ -252,11 +252,11 @@ namespace Azure.Core.Tests.Identity
         }
 
         [Test]
-        public void ConfigurePowershellProcessTimeout_ProcessTimeout()
+        public void ConfigurePowershellProcessTimeout_ProcessTimeout([Values(true, false)] bool isChainedCredential)
         {
             var testProcess = new TestProcess { Timeout = 10000 };
-            var credential = CreateCredentialWithTimeout(new TestProcessService(testProcess), TimeSpan.Zero);
-            var ex = Assert.ThrowsAsync(GetExpectedExceptionType(false), async () => await credential.GetTokenAsync(new TokenRequestContext(MockScopes.Default), default));
+            var credential = CreateCredentialWithTimeout(new TestProcessService(testProcess), TimeSpan.Zero, isChainedCredential);
+            var ex = Assert.ThrowsAsync(GetExpectedExceptionType(isChainedCredential), async () => await credential.GetTokenAsync(new TokenRequestContext(MockScopes.Default), default));
             Assert.That(ex.Message, Does.Contain(AzurePowerShellCredential.AzurePowerShellTimeoutError));
         }
 
