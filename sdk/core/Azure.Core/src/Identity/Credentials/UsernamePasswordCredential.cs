@@ -112,7 +112,7 @@ namespace Azure.Identity
             Client = client ?? new MsalPublicClient(_pipeline, tenantId, clientId, null, options);
 
             TenantIdResolver = options?.TenantIdResolver ?? TenantIdResolverBase.Default;
-            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAddionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
+            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAdditionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
         }
 
         /// <summary>

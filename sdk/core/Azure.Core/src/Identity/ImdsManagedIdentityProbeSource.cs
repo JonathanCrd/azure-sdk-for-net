@@ -16,7 +16,7 @@ namespace Azure.Identity
     {
         // IMDS constants. Docs for IMDS are available at https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/how-to-use-vm-token#get-a-token-using-http
         internal static readonly Uri s_imdsEndpoint = new Uri("http://169.254.169.254/metadata/identity/oauth2/token");
-        internal const string imddsTokenPath = "/metadata/identity/oauth2/token";
+        internal const string imdsTokenPath = "/metadata/identity/oauth2/token";
         internal const string metadataHeaderName = "Metadata";
         private const string ImdsApiVersion = "2018-02-01";
 
@@ -48,7 +48,7 @@ namespace Azure.Identity
             {
                 var builder = new UriBuilder(EnvironmentVariables.PodIdentityEndpoint)
                 {
-                    Path = imddsTokenPath
+                    Path = imdsTokenPath
                 };
                 return builder.Uri;
             }
@@ -197,7 +197,7 @@ namespace Azure.Identity
                 !message.Request.Headers.TryGetValue(metadataHeaderName, out _) &&
                 (message.Response.Content?.ToString().IndexOf("Identity not found", StringComparison.InvariantCulture) < 0);
 
-        public static bool IsProbRequest(HttpMessage message)
+        public static bool IsProbeRequest(HttpMessage message)
             => message.Request.Uri.Host == s_imdsEndpoint.Host &&
                 message.Request.Uri.Path == s_imdsEndpoint.AbsolutePath &&
                 !message.Request.Headers.TryGetValue(metadataHeaderName, out _);

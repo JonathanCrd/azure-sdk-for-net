@@ -796,8 +796,7 @@ public static class DeterministicFixRegistry
             {
                 ["filePath"] = err.FilePath,
                 ["pattern"] = @"\boverride\s+",
-                ["replacement"] = "",
-                ["singleLine"] = err.Line.ToString()
+                ["replacement"] = ""
             }
         });
 
@@ -814,8 +813,7 @@ public static class DeterministicFixRegistry
             {
                 ["filePath"] = err.FilePath,
                 ["pattern"] = @"\boverride\s+",
-                ["replacement"] = "",
-                ["singleLine"] = err.Line.ToString()
+                ["replacement"] = ""
             }
         });
 
@@ -1112,7 +1110,7 @@ public static class DeterministicFixRegistry
             Description = "ApiCompat: protected field 'SerializedAdditionalRawData' was renamed to " +
                           "'_additionalBinaryDataProperties' by the new generator. Create a backward-compat shim in " +
                           "Custom/BackwardCompat/SerializedAdditionalRawDataShims.cs that re-declares the old field: " +
-                          "#pragma warning disable SA1307 SA1401, then " +
+                          "#pragma warning disable SA1307, SA1401, then " +
                           "protected internal IDictionary<string, BinaryData> SerializedAdditionalRawData; " +
                           "#pragma warning restore. Mark the class as partial and use the correct namespace.",
             ExtractArgs = (err, m) =>

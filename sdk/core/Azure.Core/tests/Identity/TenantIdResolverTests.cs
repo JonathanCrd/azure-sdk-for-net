@@ -84,7 +84,7 @@ namespace Azure.Core.Tests.Identity
         [TestCaseSource(nameof(GetAllowedTenantsTestCases))]
         public void VerifyAllowedTenantEnforcement(AllowedTenantsTestParameters parameters)
         {
-            var additionallyAllowedTenants = TenantIdResolverBase.Default.ResolveAddionallyAllowedTenantIds(parameters.AdditionallyAllowedTenants);
+            var additionallyAllowedTenants = TenantIdResolverBase.Default.ResolveAdditionallyAllowedTenantIds(parameters.AdditionallyAllowedTenants);
 
             AssertAllowedTenantIdsEnforcedAsync(parameters.TenantId, parameters.TokenRequestContext, additionallyAllowedTenants);
         }

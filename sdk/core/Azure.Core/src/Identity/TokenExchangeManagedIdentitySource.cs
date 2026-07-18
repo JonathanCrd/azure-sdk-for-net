@@ -115,17 +115,15 @@ namespace Azure.Identity
                 cancellationToken.ThrowIfCancellationRequested();
                 buffer = ArrayPool<char>.Shared.Rent(sr.CurrentEncoding.GetMaxCharCount(DefaultBufferSize));
                 StringBuilder sb = new StringBuilder();
-                int totalRead = 0;
                 while (true)
                 {
-                    int read = await sr.ReadAsync(buffer, totalRead, DefaultBufferSize - totalRead).ConfigureAwait(false);
+                    int read = await sr.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                     if (read == 0)
                     {
                         return sb.ToString();
                     }
 
                     sb.Append(buffer, 0, read);
-                    totalRead += read;
                 }
             }
             finally

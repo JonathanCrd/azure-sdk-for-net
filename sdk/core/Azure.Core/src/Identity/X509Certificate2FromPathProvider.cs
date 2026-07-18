@@ -132,13 +132,13 @@ namespace Azure.Identity
 
         private async ValueTask<X509Certificate2> LoadCertificateFromPemFileAsync(bool async, string clientCertificatePath, CancellationToken cancellationToken)
         {
-            string certficateText;
+            string certificateText;
 
             try
             {
                 if (!async)
                 {
-                    certficateText = File.ReadAllText(clientCertificatePath);
+                    certificateText = File.ReadAllText(clientCertificatePath);
                 }
                 else
                 {
@@ -146,11 +146,11 @@ namespace Azure.Identity
 
                     using (StreamReader sr = new StreamReader(clientCertificatePath))
                     {
-                        certficateText = await sr.ReadToEndAsync().ConfigureAwait(false);
+                        certificateText = await sr.ReadToEndAsync().ConfigureAwait(false);
                     }
                 }
 
-                Certificate = PemReader.LoadCertificate(certficateText.AsSpan(), keyType: PemReader.KeyType.RSA);
+                Certificate = PemReader.LoadCertificate(certificateText.AsSpan(), keyType: PemReader.KeyType.RSA);
 
                 return Certificate;
             }

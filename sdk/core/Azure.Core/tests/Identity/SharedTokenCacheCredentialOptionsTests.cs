@@ -21,12 +21,12 @@ namespace Azure.Core.Tests.Identity
             // verify passing null uses the default token cache persistence settings
             credentialOptions = new SharedTokenCacheCredentialOptions(null);
 
-            Assert.AreEqual(SharedTokenCacheCredentialOptions.s_defaulTokenCachetPersistenceOptions, credentialOptions.TokenCachePersistenceOptions);
+            Assert.AreEqual(SharedTokenCacheCredentialOptions.s_defaultTokenCachePersistenceOptions, credentialOptions.TokenCachePersistenceOptions);
 
             // verify calling the default constructor uses the default token cache persistence settings
             credentialOptions = new SharedTokenCacheCredentialOptions();
 
-            Assert.AreEqual(SharedTokenCacheCredentialOptions.s_defaulTokenCachetPersistenceOptions, credentialOptions.TokenCachePersistenceOptions);
+            Assert.AreEqual(SharedTokenCacheCredentialOptions.s_defaultTokenCachePersistenceOptions, credentialOptions.TokenCachePersistenceOptions);
         }
     }
 }

@@ -66,13 +66,13 @@ namespace Azure.Identity
             _fileSystem = fileSystem ?? FileSystemService.Default;
             _processService = processService ?? ProcessService.Default;
             TenantIdResolver = options?.TenantIdResolver ?? TenantIdResolverBase.Default;
-            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAddionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
+            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAdditionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
             ProcessTimeout = options?.ProcessTimeout ?? TimeSpan.FromSeconds(30);
             _isChainedCredential = options?.IsChainedCredential ?? false;
         }
 
         /// <summary>
-        /// Obtains a access token from account signed in to Visual Studio.
+        /// Obtains an access token from account signed in to Visual Studio.
         /// </summary>
         /// <param name="requestContext">The details of the authentication request.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> controlling the request lifetime.</param>
@@ -82,7 +82,7 @@ namespace Azure.Identity
             => await GetTokenImplAsync(requestContext, true, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
-        /// Obtains a access token from account signed in to Visual Studio.
+        /// Obtains an access token from account signed in to Visual Studio.
         /// </summary>
         /// <param name="requestContext">The details of the authentication request.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> controlling the request lifetime.</param>

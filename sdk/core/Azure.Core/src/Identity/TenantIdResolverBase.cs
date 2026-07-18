@@ -13,6 +13,6 @@ namespace Azure.Identity
         public static readonly string[] AllTenants = new string[] { "*" };
         public static TenantIdResolver Default => new TenantIdResolver();
         public abstract string Resolve(string explicitTenantId, TokenRequestContext context, string[] additionallyAllowedTenantIds);
-        public abstract string[] ResolveAddionallyAllowedTenantIds(IList<string> additionallyAllowedTenants);
+        public abstract string[] ResolveAdditionallyAllowedTenantIds(IList<string> additionallyAllowedTenants);
     }
 }

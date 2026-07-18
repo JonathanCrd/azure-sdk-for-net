@@ -73,7 +73,7 @@ namespace Azure.Identity
 
             Client = options?.MsalClient ?? new MsalConfidentialClient(Pipeline, TenantId, clientId, _assertionCallback, options);
             TenantIdResolver = options?.TenantIdResolver ?? TenantIdResolverBase.Default;
-            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAddionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
+            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAdditionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
         }
 
         /// <summary>

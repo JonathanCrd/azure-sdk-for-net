@@ -22,13 +22,13 @@ namespace Azure.Identity
         protected internal override bool ShouldRetry(HttpMessage message, Exception exception)
         {
             message.ResponseClassifier = classifier;
-            return ImdsManagedIdentityProbeSource.IsProbRequest(message) ? false : base.ShouldRetry(message, exception);
+            return ImdsManagedIdentityProbeSource.IsProbeRequest(message) ? false : base.ShouldRetry(message, exception);
         }
 
         protected internal override ValueTask<bool> ShouldRetryAsync(HttpMessage message, Exception exception)
         {
             message.ResponseClassifier = classifier;
-            return ImdsManagedIdentityProbeSource.IsProbRequest(message) ? default : base.ShouldRetryAsync(message, exception);
+            return ImdsManagedIdentityProbeSource.IsProbeRequest(message) ? default : base.ShouldRetryAsync(message, exception);
         }
 
         public override void Process(HttpMessage message, ReadOnlyMemory<HttpPipelinePolicy> pipeline)

@@ -56,7 +56,7 @@ namespace Azure.Identity
         public static void secret_password_clear_sync(IntPtr schemaPtr, IntPtr cancellable, string attribute1Type, string attribute1Value, string attribute2Type, string attribute2Value)
         {
             _ = Imports.secret_password_clear_sync(schemaPtr, cancellable, out IntPtr errorPtr, attribute1Type, attribute1Value, attribute2Type, attribute2Value, IntPtr.Zero);
-            HandleError(errorPtr, "An error was encountered while clearing secret from keyring ");
+            HandleError(errorPtr, "An error was encountered while clearing secret from keyring");
         }
 
         public static void secret_password_free(IntPtr passwordPtr)

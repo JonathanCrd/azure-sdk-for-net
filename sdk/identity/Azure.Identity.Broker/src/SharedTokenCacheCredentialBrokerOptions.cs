@@ -18,7 +18,6 @@ namespace Azure.Identity.Broker
         /// <summary>
         /// Gets or sets whether Microsoft Account (MSA) passthrough is enabled.
         /// </summary>
-        /// <value></value>
         public bool? IsLegacyMsaPassthroughEnabled { get; set; }
 
         /// <summary>

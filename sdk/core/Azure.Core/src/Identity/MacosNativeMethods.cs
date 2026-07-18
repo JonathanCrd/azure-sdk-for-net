@@ -36,7 +36,7 @@ namespace Azure.Identity
             byte[] accountNameBytes = Encoding.UTF8.GetBytes(accountName);
             byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
 
-            ThrowIfError(Imports.SecKeychainAddGenericPassword(keychainOrArray, serviceNameBytes.Length, serviceNameBytes, accountNameBytes.Length, accountNameBytes, password.Length, passwordBytes, out itemRef));
+            ThrowIfError(Imports.SecKeychainAddGenericPassword(keychainOrArray, serviceNameBytes.Length, serviceNameBytes, accountNameBytes.Length, accountNameBytes, passwordBytes.Length, passwordBytes, out itemRef));
         }
 
         public static void SecKeychainItemDelete(IntPtr itemRef) => ThrowIfError(Imports.SecKeychainItemDelete(itemRef));

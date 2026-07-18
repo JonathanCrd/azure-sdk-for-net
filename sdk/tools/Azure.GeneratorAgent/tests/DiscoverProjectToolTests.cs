@@ -315,16 +315,14 @@ public class DiscoverProjectToolTests
     }
 
     [Test]
-    public void FindSpecsRepo_NoGitRoot_ReturnsNull()
+    public void FindSpecsRepo_NoGitRoot_DoesNotThrow()
     {
         // No .git directory anywhere in _tempDir
         var projectDir = Path.Combine(_tempDir, "no_git", "sdk", "compute", "Azure.ResourceManager.Compute");
         Directory.CreateDirectory(projectDir);
 
-        var result = DiscoverProjectTool.FindSpecsRepo(projectDir);
-
-        // May find a real .git above _tempDir on dev machines, so just verify it doesn't crash
-        Assert.That(result, Is.Null.Or.Not.Empty);
+        // May find a real .git above _tempDir on dev machines, so just verify it doesn't crash.
+        Assert.DoesNotThrow(() => DiscoverProjectTool.FindSpecsRepo(projectDir));
     }
 
     [Test]

@@ -90,7 +90,7 @@ namespace Azure.Identity
 
             if (tokenCredentials.Length == 0)
             {
-                throw new ArgumentException("At least one credential type must be included in the authentication flow.", "options");
+                throw new ArgumentException("At least one credential type must be included in the authentication flow.", nameof(Options));
             }
 
             return tokenCredentials;

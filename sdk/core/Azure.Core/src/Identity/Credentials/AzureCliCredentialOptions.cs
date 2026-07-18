@@ -31,7 +31,7 @@ namespace Azure.Identity
         public IList<string> AdditionallyAllowedTenants { get; internal set; } = new List<string>();
 
         /// <summary>
-        /// The Cli process timeout.
+        /// The CLI process timeout.
         /// </summary>
         public TimeSpan? ProcessTimeout { get; set; }
 

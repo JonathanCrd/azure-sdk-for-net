@@ -160,7 +160,7 @@ public static class CodeGenerationTool
         var args = "build /t:generateCode";
         if (!string.IsNullOrWhiteSpace(localSpecsPath))
         {
-            args += $" /p:LocalSpecRepo={Path.GetFullPath(localSpecsPath)}";
+            args += $" \"/p:LocalSpecRepo={Path.GetFullPath(localSpecsPath)}\"";
         }
         return args;
     }

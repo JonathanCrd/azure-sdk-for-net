@@ -71,7 +71,7 @@ namespace Azure.Identity
         }
 
         /// <summary>
-        /// Obtains a access token for the specified set of scopes.
+        /// Obtains an access token for the specified set of scopes.
         /// </summary>
         /// <param name="requestContext">The details of the authentication request.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> controlling the request lifetime.</param>
@@ -83,7 +83,7 @@ namespace Azure.Identity
         }
 
         /// <summary>
-        /// Obtains a access token for the specified set of scopes.
+        /// Obtains an access token for the specified set of scopes.
         /// </summary>
         /// <param name="requestContext">The details of the authentication request.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> controlling the request lifetime.</param>

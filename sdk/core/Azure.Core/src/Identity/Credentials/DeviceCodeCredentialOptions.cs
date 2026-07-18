@@ -51,7 +51,7 @@ namespace Azure.Identity
         public string ClientId { get; set; } = Constants.DeveloperSignOnClientId;
 
         /// <summary>
-        /// Specifies the <see cref="TokenCachePersistenceOptions"/> to be used by the credential. If not options are specified, the token cache will not be persisted to disk.
+        /// Specifies the <see cref="TokenCachePersistenceOptions"/> to be used by the credential. If no options are specified, the token cache will not be persisted to disk.
         /// </summary>
         public TokenCachePersistenceOptions TokenCachePersistenceOptions { get; set; }
 
@@ -61,7 +61,7 @@ namespace Azure.Identity
         public AuthenticationRecord AuthenticationRecord { get; set; }
 
         /// <summary>
-        /// The callback which will be executed to display the device code login details to the user. In not specified the device code and login instructions will be printed to the console.
+        /// The callback which will be executed to display the device code login details to the user. If not specified, the device code and login instructions will be printed to the console.
         /// </summary>
         public Func<DeviceCodeInfo, CancellationToken, Task> DeviceCodeCallback { get; set; }
 

@@ -33,7 +33,7 @@ namespace Azure.Identity.Broker
         {
             _beforeBuildClient = AddBroker;
 
-            // Set default value for UseDefaultBrokerAccount on macOS
+            // Set default value for RedirectUri on macOS
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 RedirectUri = new(Constants.MacBrokerRedirectUri);

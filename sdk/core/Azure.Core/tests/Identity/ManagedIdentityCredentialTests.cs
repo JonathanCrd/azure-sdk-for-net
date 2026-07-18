@@ -508,7 +508,7 @@ namespace Azure.Core.Tests.Identity
             if (clientId != null || includeResourceIdentifier)
             {
                 var ex = Assert.ThrowsAsync<AuthenticationFailedException>(async () => await credential.GetTokenAsync(new TokenRequestContext(MockScopes.Default), default));
-                Assert.That(ex.Message, Does.Contain(Constants.MiSeviceFabricNoUserAssignedIdentityMessage));
+                Assert.That(ex.Message, Does.Contain(Constants.MiServiceFabricNoUserAssignedIdentityMessage));
                 return;
             }
 
@@ -734,7 +734,7 @@ namespace Azure.Core.Tests.Identity
 
             MockRequest request = GetLatestMetadataImdsRequest(mockTransport);
 
-            Assert.IsTrue(request.Uri.ToString().StartsWith("https://mock.podid.endpoint" + ImdsManagedIdentityProbeSource.imddsTokenPath));
+            Assert.IsTrue(request.Uri.ToString().StartsWith("https://mock.podid.endpoint" + ImdsManagedIdentityProbeSource.imdsTokenPath));
 
             string query = request.Uri.Query;
 
@@ -761,7 +761,7 @@ namespace Azure.Core.Tests.Identity
 
             MockRequest request = GetLatestMetadataImdsRequest(mockTransport);
 
-            Assert.IsTrue(request.Uri.ToString().StartsWith("https://mock.podid.endpoint" + ImdsManagedIdentityProbeSource.imddsTokenPath), $"Unexpected Uri: {request.Uri}");
+            Assert.IsTrue(request.Uri.ToString().StartsWith("https://mock.podid.endpoint" + ImdsManagedIdentityProbeSource.imdsTokenPath), $"Unexpected Uri: {request.Uri}");
 
             string query = request.Uri.Query;
 

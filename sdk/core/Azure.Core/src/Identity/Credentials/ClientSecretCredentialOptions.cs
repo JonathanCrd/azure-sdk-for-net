@@ -19,7 +19,7 @@ namespace Azure.Identity
     public class ClientSecretCredentialOptions : TokenCredentialOptions, ISupportsTokenCachePersistenceOptions, ISupportsDisableInstanceDiscovery, ISupportsAdditionallyAllowedTenants, ISupportsTokenRequestCallback
     {
         /// <summary>
-        /// Specifies the <see cref="TokenCachePersistenceOptions"/> to be used by the credential. If not options are specified, the token cache will not be persisted to disk.
+        /// Specifies the <see cref="TokenCachePersistenceOptions"/> to be used by the credential. If no options are specified, the token cache will not be persisted to disk.
         /// </summary>
         public TokenCachePersistenceOptions TokenCachePersistenceOptions { get; set; }
 

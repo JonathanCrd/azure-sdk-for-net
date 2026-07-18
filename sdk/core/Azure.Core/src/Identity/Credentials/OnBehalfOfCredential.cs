@@ -160,7 +160,7 @@ namespace Azure.Identity
                           options);
 
             TenantIdResolver = options?.TenantIdResolver ?? TenantIdResolverBase.Default;
-            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAddionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
+            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAdditionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
         }
 
         internal OnBehalfOfCredential(
@@ -184,7 +184,7 @@ namespace Azure.Identity
             Client = client ?? new MsalConfidentialClient(_pipeline, _tenantId, _clientId, _clientSecret, null, options);
 
             TenantIdResolver = options?.TenantIdResolver ?? TenantIdResolverBase.Default;
-            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAddionallyAllowedTenantIds(options?.AdditionallyAllowedTenants);
+            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAdditionallyAllowedTenantIds(options?.AdditionallyAllowedTenants);
         }
 
         internal OnBehalfOfCredential(
@@ -209,11 +209,11 @@ namespace Azure.Identity
                 not null => client,
                 _ when clientAssertionCallback is not null => new MsalConfidentialClient(_pipeline, _tenantId, _clientId, clientAssertionCallback, options),
                 _ when clientAssertionCallbackAsync is not null => new MsalConfidentialClient(_pipeline, _tenantId, _clientId, clientAssertionCallbackAsync, options),
-                _ => throw new ArgumentNullException($"nameof(clientAssertionCallback)")
+                _ => throw new ArgumentNullException(nameof(clientAssertionCallback))
             };
 
             TenantIdResolver = options?.TenantIdResolver ?? TenantIdResolverBase.Default;
-            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAddionallyAllowedTenantIds(options?.AdditionallyAllowedTenants);
+            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAdditionallyAllowedTenantIds(options?.AdditionallyAllowedTenants);
         }
 
         /// <summary>

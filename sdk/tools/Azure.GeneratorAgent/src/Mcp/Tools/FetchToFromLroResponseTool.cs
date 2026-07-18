@@ -129,10 +129,6 @@ public static class FetchToFromLroResponseTool
             if (typeMatch.Success)
             {
                 var varType = typeMatch.Groups["type"].Value;
-                if (varType != "var" && lroResponseTypes.ContainsKey(varType))
-                {
-                    return $"{prefix}{varType}.FromLroResponse({args})";
-                }
                 // Even if we don't have it in discovered types, use the variable type
                 if (varType != "var")
                 {

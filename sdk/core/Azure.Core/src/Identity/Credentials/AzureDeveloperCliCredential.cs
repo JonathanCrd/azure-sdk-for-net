@@ -43,7 +43,7 @@ namespace Azure.Identity
 
         private static readonly string DefaultWorkingDirWindows = Environment.GetFolderPath(Environment.SpecialFolder.System);
         private const string DefaultWorkingDirNonWindows = "/bin/";
-        private const string RefreshTokeExpired = "The provided authorization code or refresh token has expired due to inactivity. Send a new interactive authorization request for this user and resource.";
+        private const string RefreshTokenExpired = "The provided authorization code or refresh token has expired due to inactivity. Send a new interactive authorization request for this user and resource.";
         private static readonly string DefaultWorkingDir = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? DefaultWorkingDirWindows : DefaultWorkingDirNonWindows;
         private static readonly Regex AzdNotFoundPattern = new Regex("azd:(.*)not found");
 
@@ -66,7 +66,7 @@ namespace Azure.Identity
         /// <summary>
         /// Create an instance of the <see cref="AzureDeveloperCliCredential"/> class.
         /// </summary>
-        /// <param name="options"> The Microsoft Entra tenant (directory) ID of the service principal. </param>
+        /// <param name="options">Options for configuring the <see cref="AzureDeveloperCliCredential"/>.</param>
         public AzureDeveloperCliCredential(AzureDeveloperCliCredentialOptions options)
             : this(CredentialPipeline.GetInstance(null), default, options)
         { }
@@ -79,13 +79,13 @@ namespace Azure.Identity
             _processService = processService ?? ProcessService.Default;
             TenantId = Validations.ValidateTenantId(options?.TenantId, $"{nameof(options)}.{nameof(options.TenantId)}", true);
             TenantIdResolver = options?.TenantIdResolver ?? TenantIdResolverBase.Default;
-            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAddionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
+            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAdditionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
             ProcessTimeout = options?.ProcessTimeout ?? TimeSpan.FromSeconds(13);
             _isChainedCredential = options?.IsChainedCredential ?? false;
         }
 
         /// <summary>
-        /// Obtains an access token from Azure Developer CLI credential, using this access token to authenticate. This method called by Azure SDK clients.
+        /// Obtains an access token from Azure Developer CLI credential, using this access token to authenticate. This method is called by Azure SDK clients.
         /// </summary>
         /// <param name="requestContext">The details of the authentication request.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> controlling the request lifetime.</param>
@@ -193,7 +193,7 @@ namespace Azure.Identity
                 }
 
                 bool isRefreshTokenFailedError = errorText.IndexOf(AzdCliFailedError, StringComparison.OrdinalIgnoreCase) != -1 &&
-                                                 errorText.IndexOf(RefreshTokeExpired, StringComparison.OrdinalIgnoreCase) != -1 ||
+                                                 errorText.IndexOf(RefreshTokenExpired, StringComparison.OrdinalIgnoreCase) != -1 ||
                                                  errorText.IndexOf("CLIInternalError", StringComparison.OrdinalIgnoreCase) != -1;
 
                 if (isRefreshTokenFailedError)

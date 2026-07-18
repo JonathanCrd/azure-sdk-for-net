@@ -29,7 +29,7 @@ namespace Azure.Identity
         public IList<string> AdditionallyAllowedTenants { get; internal set; } = new List<string>();
 
         /// <summary>
-        /// The Powershell process timeout.
+        /// The PowerShell process timeout.
         /// </summary>
         public TimeSpan? ProcessTimeout { get; set; } = TimeSpan.FromSeconds(10);
     }

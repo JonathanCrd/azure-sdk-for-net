@@ -130,17 +130,15 @@ public class CommitIterationToolTests
     }
 
     [Test]
-    public void FindGitRepoRoot_NoGitDir_ReturnsNull()
+    public void FindGitRepoRoot_NoGitDir_DoesNotThrow()
     {
         var nested = Path.Combine(_tempDir, "no_git_here");
         Directory.CreateDirectory(nested);
 
-        // This will walk all the way up to the actual repo root or system root.
-        // On a dev machine with a .git folder somewhere above, this might not return null.
-        // So we test the nested path relative to _tempDir which won't have .git above it easily.
-        // We just verify it doesn't throw.
-        var result = CommitIterationTool.FindGitRepoRoot(nested);
-        Assert.That(result, Is.Null.Or.Not.Empty);
+        // This walks all the way up to the actual repo root or system root.
+        // On a dev machine with a .git folder somewhere above, this may not return null,
+        // so we only verify that the traversal completes without throwing.
+        Assert.DoesNotThrow(() => CommitIterationTool.FindGitRepoRoot(nested));
     }
 
     [Test]

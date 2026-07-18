@@ -88,7 +88,7 @@ namespace Azure.Identity
 
         private static string MessageFromErrorCode(int errorCode)
         {
-            // Twy Win32 first
+            // Try Win32 first
             uint flags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
 
             IntPtr messageBuffer = IntPtr.Zero;

@@ -100,7 +100,7 @@ namespace Azure.Identity
             DefaultScope = AzureAuthorityHosts.GetDefaultScope(options?.AuthorityHost ?? AzureAuthorityHosts.GetDefault());
             Client = client ?? new MsalPublicClient(Pipeline, tenantId, clientId, redirectUrl, options);
             TenantIdResolver = options?.TenantIdResolver ?? TenantIdResolverBase.Default;
-            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAddionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
+            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAdditionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
             Record = (options as InteractiveBrowserCredentialOptions)?.AuthenticationRecord;
             BrowserCustomization = (options as InteractiveBrowserCredentialOptions)?.BrowserCustomization;
             DisableAutomaticAuthentication = (options as InteractiveBrowserCredentialOptions)?.DisableAutomaticAuthentication ?? false;

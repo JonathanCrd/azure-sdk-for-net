@@ -106,7 +106,7 @@ namespace Azure.Identity
             // ServiceFabric does not support specifying user-assigned managed identity by client ID or resource ID. The managed identity selected is based on the resource configuration.
             if (capabilities.Source == MSAL.ManagedIdentitySource.ServiceFabric && (ManagedIdentityId?._idType != ManagedIdentityIdType.SystemAssigned))
             {
-                throw new AuthenticationFailedException(Constants.MiSeviceFabricNoUserAssignedIdentityMessage);
+                throw new AuthenticationFailedException(Constants.MiServiceFabricNoUserAssignedIdentityMessage);
             }
 
             // First try the TokenExchangeManagedIdentitySource, if it is not available, fall back to MSAL directly.
@@ -145,10 +145,10 @@ namespace Azure.Identity
 
             AccessToken token = await AuthenticateCoreAsync(true, requestContext, parameters.CancellationToken).ConfigureAwait(false);
 
-            var resfreshOn = ManagedIdentitySource.InferManagedIdentityRefreshInValue(token.ExpiresOn);
-            long? refreshInSeconds = resfreshOn switch
+            var refreshOn = ManagedIdentitySource.InferManagedIdentityRefreshInValue(token.ExpiresOn);
+            long? refreshInSeconds = refreshOn switch
             {
-                not null => Math.Max(Convert.ToInt64((resfreshOn.Value - DateTimeOffset.UtcNow).TotalSeconds), 1),
+                not null => Math.Max(Convert.ToInt64((refreshOn.Value - DateTimeOffset.UtcNow).TotalSeconds), 1),
                 _ => null
             };
 

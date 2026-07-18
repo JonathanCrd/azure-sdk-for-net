@@ -43,7 +43,7 @@ namespace Azure.Identity
         private static readonly string DefaultWorkingDirWindows = Environment.GetFolderPath(Environment.SpecialFolder.System);
         private const string DefaultPathNonWindows = "/usr/bin:/usr/local/bin";
         private const string DefaultWorkingDirNonWindows = "/bin/";
-        private const string RefreshTokeExpired = "The provided authorization code or refresh token has expired due to inactivity. Send a new interactive authorization request for this user and resource.";
+        private const string RefreshTokenExpired = "The provided authorization code or refresh token has expired due to inactivity. Send a new interactive authorization request for this user and resource.";
         private static readonly string DefaultPath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? DefaultPathWindows : DefaultPathNonWindows;
         private static readonly string DefaultWorkingDir = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? DefaultWorkingDirWindows : DefaultWorkingDirNonWindows;
 
@@ -71,7 +71,7 @@ namespace Azure.Identity
         /// <summary>
         /// Create an instance of <see cref="AzureCliCredential"/> class.
         /// </summary>
-        /// <param name="options"> The Microsoft Entra tenant (directory) ID of the service principal. </param>
+        /// <param name="options">Options for configuring the <see cref="AzureCliCredential"/>.</param>
         public AzureCliCredential(AzureCliCredentialOptions options)
             : this(CredentialPipeline.GetInstance(null), default, options)
         { }
@@ -86,13 +86,13 @@ namespace Azure.Identity
             TenantId = Validations.ValidateTenantId(options?.TenantId, $"{nameof(options)}.{nameof(options.TenantId)}", true);
             Subscription = options?.Subscription;
             TenantIdResolver = options?.TenantIdResolver ?? TenantIdResolverBase.Default;
-            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAddionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
+            AdditionallyAllowedTenantIds = TenantIdResolver.ResolveAdditionallyAllowedTenantIds((options as ISupportsAdditionallyAllowedTenants)?.AdditionallyAllowedTenants);
             ProcessTimeout = options?.ProcessTimeout ?? TimeSpan.FromSeconds(13);
             _isChainedCredential = options?.IsChainedCredential ?? false;
         }
 
         /// <summary>
-        /// Obtains a access token from Azure CLI credential, using this access token to authenticate. This method called by Azure SDK clients.
+        /// Obtains an access token from Azure CLI credential, using this access token to authenticate. This method is called by Azure SDK clients.
         /// </summary>
         /// <param name="requestContext">The details of the authentication request.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> controlling the request lifetime.</param>
@@ -104,7 +104,7 @@ namespace Azure.Identity
         }
 
         /// <summary>
-        /// Obtains a access token from Azure CLI service, using the access token to authenticate. This method id called by Azure SDK clients.
+        /// Obtains an access token from Azure CLI service, using the access token to authenticate. This method is called by Azure SDK clients.
         /// </summary>
         /// <param name="requestContext">The details of the authentication request.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> controlling the request lifetime.</param>
@@ -193,7 +193,7 @@ namespace Azure.Identity
                 }
 
                 bool isRefreshTokenFailedError = exception.Message.IndexOf(AzureCliFailedError, StringComparison.OrdinalIgnoreCase) != -1 &&
-                                                 exception.Message.IndexOf(RefreshTokeExpired, StringComparison.OrdinalIgnoreCase) != -1 ||
+                                                 exception.Message.IndexOf(RefreshTokenExpired, StringComparison.OrdinalIgnoreCase) != -1 ||
                                                  exception.Message.IndexOf("CLIInternalError", StringComparison.OrdinalIgnoreCase) != -1;
 
                 if (isRefreshTokenFailedError)

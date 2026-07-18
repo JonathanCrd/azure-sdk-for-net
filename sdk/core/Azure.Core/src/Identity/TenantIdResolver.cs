@@ -50,7 +50,7 @@ namespace Azure.Identity
             return resolvedTenantId;
         }
 
-        public override string[] ResolveAddionallyAllowedTenantIds(IList<string> additionallyAllowedTenants)
+        public override string[] ResolveAdditionallyAllowedTenantIds(IList<string> additionallyAllowedTenants)
         {
             if (additionallyAllowedTenants == null || additionallyAllowedTenants.Count == 0)
             {

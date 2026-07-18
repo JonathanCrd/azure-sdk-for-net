@@ -72,8 +72,7 @@ public static class DiscoverProjectTool
                     {
                         isMgmt = true;
                     }
-                    else if (emitterPath.Contains("http-client-csharp", StringComparison.OrdinalIgnoreCase)
-                             && !emitterPath.Contains("mgmt", StringComparison.OrdinalIgnoreCase))
+                    else if (emitterPath.Contains("http-client-csharp", StringComparison.OrdinalIgnoreCase))
                     {
                         isMgmt = false;
                     }
@@ -221,10 +220,8 @@ public static class DiscoverProjectTool
         }
 
         return Directory.GetFiles(apiDir, "*.cs")
-            .Select(Path.GetFileName)
-            .Where(f => f is not null)
-            .Select(f => $"api/{f}")
-            .ToList()!;
+            .Select(f => $"api/{Path.GetFileName(f)}")
+            .ToList();
     }
 
     /// <summary>
