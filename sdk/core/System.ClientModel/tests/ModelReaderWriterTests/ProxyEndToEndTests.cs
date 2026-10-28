@@ -417,5 +417,232 @@ namespace System.ClientModel.Tests.ModelReaderWriterTests
 
             Assert.IsInstanceOf<UnknownResponseTool>(client.GetTool("clone"));
         }
+
+        #region Write resolution for proxies registered on a base type
+
+        private const string DefaultSearchJson = "{\"type\":\"azure_search\",\"index_name\":\"docs\"}";
+
+        private static string Sentinel(string name) => $"{{\"sentinel\":\"{name}\"}}";
+
+        [Test]
+        public void BaseRegistration_WriteOfDeclaredBase_UsesConditionalProxyForDerivedInstance()
+        {
+            var options = new ModelReaderWriterOptions("J");
+            var proxy = new SentinelToolProxy("base", canHandle: tool => tool is AzureSearchTool);
+            options.AddProxy<ResponseTool>(proxy);
+            var tool = new AzureSearchTool("docs");
+
+            BinaryData written = ModelReaderWriter.Write<ResponseTool>(tool, options);
+
+            Assert.AreEqual(Sentinel("base"), written.ToString());
+            CollectionAssert.AreEqual(new[] { typeof(AzureSearchTool) }, proxy.Consulted);
+            Assert.AreSame(tool, proxy.ProxiedModelAtWrite);
+        }
+
+        [Test]
+        public void BaseRegistration_WriteWithoutDeclaredBase_UsesProxyForDerivedInstance()
+        {
+            var options = new ModelReaderWriterOptions("J");
+            options.AddProxy<ResponseTool>(new SentinelToolProxy("base", canHandle: tool => tool is AzureSearchTool));
+
+            Assert.AreEqual(Sentinel("base"), ModelReaderWriter.Write(new AzureSearchTool("docs"), options).ToString());
+            Assert.AreEqual(Sentinel("base"), ModelReaderWriter.Write((object)new AzureSearchTool("docs"), options).ToString());
+        }
+
+        [Test]
+        public void BaseRegistration_ResolveProxyOverloads_ReturnBaseProxyAndSetProxiedModel()
+        {
+            var options = new ModelReaderWriterOptions("J", ModelReaderWriterReflectionContext.Default);
+            var proxy = new SentinelToolProxy("base", canHandle: tool => tool is AzureSearchTool);
+            options.AddProxy<ResponseTool>(proxy);
+            var tool = new AzureSearchTool("docs");
+
+            IJsonModel<ResponseTool> jsonResolved = options.ResolveProxy((IJsonModel<ResponseTool>)tool);
+            Assert.AreSame(proxy.Model, jsonResolved);
+            Assert.AreSame(tool, options.ProxiedModel);
+
+            IPersistableModel<ResponseTool> persistableResolved = options.ResolveProxy((IPersistableModel<ResponseTool>)tool);
+            Assert.AreSame(proxy.Model, persistableResolved);
+            Assert.AreSame(tool, options.ProxiedModel);
+
+            // Declined instances keep the original model and clear ProxiedModel.
+            var function = new FunctionTool("get_weather");
+            Assert.AreSame(function, options.ResolveProxy((IJsonModel<ResponseTool>)function));
+            Assert.IsNull(options.ProxiedModel);
+        }
+
+        [Test]
+        public void BaseRegistration_NonGenericPaths_UseBaseProxy()
+        {
+            var options = new ModelReaderWriterOptions("J");
+            options.AddProxy<ResponseTool>(new SentinelToolProxy("base", canHandle: tool => tool is AzureSearchTool));
+            var tools = new List<ResponseTool> { new AzureSearchTool("docs"), new FunctionTool("get_weather") };
+
+            string collection = ModelReaderWriter.Write(tools, options).ToString();
+
+            Assert.AreEqual($"[{Sentinel("base")},{{\"type\":\"function\",\"function_name\":\"get_weather\"}}]", collection);
+
+            var serializerOptions = new JsonSerializerOptions { Converters = { new JsonModelConverter(options) } };
+            string converted = JsonSerializer.Serialize((IJsonModel<object>)new AzureSearchTool("docs"), serializerOptions);
+
+            Assert.AreEqual(Sentinel("base"), converted);
+        }
+
+        [Test]
+        public void ExactTypeRegistration_TakesPrecedenceOverBaseRegistration()
+        {
+            var options = new ModelReaderWriterOptions("J");
+            var baseProxy = new SentinelToolProxy("base", canHandle: _ => true);
+            options.AddProxy<ResponseTool>(baseProxy);
+            options.AddProxy<AzureSearchTool>(new SentinelModel<AzureSearchTool>("exact"));
+
+            Assert.AreEqual(Sentinel("exact"), ModelReaderWriter.Write<ResponseTool>(new AzureSearchTool("docs"), options).ToString());
+            Assert.AreEqual(Sentinel("exact"), ModelReaderWriter.Write(new List<ResponseTool> { new AzureSearchTool("docs") }, options).ToString().Trim('[', ']'));
+            Assert.AreEqual(Sentinel("base"), ModelReaderWriter.Write<ResponseTool>(new FunctionTool("f"), options).ToString());
+            CollectionAssert.DoesNotContain(baseProxy.Consulted, typeof(AzureSearchTool));
+        }
+
+        [Test]
+        public void ExactTypeRegistration_ThatDeclines_FallsThroughToBaseRegistration()
+        {
+            var options = new ModelReaderWriterOptions("J");
+            var exact = new SentinelShapeProxy<Circle>("exact", canHandle: _ => false);
+            options.AddProxy<Circle>(exact);
+            options.AddProxy<Shape>(new SentinelModel<Shape>("base"));
+
+            Assert.AreEqual(Sentinel("base"), ModelReaderWriter.Write<Shape>(new Circle(), options).ToString());
+            Assert.AreEqual(1, exact.CanHandleCalls);
+        }
+
+        [Test]
+        public void ConditionalBaseProxy_ThatDeclinesDerivedType_KeepsDefaultWrite()
+        {
+            var options = new ModelReaderWriterOptions("J");
+            var proxy = new SentinelToolProxy("base", canHandle: tool => tool is FunctionTool);
+            options.AddProxy<ResponseTool>(proxy);
+
+            BinaryData written = ModelReaderWriter.Write<ResponseTool>(new AzureSearchTool("docs"), options);
+
+            Assert.AreEqual(DefaultSearchJson, written.ToString());
+            CollectionAssert.AreEqual(new[] { typeof(AzureSearchTool) }, proxy.Consulted);
+        }
+
+        [Test]
+        public void DirectBaseProxy_CapturesEveryDerivedType()
+        {
+            var options = new ModelReaderWriterOptions("J");
+            options.AddProxy<ResponseTool>(new SentinelModel<ResponseTool>("direct"));
+
+            Assert.AreEqual(Sentinel("direct"), ModelReaderWriter.Write<ResponseTool>(new AzureSearchTool("docs"), options).ToString());
+            Assert.AreEqual(Sentinel("direct"), ModelReaderWriter.Write<ResponseTool>(new FunctionTool("f"), options).ToString());
+        }
+
+        // Writes a distinct sentinel document so a test can tell the proxy (not the original model) wrote.
+        private sealed class SentinelModel<T> : IJsonModel<T>
+        {
+            private readonly string _name;
+
+            public SentinelModel(string name) => _name = name;
+
+            public object? ProxiedModelAtWrite { get; private set; }
+
+            T IJsonModel<T>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options) => throw new NotSupportedException();
+
+            void IJsonModel<T>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+            {
+                ProxiedModelAtWrite = options.ProxiedModel;
+                writer.WriteStartObject();
+                writer.WriteString("sentinel"u8, _name);
+                writer.WriteEndObject();
+            }
+
+            T IPersistableModel<T>.Create(BinaryData data, ModelReaderWriterOptions options) => throw new NotSupportedException();
+
+            BinaryData IPersistableModel<T>.Write(ModelReaderWriterOptions options) => BinaryData.FromString(Sentinel(_name));
+
+            string IPersistableModel<T>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
+        }
+
+        private sealed class SentinelToolProxy : ConditionalModelProxy<ResponseTool>
+        {
+            private readonly Func<ResponseTool, bool> _canHandle;
+            private readonly SentinelModel<ResponseTool> _model;
+
+            public SentinelToolProxy(string name, Func<ResponseTool, bool> canHandle)
+                : this(new SentinelModel<ResponseTool>(name), canHandle)
+            {
+            }
+
+            private SentinelToolProxy(SentinelModel<ResponseTool> model, Func<ResponseTool, bool> canHandle) : base(model)
+            {
+                _model = model;
+                _canHandle = canHandle;
+            }
+
+            public List<Type> Consulted { get; } = new();
+
+            public object? ProxiedModelAtWrite => _model.ProxiedModelAtWrite;
+
+            public override bool CanHandle(ResponseTool model, ModelReaderWriterOptions options, ModelReaderWriterContext context)
+            {
+                Consulted.Add(model.GetType());
+                return _canHandle(model);
+            }
+        }
+
+        private class Shape : IJsonModel<Shape>
+        {
+            Shape IJsonModel<Shape>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options) => throw new NotSupportedException();
+
+            void IJsonModel<Shape>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+            {
+                writer.WriteStartObject();
+                writer.WriteEndObject();
+            }
+
+            Shape IPersistableModel<Shape>.Create(BinaryData data, ModelReaderWriterOptions options) => throw new NotSupportedException();
+
+            BinaryData IPersistableModel<Shape>.Write(ModelReaderWriterOptions options) => BinaryData.FromString("{}");
+
+            string IPersistableModel<Shape>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
+        }
+
+        private sealed class Circle : Shape, IJsonModel<Circle>
+        {
+            Circle IJsonModel<Circle>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options) => throw new NotSupportedException();
+
+            void IJsonModel<Circle>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
+            {
+                writer.WriteStartObject();
+                writer.WriteEndObject();
+            }
+
+            Circle IPersistableModel<Circle>.Create(BinaryData data, ModelReaderWriterOptions options) => throw new NotSupportedException();
+
+            BinaryData IPersistableModel<Circle>.Write(ModelReaderWriterOptions options) => BinaryData.FromString("{}");
+
+            string IPersistableModel<Circle>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
+        }
+
+        private sealed class SentinelShapeProxy<T> : ConditionalModelProxy<T>
+            where T : IPersistableModel<T>
+        {
+            private readonly Func<T, bool> _canHandle;
+
+            public SentinelShapeProxy(string name, Func<T, bool> canHandle) : base(new SentinelModel<T>(name))
+            {
+                _canHandle = canHandle;
+            }
+
+            public int CanHandleCalls { get; private set; }
+
+            public override bool CanHandle(T model, ModelReaderWriterOptions options, ModelReaderWriterContext context)
+            {
+                CanHandleCalls++;
+                return _canHandle(model);
+            }
+        }
+
+        #endregion
     }
 }

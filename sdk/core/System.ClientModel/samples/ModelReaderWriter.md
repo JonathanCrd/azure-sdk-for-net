@@ -179,6 +179,14 @@ For each registered proxy:
 
 **Read path:** Use `ModelReaderWriter.Read<T>(data, options)`, proxies are consulted first-to-last internally and the applicable proxy is used during the read process.
 
+#### Proxies registered on a base type
+
+Reads are keyed by the requested type, so `AddProxy<BaseModel>` applies to `Read<BaseModel>` and to collections of `BaseModel`.
+Writes apply the same registration to derived instances: the proxies registered for the instance's exact runtime type are consulted first, then those registered for each of its base types (most derived first), and finally those registered for the declared type `T` when it is not already part of that chain (for example an interface). A proxy list whose entries all decline (or cannot supply the requested model interface) falls through to the next list. A more specific registration therefore takes precedence over a base registration.
+
+> [!NOTE]
+> An unconditional (direct) proxy registered on a base type handles **every** derived instance written through these paths, including derived types that do not know about the proxy. For polymorphic bases, register a `ConditionalModelProxy<TBase>` whose `CanHandle(TBase model, ...)` checks the runtime type, as `DerivedModelProxy` above does with `model is DerivedModel`.
+
 ```C# Snippet:Readme_Proxy_Chain
 string json = @"{
       ""x"": 1,

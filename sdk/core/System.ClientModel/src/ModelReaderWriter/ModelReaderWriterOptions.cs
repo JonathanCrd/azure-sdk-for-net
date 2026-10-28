@@ -151,6 +151,12 @@ public class ModelReaderWriterOptions
     /// Registering a proxy does not automatically apply it throughout an object graph.
     /// When writing nested models, serializers must resolve child proxies and forward the options they receive.
     /// Calling a child's original writer directly bypasses proxy resolution.
+    /// <para>
+    /// On the write path a registration for <typeparamref name="T"/> also applies to instances of types derived
+    /// from <typeparamref name="T"/> when no more specific registration handles them. Because a direct proxy
+    /// always matches, a direct proxy registered on a base type handles every derived instance; for polymorphic
+    /// base types register a <see cref="ConditionalModelProxy{T}"/> whose <c>CanHandle</c> checks the runtime type.
+    /// </para>
     /// </remarks>
     /// <param name="proxy">The proxy implementation.</param>
     public void AddProxy<T>(IPersistableModel<T> proxy)
@@ -170,6 +176,11 @@ public class ModelReaderWriterOptions
     /// Registering a proxy does not automatically apply it throughout an object graph.
     /// When writing nested models, serializers must resolve child proxies and forward the options they receive.
     /// Calling a child's original writer directly bypasses proxy resolution.
+    /// <para>
+    /// On the write path a registration for <typeparamref name="T"/> also applies to instances of types derived
+    /// from <typeparamref name="T"/> when no more specific registration handles them. <c>CanHandle</c> is
+    /// therefore called with derived instances and should check the runtime type.
+    /// </para>
     /// </remarks>
     /// <param name="proxy">The conditional proxy.</param>
     public void AddProxy<T>(ConditionalModelProxy<T> proxy)
@@ -221,37 +232,66 @@ public class ModelReaderWriterOptions
     /// write. Capture the original parent model before resolving children rather than retrieving it from
     /// <see cref="ProxiedModel"/> afterward.
     /// </para>
+    /// <para>
+    /// Proxies registered for the model's runtime type are consulted first, then those registered for its base
+    /// types (most derived first) and for <typeparamref name="T"/>. A direct proxy registered on a base type
+    /// therefore handles every derived instance; use a <see cref="ConditionalModelProxy{T}"/> that checks the
+    /// runtime type for polymorphic bases.
+    /// </para>
     /// </remarks>
     /// <exception cref="InvalidOperationException">A conditional proxy is consulted without a context.</exception>
     public IPersistableModel<T> ResolveProxy<T>(IPersistableModel<T> model)
     {
         Argument.AssertNotNull(model, nameof(model));
-        if (_proxies is null || !_proxies.TryGetValue(model.GetType(), out List<ProxyEntry>? list) || list.Count == 0)
+        if (_proxies is not null)
         {
-            ProxiedModel = null;
-            return model;
-        }
-
-        foreach (var entry in list)
-        {
-            if (entry.IsConditional)
+            foreach (List<ProxyEntry> list in GetWriteProxyLists(model.GetType(), typeof(T)))
             {
-                if (entry.CanHandleModel(model, ProxyContextOptions, ProxyContext) && entry.GetPersistableModel<T>() is IPersistableModel<T> proxyModel)
+                foreach (var entry in list)
                 {
-                    ProxiedModel = model;
-                    return proxyModel;
+                    if (entry.IsConditional)
+                    {
+                        if (entry.GetPersistableModel<T>() is IPersistableModel<T> proxyModel && entry.CanHandleModel(model, ProxyContextOptions, ProxyContext))
+                        {
+                            ProxiedModel = model;
+                            return proxyModel;
+                        }
+                    }
+                    else if (entry.GetPersistableModel<T>() is IPersistableModel<T> directModel)
+                    {
+                        // Direct proxy (IJsonModel<T> or IPersistableModel<T>) — first wins
+                        ProxiedModel = model;
+                        return directModel;
+                    }
                 }
-            }
-            else if (entry.GetPersistableModel<T>() is IPersistableModel<T> directModel)
-            {
-                // Direct proxy (IJsonModel<T> or IPersistableModel<T>) — first wins
-                ProxiedModel = model;
-                return directModel;
             }
         }
 
         ProxiedModel = null;
         return model;
+    }
+
+    // Write-side lookup order: the registrations for the model's exact runtime type, then for each of its base
+    // types (most derived first), then for the declared type when it is not part of that chain (for example an
+    // interface). Reads are keyed by the requested type only. Entries that decline fall through to the next list.
+    private IEnumerable<List<ProxyEntry>> GetWriteProxyLists(Type runtimeType, Type? declaredType)
+    {
+        Dictionary<Type, List<ProxyEntry>> proxies = _proxies!;
+        bool declaredTypeVisited = declaredType is null || declaredType == typeof(object);
+
+        for (Type? current = runtimeType; current is not null && current != typeof(object) && current != typeof(ValueType); current = current.BaseType)
+        {
+            declaredTypeVisited |= current == declaredType;
+            if (proxies.TryGetValue(current, out List<ProxyEntry>? list) && list.Count > 0)
+            {
+                yield return list;
+            }
+        }
+
+        if (!declaredTypeVisited && proxies.TryGetValue(declaredType!, out List<ProxyEntry>? declaredList) && declaredList.Count > 0)
+        {
+            yield return declaredList;
+        }
     }
 
     /// <summary>
@@ -272,31 +312,37 @@ public class ModelReaderWriterOptions
     /// write. Capture the original parent model before resolving children rather than retrieving it from
     /// <see cref="ProxiedModel"/> afterward.
     /// </para>
+    /// <para>
+    /// Proxies registered for the model's runtime type are consulted first, then those registered for its base
+    /// types (most derived first) and for <typeparamref name="T"/>. A direct proxy registered on a base type
+    /// therefore handles every derived instance; use a <see cref="ConditionalModelProxy{T}"/> that checks the
+    /// runtime type for polymorphic bases.
+    /// </para>
     /// </remarks>
     /// <exception cref="InvalidOperationException">A conditional proxy is consulted without a context.</exception>
     public IJsonModel<T> ResolveProxy<T>(IJsonModel<T> model)
     {
         Argument.AssertNotNull(model, nameof(model));
-        if (_proxies is null || !_proxies.TryGetValue(model.GetType(), out List<ProxyEntry>? list) || list.Count == 0)
+        if (_proxies is not null)
         {
-            ProxiedModel = null;
-            return model;
-        }
-
-        foreach (var entry in list)
-        {
-            if (entry.IsConditional)
+            foreach (List<ProxyEntry> list in GetWriteProxyLists(model.GetType(), typeof(T)))
             {
-                if (entry.CanHandleModel(model, ProxyContextOptions, ProxyContext) && entry.GetJsonModel<T>() is IJsonModel<T> jsonModel)
+                foreach (var entry in list)
                 {
-                    ProxiedModel = model;
-                    return jsonModel;
+                    if (entry.IsConditional)
+                    {
+                        if (entry.GetJsonModel<T>() is IJsonModel<T> jsonModel && entry.CanHandleModel(model, ProxyContextOptions, ProxyContext))
+                        {
+                            ProxiedModel = model;
+                            return jsonModel;
+                        }
+                    }
+                    else if (entry.GetJsonModel<T>() is IJsonModel<T> directJsonProxy)
+                    {
+                        ProxiedModel = model;
+                        return directJsonProxy;
+                    }
                 }
-            }
-            else if (entry.GetJsonModel<T>() is IJsonModel<T> directJsonProxy)
-            {
-                ProxiedModel = model;
-                return directJsonProxy;
             }
         }
 
@@ -499,29 +545,30 @@ public class ModelReaderWriterOptions
     /// </summary>
     internal IJsonModel<object> ResolveProxy(IJsonModel<object> model)
     {
-        if (_proxies is null || !_proxies.TryGetValue(model.GetType(), out List<ProxyEntry>? list) || list.Count == 0)
+        if (_proxies is not null)
         {
-            ProxiedModel = null;
-            return model;
-        }
-
-        foreach (var entry in list)
-        {
-            if (entry.IsConditional)
+            // No declared type on this path: the runtime type and its base types are consulted.
+            foreach (List<ProxyEntry> list in GetWriteProxyLists(model.GetType(), declaredType: null))
             {
-                // Skip conditional proxies whose held model can't satisfy the JSON write
-                // path so we fall through instead of throwing mid-serialization.
-                if (entry.CanHandleModel(model, ProxyContextOptions, ProxyContext) && entry.AsJsonModelOfObject() is IJsonModel<object> jsonModel)
+                foreach (var entry in list)
                 {
-                    ProxiedModel = model;
-                    return jsonModel;
+                    if (entry.IsConditional)
+                    {
+                        // Skip conditional proxies whose held model can't satisfy the JSON write
+                        // path so we fall through instead of throwing mid-serialization.
+                        if (entry.AsJsonModelOfObject() is IJsonModel<object> jsonModel && entry.CanHandleModel(model, ProxyContextOptions, ProxyContext))
+                        {
+                            ProxiedModel = model;
+                            return jsonModel;
+                        }
+                    }
+                    else if (entry.AsJsonModelOfObject() is IJsonModel<object> directJsonModel)
+                    {
+                        // Direct proxy — adapt to IJsonModel<object> (boxes, so struct models work)
+                        ProxiedModel = model;
+                        return directJsonModel;
+                    }
                 }
-            }
-            else if (entry.AsJsonModelOfObject() is IJsonModel<object> directJsonModel)
-            {
-                // Direct proxy — adapt to IJsonModel<object> (boxes, so struct models work)
-                ProxiedModel = model;
-                return directJsonModel;
             }
         }
 
