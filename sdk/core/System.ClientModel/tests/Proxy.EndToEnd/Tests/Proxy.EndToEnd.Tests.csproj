@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>End-to-end tests of ModelReaderWriter proxies across mock OpenAI-like and Foundry-like libraries.</Description>
+    <TargetFrameworks>$(RequiredTargetFrameworks)</TargetFrameworks>
+    <IsTestProject>true</IsTestProject>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\System.ClientModel.csproj" />
+    <ProjectReference Include="..\OpenAILike\Proxy.EndToEnd.OpenAILike.csproj" />
+    <ProjectReference Include="..\FoundryLikeA\Proxy.EndToEnd.FoundryLikeA.csproj" />
+    <ProjectReference Include="..\FoundryLikeB\Proxy.EndToEnd.FoundryLikeB.csproj" />
+  </ItemGroup>
+
+</Project>
