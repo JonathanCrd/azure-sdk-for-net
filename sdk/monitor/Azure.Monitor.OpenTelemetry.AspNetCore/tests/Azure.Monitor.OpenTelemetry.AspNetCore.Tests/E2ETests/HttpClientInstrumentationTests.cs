@@ -7,7 +7,9 @@ using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Monitor.OpenTelemetry.Exporter.Models;
@@ -221,9 +223,15 @@ namespace Azure.Monitor.OpenTelemetry.AspNetCore.Tests.E2ETests
                 host: out var host,
                 port: out var port);
 
-            if (shouldThrowException)
+            using var failingEndpoint = shouldThrowException
+                ? new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { ExclusiveAddressUse = true }
+                : null;
+            if (failingEndpoint is not null)
             {
-                host = "fakehost"; // fake hostname that will not resolve DNS and should be reported as an error span.
+                // Reserve the port without listening so another process cannot turn the failure into a response.
+                failingEndpoint.Bind(new IPEndPoint(IPAddress.Loopback, 0));
+                host = IPAddress.Loopback.ToString();
+                port = ((IPEndPoint)failingEndpoint.LocalEndPoint!).Port;
             }
             var baseAddress = $"http://{host}:{port}";
 
@@ -285,15 +293,17 @@ namespace Azure.Monitor.OpenTelemetry.AspNetCore.Tests.E2ETests
 
             string urlForValidation = path + expectedQueryString;
 
-            var httpclient = new HttpClient();
+            using var httpclient = shouldThrowException
+                ? new HttpClient(new HttpClientHandler { UseProxy = false })
+                : new HttpClient();
 
-            try
+            if (shouldThrowException)
             {
-                await httpclient.GetAsync(baseAddress + url);
+                await Assert.ThrowsAsync<HttpRequestException>(() => httpclient.GetAsync(baseAddress + url));
             }
-            catch
+            else
             {
-                // Do nothing
+                using var response = await httpclient.GetAsync(baseAddress + url);
             }
 
             // SHUTDOWN
