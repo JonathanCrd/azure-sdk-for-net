@@ -9,9 +9,10 @@ using OpenAILike.Responses;
 namespace OpenAILike
 {
     /// <summary>
-    /// Mock root client. It snapshots the <see cref="ModelReaderWriterOptions"/> carried by its
-    /// <see cref="OpenAIClientOptions"/> at construction and hands the same pipeline and snapshot to each
-    /// subclient it creates, the way a generated root client does.
+    /// Mock root client. At construction it copies the proxies registered in
+    /// <see cref="ClientPipelineOptions.ModelProxies"/> on its <see cref="OpenAIClientOptions"/> into
+    /// <see cref="ModelReaderWriterOptions"/> and hands the same pipeline and options to each subclient it creates,
+    /// the way a generated root client does.
     /// </summary>
     public class OpenAIClient
     {

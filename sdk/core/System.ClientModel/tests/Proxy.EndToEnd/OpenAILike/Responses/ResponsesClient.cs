@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 namespace OpenAILike.Responses
 {
     /// <summary>
-    /// Mock responses client shaped like a generated client. It snapshots the
-    /// <see cref="ModelReaderWriterOptions"/> carried by its <see cref="ResponsesClientOptions"/> at construction
-    /// and uses them to write request bodies and to read responses, including the nested
-    /// <see cref="ResponseTool"/> values inside a <see cref="ResponseResult"/>. A proxy registered on the client
-    /// options therefore takes over those reads without the client knowing about it.
+    /// Mock responses client shaped like a generated client. At construction it copies the proxies registered in
+    /// <see cref="ClientPipelineOptions.ModelProxies"/> on its <see cref="ResponsesClientOptions"/> into the
+    /// <see cref="ModelReaderWriterOptions"/> it uses to write request bodies and to read responses, including the
+    /// nested <see cref="ResponseTool"/> values inside a <see cref="ResponseResult"/>. A proxy registered on the client
+    /// options therefore takes over those reads and writes without the client knowing about it.
     /// </summary>
     public class ResponsesClient
     {

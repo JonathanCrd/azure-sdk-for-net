@@ -27,7 +27,7 @@ namespace FoundryLikeA
                 throw new ArgumentNullException(nameof(options));
             }
 
-            options.AddProxy<ResponseTool>(new AzureSearchToolProxy());
+            options.ModelProxies.Add(new AzureSearchToolProxy());
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace FoundryLikeA
                 throw new ArgumentNullException(nameof(options));
             }
 
-            options.AddProxy<ResponseTool>(new AzureSearchToolProxy());
+            options.ModelProxies.Add(new AzureSearchToolProxy());
         }
 
         /// <summary>Registers all serialization proxies supplied by this library for direct <see cref="ModelReaderWriter"/> use.</summary>
@@ -52,7 +52,7 @@ namespace FoundryLikeA
                 throw new ArgumentNullException(nameof(options));
             }
 
-            options.AddProxy<ResponseTool>(new AzureSearchToolProxy());
+            options.Proxies.Add(new AzureSearchToolProxy());
         }
     }
 }

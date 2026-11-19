@@ -50,13 +50,44 @@ namespace Proxy.EndToEnd.Tests
             var client = new ResponsesClient(s_credential, options);
 
             // Constructing the client creates its pipeline, which freezes the options and their registrations.
+            Assert.That(options.ModelProxies.IsReadOnly, Is.True);
             Assert.Throws<InvalidOperationException>(
-                () => options.ModelReaderWriterOptions!.AddProxy<ResponseTool>(new BingGroundingToolProxy()));
+                () => options.ModelProxies.Add(new BingGroundingToolProxy()));
             Assert.Throws<InvalidOperationException>(
                 () => options.AddBingSerializationExtensions());
+            Assert.That(options.ModelProxies, Has.Count.EqualTo(1));
+            Assert.That(options.ModelProxies[0], Is.InstanceOf<AzureSearchToolProxy>());
 
             ResponseTool tool = (await client.GetResponseAsync("frozen")).Value.Tools.Single();
             Assert.That(tool, Is.InstanceOf<UnknownResponseTool>());
+        }
+
+        [Test]
+        public void AddingToModelProxiesAfterClientConstructionThrows()
+        {
+            var responsesOptions = new ResponsesClientOptions();
+            responsesOptions.AddAzureSerializationExtensions();
+            var openAIOptions = new OpenAIClientOptions();
+            openAIOptions.AddAzureSerializationExtensions();
+            var wrapperOptions = new ResponsesClientOptions();
+            wrapperOptions.AddBingSerializationExtensions();
+
+            _ = new ResponsesClient(s_credential, responsesOptions);
+            _ = new OpenAIClient(s_credential, openAIOptions);
+            _ = new AzureResponsesClient(s_credential, wrapperOptions);
+
+            foreach (ClientPipelineOptions options in new ClientPipelineOptions[] { responsesOptions, openAIOptions, wrapperOptions })
+            {
+                int count = options.ModelProxies.Count;
+                Assert.That(options.ModelProxies.IsReadOnly, Is.True);
+                Assert.Throws<InvalidOperationException>(() => options.ModelProxies.Add(new BingGroundingToolProxy()));
+                Assert.Throws<InvalidOperationException>(() => options.ModelProxies.Insert(0, new AzureSearchToolProxy()));
+                Assert.That(options.ModelProxies, Has.Count.EqualTo(count));
+            }
+
+            Assert.Throws<InvalidOperationException>(() => responsesOptions.AddBingSerializationExtensions());
+            Assert.Throws<InvalidOperationException>(() => openAIOptions.AddBingSerializationExtensions());
+            Assert.Throws<InvalidOperationException>(() => wrapperOptions.AddAzureSerializationExtensions());
         }
 
         [Test]

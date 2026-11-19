@@ -128,7 +128,7 @@ namespace Proxy.EndToEnd.Tests
 
             // Registrations cannot be added after a client was constructed, so they never reach that client.
             Assert.Throws<InvalidOperationException>(
-                () => bingOptions.ModelReaderWriterOptions!.AddProxy<ResponseTool>(new AzureSearchToolProxy()));
+                () => bingOptions.ModelProxies.Add(new AzureSearchToolProxy()));
 
             ResponseTool azure = (await azureClient.GetResponseAsync("azure")).Value.Tools.Single();
             ResponseTool noAzure = (await bingClient.GetResponseAsync("other")).Value.Tools.Single();
@@ -159,6 +159,76 @@ namespace Proxy.EndToEnd.Tests
             Assert.That(result.Tools[2], Is.InstanceOf<FunctionTool>());
             Assert.That(result.Tools[2].GetType().Assembly, Is.EqualTo(typeof(ResponseTool).Assembly));
             Assert.That(result.Tools[3], Is.InstanceOf<UnknownResponseTool>());
+        }
+
+        [Test]
+        public async Task BothLibrariesEachHandleOnlyTheirOwnToolInOneRequestAndResponse()
+        {
+            string response = "{\"id\":\"response-id\",\"model\":\"test-model\",\"tools\":["
+                + $"{AzureToolJson},{BingToolJson},{{\"type\":\"function\",\"function_name\":\"get_weather\"}}]}}";
+            var transport = new CannedResponseTransport(response);
+            var azure = new RecordingResponseToolProxy(new AzureSearchToolProxy());
+            var bing = new RecordingResponseToolProxy(new BingGroundingToolProxy());
+            var options = new ResponsesClientOptions { Transport = transport };
+            options.ModelProxies.Add(azure);
+            options.ModelProxies.Add(bing);
+            var client = new ResponsesClient(s_credential, options);
+            var request = new CreateResponseOptions("test-model", [ResponseItem.CreateUserMessageItem("hello")]);
+            request.Tools.Add(new AzureSearchTool("request-docs"));
+            request.Tools.Add(new BingGroundingTool("en-GB"));
+            request.Tools.Add(new FunctionTool("get_weather"));
+
+            ResponseResult result = (await client.CreateResponseAsync(request)).Value;
+
+            // Both proxies are registered for ResponseTool, so both are considered for every tool; each one's
+            // CanHandle accepts only its own subtype and discriminator, and the base library keeps the rest.
+            Assert.That(azure.Writes, Is.EqualTo(1));
+            Assert.That(bing.Writes, Is.EqualTo(1));
+            Assert.That(azure.Reads, Is.EqualTo(1));
+            Assert.That(bing.Reads, Is.EqualTo(1));
+
+            Assert.That(transport.RequestBodies.TryDequeue(out BinaryData? requestBody), Is.True);
+            using JsonDocument body = JsonDocument.Parse(requestBody!);
+            JsonElement tools = body.RootElement.GetProperty("tools");
+            Assert.That(tools.GetArrayLength(), Is.EqualTo(3));
+            Assert.That(tools[0].GetRawText(), Is.EqualTo("{\"type\":\"azure_search\",\"index_name\":\"request-docs\"}"));
+            Assert.That(tools[1].GetRawText(), Is.EqualTo("{\"type\":\"bing_grounding\",\"market\":\"en-GB\"}"));
+            Assert.That(tools[2].GetRawText(), Is.EqualTo("{\"type\":\"function\",\"function_name\":\"get_weather\"}"));
+
+            Assert.That(result.Tools, Has.Count.EqualTo(3));
+            Assert.That(result.Tools[0], Is.InstanceOf<AzureSearchTool>());
+            Assert.That(((AzureSearchTool)result.Tools[0]).IndexName, Is.EqualTo("docs"));
+            Assert.That(result.Tools[1], Is.InstanceOf<BingGroundingTool>());
+            Assert.That(((BingGroundingTool)result.Tools[1]).Market, Is.EqualTo("en-US"));
+            Assert.That(result.Tools[2], Is.InstanceOf<FunctionTool>());
+        }
+
+        [Test]
+        public async Task BothLibraryHelpersRoundTripBothToolsInOneRequestAndResponse()
+        {
+            string response = "{\"id\":\"response-id\",\"model\":\"test-model\",\"tools\":["
+                + $"{BingToolJson},{AzureToolJson}]}}";
+            var transport = new CannedResponseTransport(response);
+            var options = new ResponsesClientOptions { Transport = transport };
+            options.AddAzureSerializationExtensions();
+            options.AddBingSerializationExtensions();
+            var client = new ResponsesClient(s_credential, options);
+            var request = new CreateResponseOptions("test-model", [ResponseItem.CreateUserMessageItem("hello")]);
+            request.Tools.Add(new BingGroundingTool("en-GB"));
+            request.Tools.Add(new AzureSearchTool("request-docs"));
+
+            ResponseResult result = (await client.CreateResponseAsync(request)).Value;
+
+            Assert.That(transport.RequestBodies.TryDequeue(out BinaryData? requestBody), Is.True);
+            using JsonDocument body = JsonDocument.Parse(requestBody!);
+            JsonElement tools = body.RootElement.GetProperty("tools");
+            Assert.That(tools[0].GetRawText(), Is.EqualTo("{\"type\":\"bing_grounding\",\"market\":\"en-GB\"}"));
+            Assert.That(tools[1].GetRawText(), Is.EqualTo("{\"type\":\"azure_search\",\"index_name\":\"request-docs\"}"));
+            Assert.That(result.Tools, Has.Count.EqualTo(2));
+            Assert.That(result.Tools[0], Is.InstanceOf<BingGroundingTool>());
+            Assert.That(result.Tools[0].GetType().Assembly, Is.EqualTo(typeof(BingGroundingTool).Assembly));
+            Assert.That(result.Tools[1], Is.InstanceOf<AzureSearchTool>());
+            Assert.That(result.Tools[1].GetType().Assembly, Is.EqualTo(typeof(AzureSearchTool).Assembly));
         }
 
         [Test]

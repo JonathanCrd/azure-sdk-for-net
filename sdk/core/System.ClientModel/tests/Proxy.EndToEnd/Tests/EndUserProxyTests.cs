@@ -87,6 +87,69 @@ namespace Proxy.EndToEnd.Tests
         }
 
         [Test]
+        public void ResponseToolProxy_AppliesToAzureSearchTool_OnWriteAndRead()
+        {
+            var proxy = new RecordingResponseToolProxy(new AzureSearchToolProxy());
+            var options = new ModelReaderWriterOptions("J");
+            options.Proxies.Add(proxy);
+            var tool = new AzureSearchTool("docs");
+
+            // The proxy is registered for ResponseTool, and matching uses the model's runtime type, so the same
+            // instance goes through the proxy whether it is written as ResponseTool or as AzureSearchTool.
+            byte[] asBase = ModelReaderWriter.Write<ResponseTool>(tool, options).ToArray();
+            Assert.That(proxy.Writes, Is.EqualTo(1));
+            byte[] asDerived = ModelReaderWriter.Write(tool, options).ToArray();
+            Assert.That(proxy.Writes, Is.EqualTo(2));
+            byte[] asObject = ModelReaderWriter.Write<object>(tool, options).ToArray();
+            Assert.That(proxy.Writes, Is.EqualTo(3));
+
+            Assert.That(asDerived, Is.EqualTo(asBase));
+            Assert.That(asObject, Is.EqualTo(asBase));
+            Assert.That(BinaryData.FromBytes(asBase).ToString(), Is.EqualTo(ProxyTestPayloads.AzureToolJson));
+
+            ResponseTool read = ModelReaderWriter.Read<ResponseTool>(BinaryData.FromBytes(asDerived), options)!;
+            Assert.That(proxy.Reads, Is.EqualTo(1));
+            Assert.That(read, Is.InstanceOf<AzureSearchTool>());
+            Assert.That(((AzureSearchTool)read).IndexName, Is.EqualTo("docs"));
+        }
+
+        [Test]
+        public void LibraryHelper_WritesAzureSearchToolIdenticallyThroughBaseAndDerivedTypes()
+        {
+            var options = new ModelReaderWriterOptions("J");
+            UseBothLibraries(options);
+            var tool = new AzureSearchTool("docs");
+
+            BinaryData asBase = ModelReaderWriter.Write<ResponseTool>(tool, options);
+            BinaryData asDerived = ModelReaderWriter.Write(tool, options);
+
+            Assert.That(asDerived.ToArray(), Is.EqualTo(asBase.ToArray()));
+            Assert.That(asBase.ToString(), Is.EqualTo(ProxyTestPayloads.AzureToolJson));
+            Assert.That(ModelReaderWriter.Read<ResponseTool>(asDerived, options), Is.InstanceOf<AzureSearchTool>());
+        }
+
+        [Test]
+        public void AzureSearchToolProxy_DoesNotHandleSiblingBingTool()
+        {
+            var proxy = new RecordingResponseToolProxy(new AzureSearchToolProxy());
+            var options = new ModelReaderWriterOptions("J");
+            options.Proxies.Add(proxy);
+            var bing = new BingGroundingTool("en-US");
+
+            Assert.That(new AzureSearchToolProxy().CanHandle(bing, options), Is.False);
+            Assert.That(new AzureSearchToolProxy().CanHandle(BinaryData.FromString(ProxyTestPayloads.BingToolJson).ToMemory(), options), Is.False);
+
+            byte[] expected = ModelReaderWriter.Write<ResponseTool>(bing, ModelReaderWriterOptions.Json).ToArray();
+            Assert.That(ModelReaderWriter.Write<ResponseTool>(bing, options).ToArray(), Is.EqualTo(expected));
+            Assert.That(ModelReaderWriter.Write(bing, options).ToArray(), Is.EqualTo(expected));
+            Assert.That(proxy.Writes, Is.Zero);
+
+            ResponseTool read = ModelReaderWriter.Read<ResponseTool>(BinaryData.FromString(ProxyTestPayloads.BingToolJson), options)!;
+            Assert.That(proxy.Reads, Is.Zero);
+            Assert.That(read, Is.InstanceOf<UnknownResponseTool>());
+        }
+
+        [Test]
         public void BothLibraries_RouteMixedAndNestedCollections()
         {
             string payload = $"[{ProxyTestPayloads.AzureToolJson},{ProxyTestPayloads.BingToolJson},"

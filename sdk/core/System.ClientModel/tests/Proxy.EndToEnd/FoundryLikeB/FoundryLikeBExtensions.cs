@@ -27,7 +27,7 @@ namespace FoundryLikeB
                 throw new ArgumentNullException(nameof(options));
             }
 
-            options.AddProxy<ResponseTool>(new BingGroundingToolProxy());
+            options.ModelProxies.Add(new BingGroundingToolProxy());
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace FoundryLikeB
                 throw new ArgumentNullException(nameof(options));
             }
 
-            options.AddProxy<ResponseTool>(new BingGroundingToolProxy());
+            options.ModelProxies.Add(new BingGroundingToolProxy());
         }
 
         /// <summary>Registers all serialization proxies supplied by this library for direct <see cref="ModelReaderWriter"/> use.</summary>
@@ -52,7 +52,7 @@ namespace FoundryLikeB
                 throw new ArgumentNullException(nameof(options));
             }
 
-            options.AddProxy<ResponseTool>(new BingGroundingToolProxy());
+            options.Proxies.Add(new BingGroundingToolProxy());
         }
     }
 }

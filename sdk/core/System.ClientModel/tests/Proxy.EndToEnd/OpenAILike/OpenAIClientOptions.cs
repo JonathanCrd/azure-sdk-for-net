@@ -6,8 +6,8 @@ using System.ClientModel.Primitives;
 namespace OpenAILike
 {
     /// <summary>
-    /// Options for <see cref="OpenAIClient"/>. Proxies registered here are inherited by the subclients the
-    /// root client creates.
+    /// Options for <see cref="OpenAIClient"/>. Proxies registered in <see cref="ClientPipelineOptions.ModelProxies"/>
+    /// are inherited by the subclients the root client creates.
     /// </summary>
     public class OpenAIClientOptions : ClientPipelineOptions
     {
