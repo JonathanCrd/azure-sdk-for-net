@@ -43,6 +43,7 @@
     <Compile Remove="internal.perf/**" />
     <None Remove="internal.perf/**" />
     <Compile Remove="gen*/**" />
+    <Compile Remove="Proxy.EndToEnd/**" />
   </ItemGroup>
 
 </Project>
